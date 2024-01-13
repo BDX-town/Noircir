@@ -1,9 +1,16 @@
 {
-  "name": "eleventy",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "noircir",
+  "repository": "git@github.com:BDX-town/Noirsir.git",
+  "author": "Clovis <clovis@synapse-medicine.com>",
   "license": "MIT",
-  "dependencies": {
-    "@11ty/eleventy": "^2.0.1"
+  "private": true,
+  "workspaces": [
+    "cms",
+    "generator"
+  ],
+  "packageManager": "yarn@4.0.2",
+  "resolutions": {
+    "@bdxtown/canaille": "portal:/home/synapse/Canaille",
+    "@synapse-medicine/boto": "portal:/home/synapse/material/packages/boto"
   }
 }
