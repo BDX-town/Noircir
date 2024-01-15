@@ -1,11 +1,13 @@
 import { client, CURRENT_BLOG } from './client';
-import { Post } from './../types/Post';
-import { WebdavFile } from './../types/webdav';
+import { Blog } from './../types/Blog';
 
-export async function getBlog() {
+export async function getBlog(): Promise<Blog> {
     const basePath = `/${CURRENT_BLOG.name}`;
 
     const rawMeta: string = await client.getFileContents(`${basePath}/meta.json`, { format: "text" });
-    const meta = JSON.parse(rawMeta);
-
+    const meta = JSON.parse(rawMeta) as Blog;
+    return {
+        description: meta.description,
+        name: meta.name,
+    }
 }
