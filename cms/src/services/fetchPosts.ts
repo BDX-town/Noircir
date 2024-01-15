@@ -1,7 +1,7 @@
 import { client } from './client';
-import { Blog } from './../types/Blog';
-import { Post } from './../types/Post';
-import { WebdavFile } from './../types/webdav';
+import { Blog } from '../types/Blog';
+import { Post } from '../types/Post';
+import { WebdavFile } from '../types/webdav';
 import yaml from 'yaml';
 
 function parsePost(meta: WebdavFile, raw: string): Post{
@@ -10,6 +10,7 @@ function parsePost(meta: WebdavFile, raw: string): Post{
     const etyMeta = etyMetaRaw[0].replace(/---/g, '');
     // TODO: add supports for tags
     const partialPost: Pick<Post, "title" | "description"> & { cover: string  } = yaml.parse(etyMeta);
+    const content = raw.replace(etyMetaRaw[0], '');
 
     return {
         file: meta.basename,
@@ -18,16 +19,24 @@ function parsePost(meta: WebdavFile, raw: string): Post{
         cover: partialPost.cover,
         description: partialPost.description,
         title: partialPost.title,
+        content
     }
 }
 
-export async function getPosts(blog: Partial<Blog>): Promise<Post[]> {
+export async function fetchPosts(blog: Partial<Blog>): Promise<Post[]> {
     const files: WebdavFile[] = await client.getDirectoryContents(`/${blog.name}`);
     const postsMeta = files.filter((f) => f.basename.endsWith(".md"));
     const postsData = await Promise.all(
         postsMeta
             .map((f) => client.getFileContents(f.filename, { format: "text" }))
     );
-    const posts = postsMeta.map((meta, index) => parsePost(meta, postsData[index]));
+    const posts = postsMeta.map((meta, index) => {
+        try {
+            return parsePost(meta, postsData[index])
+        } catch (e) {
+            console.error(e);
+            return null;
+        }
+    }).filter((f) => !!f) as Post[];
     return posts;
 }

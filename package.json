@@ -12,5 +12,8 @@
   "resolutions": {
     "@bdxtown/canaille": "portal:/home/synapse/Canaille",
     "@synapse-medicine/boto": "portal:/home/synapse/material/packages/boto"
+  },
+  "dependencies": {
+    "error-stack-parser": "^2.1.4"
   }
 }
