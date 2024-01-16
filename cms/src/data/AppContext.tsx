@@ -18,25 +18,54 @@ interface IAppContext {
     globalErrors: AppError[],
 
     actions: {
-        refresh: () => Promise<void>
+        refresh: () => Promise<unknown>
     }
 }
   
 const AppContext = createContext<Partial<IAppContext>>({});
 
 export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [globalErrors, setGlobalErrors] = React.useState<AppError[] | undefined>(undefined);
+    const [globalErrors, setGlobalErrors] = React.useState<AppError[]>([]);
     const [blog, setBlog] = React.useState<Blog | undefined>(undefined);
     const [posts, setPosts] = React.useState<Post[] | undefined>(undefined);
     const [media, setMedia] = React.useState<Media[] | undefined>(undefined);
 
-    const refresh = React.useCallback(async () => {
-        // TODO: retrieve blog without static var 
-        const fblog = fetchBlog().then(setBlog);
-        const fposts = fetchPosts(CURRENT_BLOG).then(setPosts);
-        const fmedia = fetchMedia(CURRENT_BLOG).then(setMedia);
-        await Promise.all([fblog, fposts, fmedia]);
-    }, []);
+    const loadBlog = React.useCallback(async () => {
+        try {
+            const blog = await fetchBlog();
+            setBlog(blog);
+        } catch (e) {
+            console.error(e);
+            const ue = new AppError(new Error((e as Error).message), "Unable to retrieve your blog. Please check your internet connection or retry later.", true);
+            setGlobalErrors([...globalErrors, ue]);
+        }
+    }, [globalErrors]);
+
+    const loadPost = React.useCallback(async () => {
+        try {
+            const posts = await fetchPosts(CURRENT_BLOG);
+            setPosts(posts);
+        } catch (e) {
+            console.error(e);
+            const ue = new AppError(new Error((e as Error).message), "Unable to retrieve your posts. Please check your internet connection or retry later.", true);
+            setGlobalErrors([...globalErrors, ue]);
+        }
+    }, [globalErrors]);
+
+    const loadMedia = React.useCallback(async () => {
+        try {
+            const media = await fetchMedia(CURRENT_BLOG);
+            setMedia(media);
+        } catch (e) {
+            console.error(e);
+            const ue = new AppError(new Error((e as Error).message), "Unable to retrieve your media. Please check your internet connection or retry later.", true);
+            setGlobalErrors([...globalErrors, ue]);
+        }
+    }, [globalErrors]);
+
+    const refresh = React.useCallback(() => {
+        return Promise.all([loadBlog(), loadPost(), loadMedia()]);
+    }, [loadBlog, loadMedia, loadPost]);
 
     const value = React.useMemo(() => ({
         blog,
@@ -52,8 +81,6 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     React.useEffect(() => {
         refresh();
     }, [refresh])
-
-    console.log(value);
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
