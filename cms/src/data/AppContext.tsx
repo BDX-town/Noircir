@@ -25,7 +25,6 @@ interface IAppContext {
 const AppContext = createContext<Partial<IAppContext>>({});
 
 export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [globalErrors, setGlobalErrors] = React.useState<AppError[]>([]);
     const [blog, setBlog] = React.useState<Blog | undefined>(undefined);
     const [posts, setPosts] = React.useState<Post[] | undefined>(undefined);
     const [media, setMedia] = React.useState<Media[] | undefined>(undefined);
@@ -37,9 +36,9 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         } catch (e) {
             console.error(e);
             const ue = new AppError(new Error((e as Error).message), "Unable to retrieve your blog. Please check your internet connection or retry later.", true);
-            setGlobalErrors([...globalErrors, ue]);
+            throw ue;
         }
-    }, [globalErrors]);
+    }, []);
 
     const loadPost = React.useCallback(async () => {
         try {
@@ -48,9 +47,9 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         } catch (e) {
             console.error(e);
             const ue = new AppError(new Error((e as Error).message), "Unable to retrieve your posts. Please check your internet connection or retry later.", true);
-            setGlobalErrors([...globalErrors, ue]);
+            throw ue;
         }
-    }, [globalErrors]);
+    }, []);
 
     const loadMedia = React.useCallback(async () => {
         try {
@@ -59,9 +58,9 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         } catch (e) {
             console.error(e);
             const ue = new AppError(new Error((e as Error).message), "Unable to retrieve your media. Please check your internet connection or retry later.", true);
-            setGlobalErrors([...globalErrors, ue]);
+            throw ue;
         }
-    }, [globalErrors]);
+    }, []);
 
     const refresh = React.useCallback(() => {
         return Promise.all([loadBlog(), loadPost(), loadMedia()]);
@@ -71,11 +70,10 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         blog,
         posts,
         media,
-        globalErrors,
         actions: {
             refresh
         }
-    }), [blog, globalErrors, media, posts, refresh]);
+    }), [blog, media, posts, refresh]);
 
 
     React.useEffect(() => {
