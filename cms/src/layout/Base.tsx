@@ -1,16 +1,18 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAppContext } from '../data/AppContext';
 
 import fr from './Base.fr-FR.i18n.json';
 import { Button, useTranslations, Line } from '@bdxtown/canaille';
-import { IconFeather } from '@tabler/icons-react';
+import { IconFeather, IconHome, IconPhoto } from '@tabler/icons-react';
+import { Location as PostsLocation } from '../views/Posts';
+import { Location as MediaLocation } from '../views/Media';
 
 export const Base = () => {
     const { T } = useTranslations("Base", { "fr-FR": fr })
     const { blog, posts, media } = useAppContext();
-
-    console.log(blog);
+    const { pathname } = useLocation();
+    const navigate = useNavigate();
 
     const weight = React.useMemo(() => {
         return Math.floor(
@@ -24,7 +26,7 @@ export const Base = () => {
 
     return (
         <main className='min-h-screen flex flex-row bg-additional-primary'>
-            <div className='min-h-100 flex flex-col gap-4 px-5 my-5 overflow-hidden relative'>
+            <div className='min-h-100 shrink-0 flex flex-col gap-4 px-5 my-5 overflow-hidden relative'>
                 <Line className='absolute w-[100vh] origin-top-left rotate-90 left-[100%]' />
                 <div className='text-center'>
                     <img className='rounded-full w-[50px] h-[50px]' src={blog?.picture} />
@@ -57,9 +59,23 @@ export const Base = () => {
                 </div>
             </div>
             <div className='grow'>
-                <nav>
-
-                </nav>
+                <div className='px-5'>
+                    <nav className='flex items-center justify-center py-4 gap-4'>
+                        <label className='flex gap-2 items-center'>
+                            <Button variant={pathname !== PostsLocation.path ? 'secondary' : undefined} size={50} onClick={() => navigate('/')}>
+                                <IconHome />
+                            </Button>
+                            <T>posts</T>
+                        </label>
+                        <label className='flex gap-2 items-center'>
+                            <Button variant={pathname !== MediaLocation.path ? 'secondary' : undefined} size={50} onClick={() => navigate('/media')}>
+                                <IconPhoto />
+                            </Button>
+                            <T>media</T>
+                        </label>
+                    </nav>
+                    <Line className='mx-auto max-w-[900px]'/>
+                </div>
                 <Outlet />
             </div>
         </main>
