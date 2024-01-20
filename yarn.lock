@@ -2243,7 +2243,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/react-dom@npm:^2.0.0":
+"@floating-ui/react-dom@npm:^2.0.0, @floating-ui/react-dom@npm:^2.0.6":
   version: 2.0.6
   resolution: "@floating-ui/react-dom@npm:2.0.6"
   dependencies:
@@ -2255,7 +2255,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/utils@npm:^0.2.0":
+"@floating-ui/react@npm:^0.26.6":
+  version: 0.26.6
+  resolution: "@floating-ui/react@npm:0.26.6"
+  dependencies:
+    "@floating-ui/react-dom": "npm:^2.0.6"
+    "@floating-ui/utils": "npm:^0.2.1"
+    tabbable: "npm:^6.0.1"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: 078503673e84c459d658d415ef6e8bf9cf4fbfbd9ea17279b66e0d965eab9afc28edae23fae56f37c2dd2dd452b0d2f286e602da7b23a61f6d5ddc429afa8d43
+  languageName: node
+  linkType: hard
+
+"@floating-ui/utils@npm:^0.2.0, @floating-ui/utils@npm:^0.2.1":
   version: 0.2.1
   resolution: "@floating-ui/utils@npm:0.2.1"
   checksum: ee77756712cf5b000c6bacf11992ffb364f3ea2d0d51cc45197a7e646a17aeb86ea4b192c0b42f3fbb29487aee918a565e84f710b8c3645827767f406a6b4cc9
@@ -5718,6 +5732,7 @@ __metadata:
   resolution: "cms@workspace:cms"
   dependencies:
     "@bdxtown/canaille": "npm:^1.0.0-rc0"
+    "@floating-ui/react": "npm:^0.26.6"
     "@mdxeditor/editor": "npm:^2.3.4"
     "@tabler/icons-react": "npm:^2.46.0"
     "@types/counterpart": "npm:^0.18.4"
@@ -13656,6 +13671,13 @@ __metadata:
   version: 1.0.0
   resolution: "supports-preserve-symlinks-flag@npm:1.0.0"
   checksum: 6c4032340701a9950865f7ae8ef38578d8d7053f5e10518076e6554a9381fa91bd9c6850193695c141f32b21f979c985db07265a758867bac95de05f7d8aeb39
+  languageName: node
+  linkType: hard
+
+"tabbable@npm:^6.0.1":
+  version: 6.2.0
+  resolution: "tabbable@npm:6.2.0"
+  checksum: ced8b38f05f2de62cd46836d77c2646c42b8c9713f5bd265daf0e78ff5ac73d3ba48a7ca45f348bafeef29b23da7187c72250742d37627883ef89cbd7fa76898
   languageName: node
   linkType: hard
 

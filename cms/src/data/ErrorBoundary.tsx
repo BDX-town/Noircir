@@ -1,8 +1,35 @@
 import React from 'react';
+import { Modal } from '../bits/Modal';
+import { AppError } from './AppError';
+import { useTranslations, Button } from '@bdxtown/canaille';
+import { IconReload } from '@tabler/icons-react';
+
+import fr from './ErrorBoundary.fr-FR.i18n.json';
+
+// eslint-disable-next-line react-refresh/only-export-components
+const Error = ({ error } : { error: AppError}) => {
+  const { T } = useTranslations('ErrorBoundary', {'fr-FR': fr})
+
+  return (
+    <Modal>
+      <h3>
+        <T>error</T> #{error.code}
+      </h3>
+      <p>
+        { error.userMessage }
+      </p>
+      <div className='text-right mt-3'>
+        <Button size={50} onClick={() => window.location.reload()}>
+          <IconReload /> <T>reload</T>
+        </Button>
+      </div>
+    </Modal>
+  )
+}
 
 export class ErrorBoundary extends React.Component {
 
-    public state: { error: Error | null };
+    public state: { error: AppError | null };
     public props: { children: React.ReactNode };
 
     constructor(props: { children: React.ReactNode }) {
@@ -36,11 +63,11 @@ export class ErrorBoundary extends React.Component {
 
   
     render() {
-      if (this.state.error) {
-        // TODO: decide what to do with error
-        return <code>{ JSON.stringify(this.state.error) }</code>
-      }
-  
-      return this.props.children;
+      return (
+        <>
+          { this.state.error && <Error error={this.state.error} />}
+          { this.props.children }
+        </>
+      );
     }
   }
