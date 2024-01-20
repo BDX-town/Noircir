@@ -2,6 +2,7 @@
     "Post": {
         "title": "Titre",
         "description": "Description",
-        "content": "Contenu"
+        "content": "Contenu",
+        "publish": "Publier"
     }
 }

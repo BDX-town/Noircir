@@ -5,9 +5,9 @@ import { Blog } from "../types/Blog";
 import { Post } from "../types/Post";
 import { Media } from "../types/Media";
 
-import { fetchBlog } from "../services/fetchBlog";
-import { fetchMedia } from "../services/fetchMedia";
-import { fetchPosts } from "../services/fetchPosts";
+import { fetchBlog } from "../services/blogs";
+import { fetchMedia } from "../services/media";
+import { fetchPosts } from "../services/posts";
 import { AppError } from "./AppError";
 
 interface IAppContext {
@@ -80,7 +80,11 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         refresh();
     }, [refresh])
 
-    return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+    return (
+        <AppContext.Provider value={value}>
+            {children}
+        </AppContext.Provider>
+    );
 };
   
   // eslint-disable-next-line react-refresh/only-export-components

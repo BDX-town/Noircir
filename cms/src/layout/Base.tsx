@@ -58,8 +58,8 @@ export const Base = () => {
                     <Button size={50}><IconFeather /><T>write</T></Button>
                 </div>
             </div>
-            <div className='grow'>
-                <div className='px-5'>
+            <div className='grow flex flex-col'>
+                <div className='px-5 shrink-0'>
                     <nav className='flex items-center justify-center py-4 gap-4'>
                         <label className='flex gap-2 items-center'>
                             <Button variant={pathname !== PostsLocation.path ? 'secondary' : undefined} size={50} onClick={() => navigate('/')}>

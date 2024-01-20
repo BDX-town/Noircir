@@ -1,4 +1,4 @@
-import { client } from './client';
+import { CURRENT_BLOG, client } from './client';
 import { Blog } from '../types/Blog';
 import { Post } from '../types/Post';
 import { WebdavFile } from '../types/webdav';
@@ -21,6 +21,17 @@ function parsePost(meta: WebdavFile, raw: string): Post{
         title: partialPost.title,
         content
     }
+}
+
+export function editPost(blog: Blog, post: Post) {
+    const content = `---
+title: ${JSON.stringify(post.title)}
+description: ${JSON.stringify(post.description)}
+cover: "https://i.gifer.com/origin/a5/a5d89b8c37ad96dc56a5874bee8de8a5_w200.gif"
+---
+${post.content} `;
+
+    return client.putFileContents(`/${CURRENT_BLOG.name}/${post.file}`, content, { overwrite: true }) 
 }
 
 export async function fetchPosts(blog: Partial<Blog>): Promise<Post[]> {
