@@ -7,25 +7,27 @@ import fr from './Post.fr-FR.i18n.json';
 import { useAppContext } from '../data/AppContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Loader } from './../bits/Loader';
-import { editPost, deletePost } from '../services/posts';
 import { Modal } from '../bits/Modal';
-import { Blog } from '../types/Blog';
 import { Post as IPost } from '../types/Post';
+import { slugify } from './../helpers/slugify';
 
 export const Location = {
     path: '/post/:file',
 }
 
-const DeleteModal = ({ onCancel, blog, post }: { onCancel: React.MouseEventHandler, blog: Blog, post: IPost }) => {
+const DeleteModal = ({ onCancel, post }: { onCancel: React.MouseEventHandler, post: IPost }) => {
+    const { actions } = useAppContext();
+    const { deletePost } = actions;
     const { T } = useTranslations('Post', {'fr-FR': fr});
+
     const navigate = useNavigate();
 
     const onConfirm = React.useCallback(async () => {
         // TODO: feedback
-        const result = await deletePost(blog, post);
+        const result = await deletePost(post);
         console.log(result);
         navigate('/');
-    }, [blog, navigate, post]);
+    }, [deletePost, navigate, post]);
 
     return (
         <Modal className='bg-additional-primary'>
@@ -42,10 +44,11 @@ const DeleteModal = ({ onCancel, blog, post }: { onCancel: React.MouseEventHandl
     );
 }
 
-export const Post = () => {
+export const Post = ({ blank = false }: { blank?: boolean }) => {
     const param = useParams();
     const filename = param.file;
-    const { posts, blog } = useAppContext();
+    const { posts, blog, actions } = useAppContext();
+    const { editPost } = actions;
     const post = React.useMemo(() => {
         return posts?.find((p) => p.file === filename);
     }, [filename, posts]);
@@ -56,22 +59,23 @@ export const Post = () => {
 
     const onSubmit: React.FormEventHandler = React.useCallback(async (e) => {
         e.preventDefault();
-        if(!editor.current || !post || !blog) return;
-        const formData = Array.from(new FormData(e.currentTarget as HTMLFormElement)
+        if(!editor.current || !blog || (!blank && !post)) return;
+        const formData: Partial<IPost> = Array.from(new FormData(e.currentTarget as HTMLFormElement)
             .entries())
             .reduce((acc, curr) => ({...acc, [curr[0]]: curr[1]}), {});
-        const data = {
+        const data: IPost = {
             ...post,
             ...formData,
+            file: post?.file || `${slugify(formData.title as string)}-${new Date().getTime()}.md`,
             content: editor.current?.getMarkdown()
-        }
+        } as IPost
         // TODO: feedback
-        const result = await editPost(blog, data);
+        const result = await editPost(data);
         console.log(result);
-    }, [blog, post]);
+    }, [blank, blog, editPost, post]);
 
 
-    if(!post) return (
+    if(!post && !blank) return (
         <div className='grow flex flex-col items-center justify-center'>
             <Loader />
         </div>
@@ -84,7 +88,7 @@ export const Post = () => {
                 <TextInput name="description" label={__('description')} defaultValue={post?.description} />
                 <MDXEditor 
                     className='grow border-solid border-2 border-grey-100 rounded-2xl overflow-hidden' 
-                    markdown={post?.content as string} 
+                    markdown={post?.content as string || ""} 
                     ref={editor}
                     plugins={[
                         linkDialogPlugin(),
@@ -106,16 +110,22 @@ export const Post = () => {
                     ]} 
                 />
                 <div className='flex justify-between'>
-                    <Button variant='secondary' onClick={() => setShouldDelete(true)}>
-                        <IconTrash /> <T>delete</T>
-                    </Button>
+                    {
+                        !blank ? (
+                            <Button variant='secondary' onClick={() => setShouldDelete(true)}>
+                                <IconTrash /> <T>delete</T>
+                            </Button>
+                        ) : (
+                            <span className='opacity-0'></span>
+                        )
+                    }
                     <Button size={50} htmlType='submit'>
                         <IconBookUpload /> <T>publish</T>
                     </Button>
                 </div>
             </form>
             {
-                shouldDelete && <DeleteModal blog={blog as Blog} post={post} onCancel={() => setShouldDelete(false)} />
+                shouldDelete && <DeleteModal post={post as IPost} onCancel={() => setShouldDelete(false)} />
             }
         </>
     )

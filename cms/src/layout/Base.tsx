@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAppContext } from '../data/AppContext';
 
 import fr from './Base.fr-FR.i18n.json';
@@ -7,6 +7,7 @@ import { Button, useTranslations, Line } from '@bdxtown/canaille';
 import { IconFeather, IconHome, IconPhoto } from '@tabler/icons-react';
 import { Location as PostsLocation } from '../views/Posts';
 import { Location as MediaLocation } from '../views/Media';
+import { Location } from '../views/Post';
 
 export const Base = () => {
     const { T } = useTranslations("Base", { "fr-FR": fr })
@@ -55,7 +56,9 @@ export const Base = () => {
                     </p>
                 </div>
                 <div className='text-center pb-3'>
-                    <Button size={50}><IconFeather /><T>write</T></Button>
+                    <Link to={Location.path.replace(':file', '')}>
+                        <Button size={50}><IconFeather /><T>write</T></Button>
+                    </Link>
                 </div>
             </div>
             <div className='grow flex flex-col'>

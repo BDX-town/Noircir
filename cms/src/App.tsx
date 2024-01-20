@@ -23,6 +23,7 @@ function App() {
               <Route path="/" element={<Base />}>
                 <Route {...PostsLocation} element={<Posts />} />
                 <Route {...PostLocation} element={<Post />} />
+                <Route path="post" element={<Post blank />} />
                 <Route
                     index
                     element={<Navigate to={PostsLocation.path} replace />}

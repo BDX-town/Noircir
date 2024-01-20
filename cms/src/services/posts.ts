@@ -31,7 +31,7 @@ cover: "https://i.gifer.com/origin/a5/a5d89b8c37ad96dc56a5874bee8de8a5_w200.gif"
 ---
 ${post.content} `;
 
-    return client.putFileContents(`/${CURRENT_BLOG.name}/${post.file}`, content, { overwrite: true }) 
+    return client.putFileContents(`/${CURRENT_BLOG.name}/${post.file}`, content, { overwrite: true }) as boolean
 }
 
 export function deletePost(blog: Blog, post: Post) {
