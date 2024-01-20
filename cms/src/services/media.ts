@@ -1,4 +1,3 @@
-import { client } from './client';
 import { Media } from '../types/Media';
 import { WebdavFile } from '../types/webdav';
 import { Blog } from '../types/Blog';
@@ -12,7 +11,8 @@ function parseMedia(file: WebdavFile): Media {
     }
 }
 
-export async function fetchMedia(blog: Partial<Blog>): Promise<Media[]> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function fetchMedia(client: any, blog: Partial<Blog>): Promise<Media[]> {
     const files: WebdavFile[] = await client.getDirectoryContents(`/${blog.name}/ressources`);
     return files.map(parseMedia);
 }

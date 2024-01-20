@@ -1,7 +1,8 @@
-import { client, CURRENT_BLOG } from './client';
+import { CURRENT_BLOG } from './client';
 import { Blog } from '../types/Blog';
 
-export async function fetchBlog(): Promise<Blog> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function fetchBlog(client: any): Promise<Blog> {
     const basePath = `/${CURRENT_BLOG.name}`;
     const rawMeta: string = await client.getFileContents(`${basePath}/meta.json`, { format: "text" });
     const meta = JSON.parse(rawMeta) as Blog;

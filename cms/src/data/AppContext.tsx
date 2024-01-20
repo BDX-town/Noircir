@@ -1,4 +1,6 @@
 import React, { createContext, useContext } from "react";
+import * as webdav from "webdav/web";
+
 
 import { CURRENT_BLOG } from "../services/client";
 import { Blog } from "../types/Blog";
@@ -11,12 +13,14 @@ import { fetchPosts, deletePost as deletePostService, editPost as editPostServic
 import { AppError } from "./AppError";
 
 interface IAppContext {
+    client: unknown,
     blog: Blog;
     posts: Post[];
     media: Media[];
 
     actions: {
         refresh: () => Promise<unknown>
+        login: () => void,
         editPost: (p: Post) => Promise<boolean>,
         deletePost: (p: Post) => Promise<void>,
     }
@@ -25,77 +29,90 @@ interface IAppContext {
 const AppContext = createContext<IAppContext>({} as IAppContext);
 
 export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const [client, setClient] = React.useState<unknown>(undefined);
     const [blog, setBlog] = React.useState<Blog | undefined>(undefined);
     const [posts, setPosts] = React.useState<Post[] | undefined>(undefined);
     const [media, setMedia] = React.useState<Media[] | undefined>(undefined);
 
     const loadBlog = React.useCallback(async () => {
         try {
-            const blog = await fetchBlog();
+            const blog = await fetchBlog(client);
             setBlog(blog);
         } catch (e) {
             console.error(e);
             const ue = new AppError(new Error((e as Error).message), "Unable to retrieve your blog. Please check your internet connection or retry later.", true);
             throw ue;
         }
-    }, []);
+    }, [client]);
 
     const loadPost = React.useCallback(async () => {
         try {
-            const posts = await fetchPosts(CURRENT_BLOG);
+            const posts = await fetchPosts(client, CURRENT_BLOG);
             setPosts(posts);
         } catch (e) {
             console.error(e);
             const ue = new AppError(new Error((e as Error).message), "Unable to retrieve your posts. Please check your internet connection or retry later.", true);
             throw ue;
         }
-    }, []);
+    }, [client]);
 
     const loadMedia = React.useCallback(async () => {
         try {
-            const media = await fetchMedia(CURRENT_BLOG);
+            const media = await fetchMedia(client, CURRENT_BLOG);
             setMedia(media);
         } catch (e) {
             console.error(e);
             const ue = new AppError(new Error((e as Error).message), "Unable to retrieve your media. Please check your internet connection or retry later.", true);
             throw ue;
         }
-    }, []);
+    }, [client]);
 
     const refresh = React.useCallback(() => {
         return Promise.all([loadBlog(), loadPost(), loadMedia()]);
     }, [loadBlog, loadMedia, loadPost]);
 
+    // login
+    const login = React.useCallback(() => {
+        const c = webdav.createClient(import.meta.env.VITE_SERVER, {
+            authType: webdav.AuthType.Password,
+            username: "clovis",
+            password: "test"
+        });
+        setClient(c);
+    }, []);
+
     // posts
     const editPost = React.useCallback(async (post: Post) => {
-        const result = await editPostService(blog as Blog, post);
+        const result = await editPostService(client, blog as Blog, post);
         if(result) {
             setPosts(posts?.map((p) => p.file === post.file ? post : p));
         }
         return result;
-    }, [blog, posts]);
+    }, [blog, client, posts]);
 
     const deletePost = React.useCallback(async (post: Post) => {
-        const result = await deletePostService(blog as Blog, post);
+        const result = await deletePostService(client, blog as Blog, post);
         setPosts(posts?.map((p) => p.file === post.file ? null : p).filter((p) => !!p) as Post[]);
         return result;
-    }, [blog, posts]);
+    }, [blog, client, posts]);
 
     const value = React.useMemo(() => ({
+        client,
         blog: blog as Blog,
         posts: posts as Post[],
         media: media as Media[],
         actions: {
             refresh,
+            login,
             editPost,
             deletePost,
         }
-    }), [blog, deletePost, editPost, media, posts, refresh]);
+    }), [blog, client, deletePost, editPost, login, media, posts, refresh]);
 
 
     React.useEffect(() => {
-        refresh();
-    }, [refresh])
+        if(client) refresh();
+    }, [refresh, client])
 
     return (
         <AppContext.Provider value={value}>

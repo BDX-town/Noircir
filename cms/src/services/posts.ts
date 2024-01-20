@@ -1,4 +1,4 @@
-import { CURRENT_BLOG, client } from './client';
+import { CURRENT_BLOG } from './client';
 import { Blog } from '../types/Blog';
 import { Post } from '../types/Post';
 import { WebdavFile } from '../types/webdav';
@@ -23,7 +23,8 @@ function parsePost(meta: WebdavFile, raw: string): Post{
     }
 }
 
-export function editPost(blog: Blog, post: Post) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function editPost(client: any, blog: Blog, post: Post) {
     const content = `---
 title: ${JSON.stringify(post.title)}
 description: ${JSON.stringify(post.description)}
@@ -34,11 +35,13 @@ ${post.content} `;
     return client.putFileContents(`/${CURRENT_BLOG.name}/${post.file}`, content, { overwrite: true }) as boolean
 }
 
-export function deletePost(blog: Blog, post: Post) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function deletePost(client: any, blog: Blog, post: Post) {
     return client.deleteFile(`/${CURRENT_BLOG.name}/${post.file}`);
 }
 
-export async function fetchPosts(blog: Partial<Blog>): Promise<Post[]> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function fetchPosts(client: any, blog: Partial<Blog>): Promise<Post[]> {
     const files: WebdavFile[] = await client.getDirectoryContents(`/${blog.name}`);
     const postsMeta = files.filter((f) => f.basename.endsWith(".md"));
     const postsData = await Promise.all(
