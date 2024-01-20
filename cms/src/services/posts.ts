@@ -34,6 +34,10 @@ ${post.content} `;
     return client.putFileContents(`/${CURRENT_BLOG.name}/${post.file}`, content, { overwrite: true }) 
 }
 
+export function deletePost(blog: Blog, post: Post) {
+    return client.deleteFile(`/${CURRENT_BLOG.name}/${post.file}`);
+}
+
 export async function fetchPosts(blog: Partial<Blog>): Promise<Post[]> {
     const files: WebdavFile[] = await client.getDirectoryContents(`/${blog.name}`);
     const postsMeta = files.filter((f) => f.basename.endsWith(".md"));
