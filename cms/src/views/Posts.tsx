@@ -19,8 +19,11 @@ export const Posts = () => {
                             <img src={post.cover} />
                             <article className='flex flex-col p-3 grow  '>
                                 <h3 className='m-0'>{post.title}</h3>
-                                <p className='grow'>{post.description}</p> 
-                                <time className='w-full text-right opacity-60'>{post.updatedAt.toLocaleDateString(undefined, { day: '2-digit', month: '2-digit', year: 'numeric'})}</time>
+                                <p className='grow'>{post.description}</p>
+                                <div className='flex justify-between items-center opacity-60'>
+                                    <span>{Math.floor(post.weight/10)/10}Ko</span>
+                                    <time>{post.updatedAt.toLocaleDateString(undefined, { day: '2-digit', month: '2-digit', year: 'numeric'})}</time>
+                                </div>
                             </article>
                         </Block>
                     </Link>

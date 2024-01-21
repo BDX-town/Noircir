@@ -15,10 +15,10 @@ const Routing = () => {
   const { client } = useAppContext();
   return (
     <Routes>
+        <Route { ...LoginLocation } element={<Login />} />
         {
         !client ? (
           <>
-            <Route { ...LoginLocation } element={<Login />} />
             <Route
                 path="*"
                 element={<Navigate to={LoginLocation.path} replace />}

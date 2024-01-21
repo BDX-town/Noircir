@@ -3,6 +3,7 @@ import { Blog } from '../types/Blog';
 import { Post } from '../types/Post';
 import { WebdavFile } from '../types/webdav';
 import yaml from 'yaml';
+import { formatPost } from '../helpers/formatPost';
 
 function parsePost(meta: WebdavFile, raw: string): Post{
     const etyMetaRaw = raw.match(/---\n(.|\n)+\n---/gm);
@@ -25,13 +26,7 @@ function parsePost(meta: WebdavFile, raw: string): Post{
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function editPost(client: any, blog: Blog, post: Post) {
-    const content = `---
-title: ${JSON.stringify(post.title)}
-description: ${JSON.stringify(post.description)}
-cover: "https://i.gifer.com/origin/a5/a5d89b8c37ad96dc56a5874bee8de8a5_w200.gif"
----
-${post.content} `;
-
+    const content = formatPost(post);
     return client.putFileContents(`/${CURRENT_BLOG.name}/${post.file}`, content, { overwrite: true }) as boolean
 }
 

@@ -19,8 +19,9 @@ interface IAppContext {
     media: Media[];
 
     actions: {
-        refresh: () => Promise<unknown>
-        login: () => void,
+        refresh: (c?: unknown) => Promise<unknown>
+        login: (u: string, p: string) => unknown,
+        logout: () => void,
         editPost: (p: Post) => Promise<boolean>,
         deletePost: (p: Post) => Promise<void>,
     }
@@ -34,9 +35,9 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     const [posts, setPosts] = React.useState<Post[] | undefined>(undefined);
     const [media, setMedia] = React.useState<Media[] | undefined>(undefined);
 
-    const loadBlog = React.useCallback(async () => {
+    const loadBlog = React.useCallback(async (fclient: unknown = undefined) => {
         try {
-            const blog = await fetchBlog(client);
+            const blog = await fetchBlog(fclient || client);
             setBlog(blog);
         } catch (e) {
             console.error(e);
@@ -45,9 +46,9 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         }
     }, [client]);
 
-    const loadPost = React.useCallback(async () => {
+    const loadPost = React.useCallback(async (fclient: unknown = undefined) => {
         try {
-            const posts = await fetchPosts(client, CURRENT_BLOG);
+            const posts = await fetchPosts(fclient || client, CURRENT_BLOG);
             setPosts(posts);
         } catch (e) {
             console.error(e);
@@ -56,9 +57,9 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         }
     }, [client]);
 
-    const loadMedia = React.useCallback(async () => {
+    const loadMedia = React.useCallback(async (fclient: unknown = undefined) => {
         try {
-            const media = await fetchMedia(client, CURRENT_BLOG);
+            const media = await fetchMedia(fclient || client, CURRENT_BLOG);
             setMedia(media);
         } catch (e) {
             console.error(e);
@@ -67,19 +68,22 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         }
     }, [client]);
 
-    const refresh = React.useCallback(() => {
-        return Promise.all([loadBlog(), loadPost(), loadMedia()]);
+    const refresh = React.useCallback((fclient: unknown = undefined) => {
+        return Promise.all([loadBlog(fclient), loadPost(fclient), loadMedia(fclient)]);
     }, [loadBlog, loadMedia, loadPost]);
 
     // login
-    const login = React.useCallback(() => {
+    const login = React.useCallback((username: string, password: string) => {
         const c = webdav.createClient(import.meta.env.VITE_SERVER, {
             authType: webdav.AuthType.Password,
-            username: "clovis",
-            password: "test"
+            username,
+            password
         });
         setClient(c);
+        return c;
     }, []);
+
+    const logout = React.useCallback(() => setClient(undefined), []);
 
     // posts
     const editPost = React.useCallback(async (post: Post) => {
@@ -106,13 +110,9 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             login,
             editPost,
             deletePost,
+            logout,
         }
-    }), [blog, client, deletePost, editPost, login, media, posts, refresh]);
-
-
-    React.useEffect(() => {
-        if(client) refresh();
-    }, [refresh, client])
+    }), [blog, client, deletePost, editPost, login, logout, media, posts, refresh]);
 
     return (
         <AppContext.Provider value={value}>

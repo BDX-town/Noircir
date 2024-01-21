@@ -10,6 +10,7 @@ import { Loader } from './../bits/Loader';
 import { Modal } from '../bits/Modal';
 import { Post as IPost } from '../types/Post';
 import { slugify } from './../helpers/slugify';
+import { formatPost } from '../helpers/formatPost';
 
 export const Location = {
     path: '/post/:file',
@@ -56,6 +57,23 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
     const editor = React.useRef<MDXEditorMethods>(null);
     const [shouldDelete, setShouldDelete] = React.useState(false);
 
+    const [weight, setWeight] = React.useState(post ? new TextEncoder().encode(formatPost(post)).length : 0);
+
+    const onChange: React.KeyboardEventHandler<HTMLFormElement> = React.useCallback((e) => {
+        const formData: Partial<IPost> = Array.from(new FormData(e.currentTarget as HTMLFormElement)
+            .entries())
+            .reduce((acc, curr) => ({...acc, [curr[0]]: curr[1]}), {});
+        const data: IPost = {
+            ...post,
+            ...formData,
+            file: post?.file || `${slugify(formData.title as string)}-${new Date().getTime()}.md`,
+            content: editor.current?.getMarkdown()
+        } as IPost
+
+        const weight = new TextEncoder().encode(formatPost(data)).length;
+        setWeight(weight);
+    }, [post]);
+
 
     const onSubmit: React.FormEventHandler = React.useCallback(async (e) => {
         e.preventDefault();
@@ -83,7 +101,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
 
     return (
         <>
-            <form className="grow p-5 flex flex-col gap-4" onSubmit={onSubmit}>
+            <form className="grow p-5 flex flex-col gap-4" onSubmit={onSubmit} onKeyUp={onChange}>
                 <TextInput name="title" label={__('title')} defaultValue={post?.title} />
                 <TextInput name="description" label={__('description')} defaultValue={post?.description} />
                 <MDXEditor 
@@ -119,9 +137,15 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
                             <span className='opacity-0'></span>
                         )
                     }
-                    <Button size={50} htmlType='submit'>
-                        <IconBookUpload /> <T>publish</T>
-                    </Button>
+                    <div className='flex gap-3 items-center'>
+                        <div>
+                            {Math.floor(weight / 10) / 10}Ko
+                        </div>
+                        <Button size={50} htmlType='submit'>
+                            <IconBookUpload /> <T>publish</T>
+                        </Button>
+                    </div>
+
                 </div>
             </form>
             {
