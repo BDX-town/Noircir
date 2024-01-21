@@ -28,7 +28,7 @@ export const Base = () => {
 
     return (
         <main className='min-h-screen flex flex-row bg-additional-primary'>
-            <div className='min-h-100 shrink-0 flex flex-col gap-4 px-5 my-5 overflow-hidden relative'>
+            <div className='min-h-100 w-[175px] shrink-0 flex flex-col gap-4 px-5 my-5 overflow-hidden relative'>
                 <Line className='absolute w-[100vh] origin-top-left rotate-90 left-[100%]' />
                 <div className='text-center'>
                     <img className='rounded-full w-[50px] h-[50px]' src={blog?.picture} />
@@ -52,7 +52,7 @@ export const Base = () => {
                     </ul>
                 </div>
                 <div className='grow'>
-                    <p className='opacity-60 italic'>
+                    <p className='opacity-60 italic my-0'>
                         { blog?.description }
                     </p>
                 </div>
@@ -62,7 +62,7 @@ export const Base = () => {
                     </Link>
                 </div>
             </div>
-            <div className='grow flex flex-col'>
+            <div className='grow flex flex-col basis-0'>
                 <div className='px-5 shrink-0'>
                     <nav className='flex items-center justify-center py-4 gap-4'>
                         <label className='flex gap-2 items-center'>
