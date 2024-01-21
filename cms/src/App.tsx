@@ -10,6 +10,7 @@ import translate from 'counterpart';
 import { Posts, Location as PostsLocation } from './views/Posts';
 import { Post, Location as PostLocation } from './views/Post';
 import { Login, Location as LoginLocation } from './views/Login';
+import { Blog, Location as BlogLocation } from './views/Blog';
 
 const Routing = () => {
   const { client } = useAppContext();
@@ -26,6 +27,7 @@ const Routing = () => {
           </>
         ) : (
           <Route path="/" element={<Base />}>
+            <Route {...BlogLocation} element={<Blog />} />
             <Route {...PostsLocation} element={<Posts />} />
             <Route {...PostLocation} element={<Post />} />
             <Route path="post" element={<Post blank />} />

@@ -7,7 +7,7 @@ import { Blog } from "../types/Blog";
 import { Post } from "../types/Post";
 import { Media } from "../types/Media";
 
-import { fetchBlog } from "../services/blogs";
+import { fetchBlog, editBlog as editBlogService } from "../services/blogs";
 import { fetchMedia } from "../services/media";
 import { fetchPosts, deletePost as deletePostService, editPost as editPostService } from "../services/posts";
 import { AppError } from "./AppError";
@@ -22,6 +22,7 @@ interface IAppContext {
         refresh: (c?: unknown) => Promise<unknown>
         login: (u: string, p: string) => unknown,
         logout: () => void,
+        editBlog: (b: Blog) => Promise<boolean>,
         editPost: (p: Post) => Promise<boolean>,
         deletePost: (p: Post) => Promise<void>,
     }
@@ -85,11 +86,25 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     const logout = React.useCallback(() => setClient(undefined), []);
 
+    // blog 
+    const editBlog = React.useCallback(async (blog: Blog) => {
+        const result = await editBlogService(client, blog);
+        if(result) {
+            setBlog(blog);
+        }
+        return result;
+    }, [client]);
+
     // posts
     const editPost = React.useCallback(async (post: Post) => {
         const result = await editPostService(client, blog as Blog, post);
         if(result) {
-            setPosts(posts?.map((p) => p.file === post.file ? post : p));
+            const index = posts?.findIndex((p) => p.file === post.file);
+            if(index === -1) {
+                setPosts([...(posts as Post[]), post]);
+            } else {
+                setPosts(posts?.map((p) => p.file === post.file ? post : p));
+            }
         }
         return result;
     }, [blog, client, posts]);
@@ -108,11 +123,12 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         actions: {
             refresh,
             login,
+            editBlog,
             editPost,
             deletePost,
             logout,
         }
-    }), [blog, client, deletePost, editPost, login, logout, media, posts, refresh]);
+    }), [blog, client, deletePost, editBlog, editPost, login, logout, media, posts, refresh]);
 
     return (
         <AppContext.Provider value={value}>

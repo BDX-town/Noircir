@@ -4,9 +4,10 @@ import { useAppContext } from '../data/AppContext';
 
 import fr from './Base.fr-FR.i18n.json';
 import { Button, useTranslations, Line } from '@bdxtown/canaille';
-import { IconFeather, IconHome, IconPhoto } from '@tabler/icons-react';
+import { IconFeather, IconHome, IconPhoto, IconSettings2 } from '@tabler/icons-react';
 import { Location as PostsLocation } from '../views/Posts';
 import { Location as MediaLocation } from '../views/Media';
+import { Location as BlogLocation } from '../views/Blog';
 import { Location } from '../views/Post';
 
 export const Base = () => {
@@ -65,16 +66,22 @@ export const Base = () => {
                 <div className='px-5 shrink-0'>
                     <nav className='flex items-center justify-center py-4 gap-4'>
                         <label className='flex gap-2 items-center'>
-                            <Button variant={pathname !== PostsLocation.path ? 'secondary' : undefined} size={50} onClick={() => navigate('/')}>
+                            <Button variant={pathname !== PostsLocation.path ? 'secondary' : undefined} size={50} onClick={() => navigate(PostsLocation.path)}>
                                 <IconHome />
                             </Button>
                             <T>posts</T>
                         </label>
                         <label className='flex gap-2 items-center'>
-                            <Button variant={pathname !== MediaLocation.path ? 'secondary' : undefined} size={50} onClick={() => navigate('/media')}>
+                            <Button variant={pathname !== MediaLocation.path ? 'secondary' : undefined} size={50} onClick={() => navigate(MediaLocation.path)}>
                                 <IconPhoto />
                             </Button>
                             <T>media</T>
+                        </label>
+                        <label className='flex gap-2 items-center'>
+                            <Button variant={pathname !== BlogLocation.path ? 'secondary' : undefined} size={50} onClick={() => navigate(BlogLocation.path)}>
+                                <IconSettings2 />
+                            </Button>
+                            <T>blog</T>
                         </label>
                     </nav>
                     <Line className='mx-auto max-w-[900px]'/>
