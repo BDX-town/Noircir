@@ -6,17 +6,17 @@ import { CURRENT_BLOG } from './client';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function parseMedia(client: any, file: WebdavFile): Promise<Media> {
     return {
-        file: file.file,
+        file: file.basename,
         updatedAt: new Date(file.lastmod),
         weight: file.size,
         url: file.file,
-        content: await client.getFileContents(`/${CURRENT_BLOG.name}/ressources/${file.file}`)
+        content: await client.getFileContents(`/${CURRENT_BLOG.name}/ressources/${file.basename}`)
     }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function putMedia(client: any, media: Media) {
-    return client.putFileContents(`/${CURRENT_BLOG.name}/ressources/${media.file}`, media.content, { overwrite: true })
+    return client.putFileContents(`/${CURRENT_BLOG.name}/ressources/${media.file}`, media.content, { overwrite: true, contentLength: media.weight })
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

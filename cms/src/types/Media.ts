@@ -2,6 +2,6 @@ export interface Media {
     weight: number,
     url: string,
     updatedAt: Date,
-    content?: Buffer,
+    content: ArrayBuffer,
     file: string,
 }
