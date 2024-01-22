@@ -11,6 +11,7 @@ import { Posts, Location as PostsLocation } from './views/Posts';
 import { Post, Location as PostLocation } from './views/Post';
 import { Login, Location as LoginLocation } from './views/Login';
 import { Blog, Location as BlogLocation } from './views/Blog';
+import { Media, Location as MediaLocation } from './views/Media';
 
 const Routing = () => {
   const { client } = useAppContext();
@@ -30,6 +31,7 @@ const Routing = () => {
             <Route {...BlogLocation} element={<Blog />} />
             <Route {...PostsLocation} element={<Posts />} />
             <Route {...PostLocation} element={<Post />} />
+            <Route {...MediaLocation} element={<Media />} />
             <Route path="post" element={<Post blank />} />
             <Route
                 index

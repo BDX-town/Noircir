@@ -7,7 +7,7 @@ export const Media = () => {
 
     return (
         <>
-            Media
+            Lexy
         </>
     )
 };

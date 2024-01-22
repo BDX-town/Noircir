@@ -8,7 +8,7 @@ import { Post } from "../types/Post";
 import { Media } from "../types/Media";
 
 import { fetchBlog, editBlog as editBlogService } from "../services/blogs";
-import { fetchMedia } from "../services/media";
+import { fetchMedia, deleteMedia as deleteMediaService, putMedia as putMediaService } from "../services/media";
 import { fetchPosts, deletePost as deletePostService, editPost as editPostService } from "../services/posts";
 import { AppError } from "./AppError";
 
@@ -25,6 +25,8 @@ interface IAppContext {
         editBlog: (b: Blog) => Promise<boolean>,
         editPost: (p: Post) => Promise<boolean>,
         deletePost: (p: Post) => Promise<void>,
+        deleteMedia: (m: Media) => Promise<void>,
+        putMedia: (m: Media) => Promise<void>,
     }
 }
   
@@ -115,6 +117,16 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         return result;
     }, [blog, client, posts]);
 
+    // media 
+    const putMedia = React.useCallback(async (_media: Media) => {
+        await putMediaService(client, _media);
+        setMedia([...(media as Media[]), _media]);
+    }, [client, media]);
+
+    const deleteMedia = React.useCallback((media: Media) => {
+        return deleteMediaService(client, media);
+    }, [client]);
+
     const value = React.useMemo(() => ({
         client,
         blog: blog as Blog,
@@ -126,9 +138,11 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             editBlog,
             editPost,
             deletePost,
+            putMedia,
+            deleteMedia,
             logout,
         }
-    }), [blog, client, deletePost, editBlog, editPost, login, logout, media, posts, refresh]);
+    }), [blog, client, deleteMedia, deletePost, editBlog, editPost, login, logout, media, posts, putMedia, refresh]);
 
     return (
         <AppContext.Provider value={value}>
