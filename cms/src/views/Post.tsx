@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, TextInput, useTranslations } from '@bdxtown/canaille';
-import {MDXEditor, headingsPlugin, toolbarPlugin, markdownShortcutPlugin, BlockTypeSelect, BoldItalicUnderlineToggles, UndoRedo, InsertImage, linkDialogPlugin, CreateLink, imagePlugin, MDXEditorMethods  } from '@mdxeditor/editor';
+import {MDXEditor, headingsPlugin, toolbarPlugin, markdownShortcutPlugin, BlockTypeSelect, BoldItalicUnderlineToggles, UndoRedo, linkDialogPlugin, CreateLink, imagePlugin, MDXEditorMethods  } from '@mdxeditor/editor';
 import '@mdxeditor/editor/style.css'
 import { IconBookUpload, IconTrash, IconBook2 } from '@tabler/icons-react'
 import fr from './Post.fr-FR.i18n.json';
@@ -11,6 +11,7 @@ import { Modal } from '../bits/Modal';
 import { Post as IPost } from '../types/Post';
 import { slugify } from './../helpers/slugify';
 import { formatPost } from '../helpers/formatPost';
+import { ImageUploader } from './../bits/ImageUploader';
 
 export const Location = {
     path: '/post/:file',
@@ -44,6 +45,9 @@ const DeleteModal = ({ onCancel, post }: { onCancel: React.MouseEventHandler, po
         </Modal>
     );
 }
+
+
+  
 
 export const Post = ({ blank = false }: { blank?: boolean }) => {
     const param = useParams();
@@ -120,7 +124,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
                                 <BlockTypeSelect />
                                 <BoldItalicUnderlineToggles />
                                 <CreateLink />
-                                <InsertImage />
+                                <ImageUploader />
                             </>
                             )
                         }),

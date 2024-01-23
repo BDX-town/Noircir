@@ -57,16 +57,6 @@ export const Media = () => {
         } as unknown as IMedia)
     }, [putMedia]);
 
-    const images = React.useMemo(() => {
-        return media.map((m) => {
-            const arrayBufferView = new Uint8Array(m.content);
-            const blob = new Blob( [ arrayBufferView ], { type: "image/png" } );
-            const urlCreator = window.URL || window.webkitURL;
-            const imageUrl = urlCreator.createObjectURL( blob );
-            return imageUrl;
-        })
-    }, [media]);
-
     const onDelete: React.MouseEventHandler<HTMLButtonElement> = React.useCallback((e) => {
         const form = e.currentTarget.form;
         const data = Array.from(new FormData(form as HTMLFormElement).keys());
@@ -76,31 +66,32 @@ export const Media = () => {
 
     return (
         <>
-            <form className="grow flex flex-col p-4">
-                <div className='text-right'>
+            <form className="grow flex flex-col gap-3 p-4">
+                <div className='flex justify-between items-center'>
+                    <div>
+                        <input ref={input} className="hidden" type="file" onChange={onChange} />
+                        <Button size={50} onClick={() => input.current?.click()}>
+                            <IconUpload /> <T>upload</T>
+                        </Button>
+                    </div>
                     <Button className='hover:bg-red-500' size={50} variant="light" onClick={onDelete}><IconTrash /> <T>delete</T></Button>
                 </div>
                 <div className='flex gap-3 grow'>
                     {
-                        images.map((i, index) => (
-                            <Block key={i} className='relative h-[150px] w-[150px] bg-transparent text-center p-0 overflow-hidden'>
+                        media.map((m) => (
+                            <Block key={m.url} className='relative h-[150px] w-[150px] bg-transparent text-center p-0 overflow-hidden'>
                                 <label>
-                                    <Checkbox className='absolute top-0 left-0 m-2' name={media[index].file} />
+                                    <Checkbox className='absolute top-0 left-0 m-2' name={m.file} />
                                     {
                                         // TODO: add alt and description
                                     }
-                                    <img className='h-full' src={i} alt={media[index].file} />
+                                    <img className='h-full' src={m.url} alt={m.file} />
                                 </label>
                             </Block>
                         ))
                     }
                 </div>
-                <div className="text-right">
-                    <input ref={input} className="hidden" type="file" onChange={onChange} />
-                    <Button onClick={() => input.current?.click()}>
-                        <IconUpload /> <T>upload</T>
-                    </Button>
-                </div>
+
             </form>
             {
                 shouldDelete && <DeleteModal media={shouldDelete} onCancel={() => setShouldDelete(undefined)} onDelete={() => setShouldDelete(undefined)} />

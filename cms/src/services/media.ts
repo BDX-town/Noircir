@@ -9,8 +9,8 @@ async function parseMedia(client: any, file: WebdavFile): Promise<Media> {
         file: file.basename,
         updatedAt: new Date(file.lastmod),
         weight: file.size,
-        url: file.file,
-        content: await client.getFileContents(`/${CURRENT_BLOG.name}/ressources/${file.basename}`)
+        url: `${import.meta.env.VITE_SERVER}/${file.filename}`,
+        content: await client.getFileContents(`/${CURRENT_BLOG.name}/ressources/${file.basename}`),
     }
 }
 

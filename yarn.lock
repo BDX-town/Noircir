@@ -5734,6 +5734,7 @@ __metadata:
     "@bdxtown/canaille": "npm:^1.0.0-rc0"
     "@floating-ui/react": "npm:^0.26.6"
     "@mdxeditor/editor": "npm:^2.3.4"
+    "@mdxeditor/gurx": "npm:^1.1.1"
     "@tabler/icons-react": "npm:^2.46.0"
     "@types/counterpart": "npm:^0.18.4"
     "@types/react": "npm:^18.2.43"
@@ -5746,6 +5747,7 @@ __metadata:
     eslint: "npm:^8.55.0"
     eslint-plugin-react-hooks: "npm:^4.6.0"
     eslint-plugin-react-refresh: "npm:^0.4.5"
+    lexical: "npm:^0.12.6"
     postcss: "npm:^8.4.33"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
@@ -9318,7 +9320,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lexical@npm:^0.12.4":
+"lexical@npm:^0.12.4, lexical@npm:^0.12.6":
   version: 0.12.6
   resolution: "lexical@npm:0.12.6"
   checksum: bda556b99777c32b91338e875675449b13f6c3d595b872a61fa76d4da66c846da6525f854adff5382a0cd168b2445fc659072c24c3537dfd6721738b938a1904
