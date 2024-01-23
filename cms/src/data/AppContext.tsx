@@ -123,9 +123,11 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         setMedia([...(media as Media[]), _media]);
     }, [client, media]);
 
-    const deleteMedia = React.useCallback((media: Media) => {
-        return deleteMediaService(client, media);
-    }, [client]);
+    const deleteMedia = React.useCallback(async (cmedia: Media) => {
+        const result = await deleteMediaService(client, cmedia);
+        setMedia(media?.map((p) => p.file === cmedia.file ? null : p).filter((p) => !!p) as Media[]);
+        return result;
+    }, [client, media]);
 
     const value = React.useMemo(() => ({
         client,

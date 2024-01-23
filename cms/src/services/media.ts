@@ -21,7 +21,7 @@ export async function putMedia(client: any, media: Media) {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function deleteMedia(client: any, media: Media) {
-    return client.deleteMedia(media.file);
+    return client.deleteFile(`/${CURRENT_BLOG.name}/ressources/${media.file}`);
 } 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -1,5 +1,9 @@
 {
     "Media": {
-        "upload": "Upload"
+        "upload": "Upload",
+        "delete": "Supprimer la sélection",
+        "shouldDelete": "Êtes-vous sûr de vouloir supprimer ces media ?",
+        "confirm": "Oui, supprimer",
+        "cancel": "Conserver"
     }
 }
