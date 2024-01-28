@@ -2,14 +2,32 @@ import React from 'react';
 import fr from './MediaSelectionModal.fr-FR.i18n.json';
 
 import { useAppContext } from '../data/AppContext';
-import { useTranslations, Block, Button, Radio, TextInput } from '@bdxtown/canaille';
+import { useTranslations, Block, Button, Radio, TextInput, createUseStyles } from '@bdxtown/canaille';
+import { IconPhoto } from '@tabler/icons-react';
 import { Modal } from './Modal';
 import { Media } from '../types/Media';
+import { Location } from '../views/Media';
+
+const useStyle = createUseStyles({
+    mediaList: {
+      '&:has(input:checked)': {
+        '& div:has(input:not(:checked))': {
+          opacity: 0.5,
+        },
+        '& div:has(input:checked)': {
+          transform: 'scale(1.05)'
+        }
+      },
+    }
+})
 
 export const MediaSelectionModal = ({ onPick, onCancel }: { onPick: (m: Media, alt: string) => void, onCancel: React.MouseEventHandler}) => {
   const { T, __ } = useTranslations('MediaSelectionModal', { 'fr-FR': fr });
+  const { mediaList } = useStyle();
 
-  const { media } = useAppContext();
+  const { media: _media } = useAppContext();
+
+  const media = [..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media];
 
   const onSubmit: React.FormEventHandler = React.useCallback((e) => {
     e.preventDefault();
@@ -18,28 +36,39 @@ export const MediaSelectionModal = ({ onPick, onCancel }: { onPick: (m: Media, a
   }, [media, onPick]);
 
   return (
-    <Modal>
-      <form onSubmit={onSubmit}>
-        <div className='flex gap-3 grow'>
-          <Radio name="media">
+    <Modal className='h-[90%] max-w-[90%]'>
+      <form onSubmit={onSubmit} className='flex h-full'>
+        <div className='flex flex-col'>
+          <Radio name="media" className={`${mediaList} shrink flex flex-wrap gap-2 overflow-y-scroll basis-0 grow justify-center`}>
             {
                 media.map((m) => (
-                    <Block key={m.url} className='relative h-[150px] w-[150px] bg-transparent text-center p-0 overflow-hidden'>
-                        <label>
-                            <Radio.Item className='absolute top-0 left-0 m-2' value={m.file} required />
-                            <img className='h-full' src={m.url} alt={m.file} />
-                        </label>
+                  <label>
+                    <Block key={m.url} className={`relative bg-transparent text-center p-0 overflow-hidden flex items-center`}>
+                        <Radio.Item className='absolute top-0 left-0 m-2' value={m.file} required />
+                        <img className='w-[150px] h-[150px] object-contain' src={m.url} alt={m.file} />
                     </Block>
+                  </label>
                 ))
             }
           </Radio>
+          <div className='p-1 text-left opacity-80'>
+            <T here={Location.path}>
+              not-found
+            </T>
+          </div>
         </div>
-        <div>
-          <TextInput name="alt" label={__('alt')} className='mt-3' required />
-        </div>
-        <div className='flex justify-between items-center mt-3'>
-          <Button size={50} variant="secondary" onClick={onCancel}><T>cancel</T></Button>
-          <Button size={50} htmlType='submit'><T>pick</T></Button>
+
+        <div className='shrink-0 flex flex-col'>
+          <div className='grow'>
+
+          </div>
+          <div>
+            <TextInput name="alt" label={__('alt')} className='mt-3' required />
+          </div>
+          <div className='flex justify-between items-center mt-3'>
+            <Button size={50} variant="secondary" onClick={onCancel}><T>cancel</T></Button>
+            <Button size={50} htmlType='submit'><IconPhoto /> <T>pick</T></Button>
+          </div>
         </div>
       </form>
     </Modal>

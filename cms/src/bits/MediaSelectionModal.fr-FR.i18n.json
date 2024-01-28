@@ -2,6 +2,7 @@
     "MediaSelectionModal": {
         "alt": "Texte alternatif",
         "pick": "Choisir",
-        "cancel": "Annuler"
+        "cancel": "Annuler",
+        "not-found": "Vous ne trouvez pas votre media ? Vous pouvez en téléverser de nouveaux <a href='%(here)s' target='_blank'>ici</a>"
     }
 }
