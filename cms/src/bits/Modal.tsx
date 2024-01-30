@@ -3,7 +3,17 @@ import { Block } from '@bdxtown/canaille';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-export const Modal = ({ children, className, ...props }: { className?: string, children: React.ReactNode, [key:string]: unknown }) => {
+export const Modal = ({ children, className, onClose, ...props }: { className?: string, children: React.ReactNode, onClose: (e: KeyboardEvent) => void, [key:string]: unknown }) => {
+    const onKeyUp = React.useCallback((e: KeyboardEvent) => {
+        if(e.key === "Escape") {
+            onClose(e);
+        }
+    }, [onClose]);
+
+    React.useEffect(() => {
+        window.addEventListener('keyup', onKeyUp);
+        return () => window.removeEventListener('keyup', onKeyUp);
+    });
 
     return ReactDOM.createPortal(
         <FloatingOverlay lockScroll className='text-center z-10 bg-neutral-900/60'>

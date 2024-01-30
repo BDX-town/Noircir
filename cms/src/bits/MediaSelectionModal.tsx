@@ -3,10 +3,11 @@ import fr from './MediaSelectionModal.fr-FR.i18n.json';
 
 import { useAppContext } from '../data/AppContext';
 import { useTranslations, Block, Button, Radio, TextInput, createUseStyles } from '@bdxtown/canaille';
-import { IconPhoto } from '@tabler/icons-react';
+import { IconPhoto, IconPhotoHexagon } from '@tabler/icons-react';
 import { Modal } from './Modal';
 import { Media } from '../types/Media';
 import { Location } from '../views/Media';
+import { weight } from '../helpers/weight';
 
 const useStyle = createUseStyles({
     mediaList: {
@@ -24,10 +25,18 @@ const useStyle = createUseStyles({
 export const MediaSelectionModal = ({ onPick, onCancel }: { onPick: (m: Media, alt: string) => void, onCancel: React.MouseEventHandler}) => {
   const { T, __ } = useTranslations('MediaSelectionModal', { 'fr-FR': fr });
   const { mediaList } = useStyle();
+  const [selectedMedia, setSelectedMedia] = React.useState<Media | undefined>(undefined);
 
   const { media: _media } = useAppContext();
 
   const media = [..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media];
+
+  const onChange: React.FormEventHandler = React.useCallback((e) => {
+    const data = new FormData(e.currentTarget as HTMLFormElement);
+    setSelectedMedia(
+      media.find((m) => m.file === data.get("media"))
+    )
+  }, [media]);
 
   const onSubmit: React.FormEventHandler = React.useCallback((e) => {
     e.preventDefault();
@@ -36,8 +45,8 @@ export const MediaSelectionModal = ({ onPick, onCancel }: { onPick: (m: Media, a
   }, [media, onPick]);
 
   return (
-    <Modal className='h-[90%] max-w-[90%]'>
-      <form onSubmit={onSubmit} className='flex h-full'>
+    <Modal className='h-[90%] max-w-[90%]' onClose={onCancel as () => void}>
+      <form onSubmit={onSubmit} onChange={onChange} className='flex h-full'>
         <div className='flex flex-col'>
           <Radio name="media" className={`${mediaList} shrink flex flex-wrap gap-2 overflow-y-scroll basis-0 grow justify-center`}>
             {
@@ -58,11 +67,31 @@ export const MediaSelectionModal = ({ onPick, onCancel }: { onPick: (m: Media, a
           </div>
         </div>
 
-        <div className='shrink-0 flex flex-col'>
-          <div className='grow'>
-
+        <div className='shrink-0 w-[260px] flex flex-col h-full'>
+          <div className='grow shrink w-full flex flex-col justify-center items-center basis-0 min-h-0'>
+            {
+              selectedMedia ? (
+                <img className='w-full max-h-full object-contain' src={selectedMedia.url} alt={selectedMedia.file} />
+              ) : (
+                <>
+                  <IconPhotoHexagon className='text-gray-400 mb-3' size={50} />
+                  <T>select</T>
+                </>
+              )
+            }
           </div>
-          <div>
+          <div className='text-right'>
+            <div className='mb-4'>
+              {
+                selectedMedia && (
+                  <>
+                    <div className='font-semibold text-sm'><T>file-weight</T></div> 
+                    {weight(selectedMedia.weight)}
+                  </>
+                )
+              }
+    
+            </div>
             <TextInput name="alt" label={__('alt')} className='mt-3' required />
           </div>
           <div className='flex justify-between items-center mt-3'>

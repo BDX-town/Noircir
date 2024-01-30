@@ -1,6 +1,6 @@
 {
     "Base": {
-        "weight": "Ce blog pèse %(weight)sko",
+        "weight": "Ce blog pèse %(weight)s",
         "posts": "Billet(s)",
         "media": "Media",
         "write": "Rédiger",

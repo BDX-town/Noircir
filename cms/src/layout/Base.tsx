@@ -9,6 +9,7 @@ import { Location as PostsLocation } from '../views/Posts';
 import { Location as MediaLocation } from '../views/Media';
 import { Location as BlogLocation } from '../views/Blog';
 import { Location } from '../views/Post';
+import { weight } from './../helpers/weight';
 
 export const Base = () => {
     const { T } = useTranslations("Base", { "fr-FR": fr })
@@ -16,14 +17,13 @@ export const Base = () => {
     const { pathname } = useLocation();
     const navigate = useNavigate();
 
-    const weight = React.useMemo(() => {
-        return Math.floor(
+    const cweight = React.useMemo(() => {
+        return weight(
             ((blog ? (new TextEncoder().encode(blog.name)).length : 0) +
             (blog ? (new TextEncoder().encode(blog.description)).length : 0) +
             (media?.reduce((acc, curr) => acc + curr.weight, 0) || 0)
             + (posts?.reduce((acc, curr) => acc + curr.weight, 0) || 0))
-            / 10
-        ) / 10;
+        );
     }, [blog, media, posts]);
 
     return (
@@ -38,7 +38,7 @@ export const Base = () => {
                 </div>
                 <div>
                     <span>
-                        <T weight={weight}>
+                        <T weight={cweight}>
                             weight
                         </T>
                     </span>

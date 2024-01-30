@@ -11,12 +11,12 @@ const Error = ({ error } : { error: AppError}) => {
   const { T } = useTranslations('ErrorBoundary', {'fr-FR': fr})
 
   return (
-    <Modal>
+    <Modal onClose={() => null}>
       <h3>
-        <T>error</T> #{error.code}
+        <T>error</T> { error.code && <>#{error.code}</> }
       </h3>
       <p>
-        { error.userMessage }
+        { error.userMessage || error.message }
       </p>
       <div className='text-right mt-3'>
         <Button size={50} onClick={() => window.location.reload()}>

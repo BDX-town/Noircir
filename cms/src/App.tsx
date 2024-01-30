@@ -51,13 +51,13 @@ function App() {
       defaultLang='fr-FR'
       __={translate}
     >
-      <ErrorBoundary>
         <AppContextProvider>
-          <BrowserRouter>
-            <Routing />
-          </BrowserRouter>
+          <ErrorBoundary>
+              <BrowserRouter>
+                <Routing />
+              </BrowserRouter>
+          </ErrorBoundary>
         </AppContextProvider>
-      </ErrorBoundary>
     </TranslationContext>
   )
 }
