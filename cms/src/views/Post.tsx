@@ -12,6 +12,7 @@ import { Post as IPost } from '../types/Post';
 import { slugify } from './../helpers/slugify';
 import { formatPost } from '../helpers/formatPost';
 import { ImageUploader } from './../bits/ImageUploader';
+import { useUpload } from '../bits/ButtonUpload';
 
 export const Location = {
     path: '/post/:file',
@@ -32,7 +33,7 @@ const DeleteModal = ({ onCancel, post }: { onCancel: React.MouseEventHandler, po
     }, [deletePost, navigate, post]);
 
     return (
-        <Modal className='bg-additional-primary'>
+        <Modal className='bg-additional-primary' onClose={onCancel}>
             <T>shouldDelete</T>
             <div className='mt-3 flex justify-between items-center gap-4'>
                 <Button size={50} className='bg-red-500' onClick={onConfirm}>
@@ -60,6 +61,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
     const { __, T } = useTranslations('Post', {'fr-FR': fr});
     const editor = React.useRef<MDXEditorMethods>(null);
     const [shouldDelete, setShouldDelete] = React.useState(false);
+    const upload = useUpload();
 
     const [weight, setWeight] = React.useState(post ? new TextEncoder().encode(formatPost(post)).length : 0);
 
@@ -114,7 +116,9 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
                     ref={editor}
                     plugins={[
                         linkDialogPlugin(),
-                        imagePlugin(),
+                        imagePlugin({ 
+                            imageUploadHandler: upload
+                        }),
                         headingsPlugin(),
                         toolbarPlugin({
                             toolbarContents: () => (

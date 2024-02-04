@@ -3,10 +3,10 @@ import { Block } from '@bdxtown/canaille';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-export const Modal = ({ children, className, onClose, ...props }: { className?: string, children: React.ReactNode, onClose: (e: KeyboardEvent) => void, [key:string]: unknown }) => {
+export const Modal = ({ children, className, onClose, ...props }: { className?: string, children: React.ReactNode, onClose: ((e: KeyboardEvent) => void) | React.MouseEventHandler, [key:string]: unknown }) => {
     const onKeyUp = React.useCallback((e: KeyboardEvent) => {
         if(e.key === "Escape") {
-            onClose(e);
+            onClose(e as never);
         }
     }, [onClose]);
 

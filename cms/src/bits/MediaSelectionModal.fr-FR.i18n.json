@@ -3,7 +3,7 @@
         "alt": "Texte alternatif",
         "pick": "Choisir",
         "cancel": "Annuler",
-        "not-found": "Vous ne trouvez pas votre media ? Vous pouvez en téléverser de nouveaux <a href='%(here)s' target='_blank'>ici</a>",
+        "not-found": "Ajouter un media",
         "filename": "Nom du fichier : ",
         "file-weight": "Poids du fichier : ",
         "select": "Sélectionnez un media"

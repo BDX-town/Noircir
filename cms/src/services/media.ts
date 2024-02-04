@@ -16,7 +16,14 @@ async function parseMedia(client: any, file: WebdavFile): Promise<Media> {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function putMedia(client: any, media: Media) {
-    return client.putFileContents(`/${CURRENT_BLOG.name}/ressources/${media.file}`, media.content, { overwrite: true, contentLength: media.weight })
+    const request = await client.putFileContents(`/${CURRENT_BLOG.name}/ressources/${media.file}`, media.content, { overwrite: true, contentLength: media.weight });
+    if(request) {
+        return {
+            ...media,
+            url: `${import.meta.env.VITE_SERVER}/${CURRENT_BLOG.name}/ressources/${media.file}`,
+        }
+    }
+    throw new Error('Unable to upload');
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

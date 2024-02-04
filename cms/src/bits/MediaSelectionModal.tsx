@@ -6,8 +6,8 @@ import { useTranslations, Block, Button, Radio, TextInput, createUseStyles } fro
 import { IconPhoto, IconPhotoHexagon } from '@tabler/icons-react';
 import { Modal } from './Modal';
 import { Media } from '../types/Media';
-import { Location } from '../views/Media';
 import { weight } from '../helpers/weight';
+import { ButtonUpload } from './ButtonUpload';
 
 const useStyle = createUseStyles({
     mediaList: {
@@ -27,9 +27,8 @@ export const MediaSelectionModal = ({ onPick, onCancel }: { onPick: (m: Media, a
   const { mediaList } = useStyle();
   const [selectedMedia, setSelectedMedia] = React.useState<Media | undefined>(undefined);
 
-  const { media: _media } = useAppContext();
+  const { media } = useAppContext();
 
-  const media = [..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media, ..._media];
 
   const onChange: React.FormEventHandler = React.useCallback((e) => {
     const data = new FormData(e.currentTarget as HTMLFormElement);
@@ -45,10 +44,10 @@ export const MediaSelectionModal = ({ onPick, onCancel }: { onPick: (m: Media, a
   }, [media, onPick]);
 
   return (
-    <Modal className='h-[90%] max-w-[90%]' onClose={onCancel as () => void}>
+    <Modal className='h-[90%] max-w-[90%] w-full' onClose={onCancel as () => void}>
       <form onSubmit={onSubmit} onChange={onChange} className='flex h-full'>
-        <div className='flex flex-col'>
-          <Radio name="media" className={`${mediaList} shrink flex flex-wrap gap-2 overflow-y-scroll basis-0 grow justify-center`}>
+        <div className='flex flex-col grow'>
+          <Radio name="media" className={`${mediaList} shrink flex flex-wrap gap-2 overflow-y-scroll basis-0 grow`}>
             {
                 media.map((m) => (
                   <label>
@@ -61,9 +60,7 @@ export const MediaSelectionModal = ({ onPick, onCancel }: { onPick: (m: Media, a
             }
           </Radio>
           <div className='p-1 text-left opacity-80'>
-            <T here={Location.path}>
-              not-found
-            </T>
+            <ButtonUpload><T>not-found</T></ButtonUpload>
           </div>
         </div>
 

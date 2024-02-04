@@ -1,12 +1,13 @@
 import React from 'react';
 import { Block, Button, useTranslations, Checkbox } from "@bdxtown/canaille";
-import { IconUpload, IconTrash, IconBook2 } from '@tabler/icons-react';
+import { IconTrash, IconBook2 } from '@tabler/icons-react';
 import { Media as IMedia } from '../types/Media';
 import { Modal } from '../bits/Modal';
 
 
 import fr from './Media.fr-FR.i18n.json';
 import { useAppContext } from '../data/AppContext';
+import { ButtonUpload } from '../bits/ButtonUpload';
 
 export const Location = {
     path: '/media',
@@ -26,7 +27,7 @@ const DeleteModal = ({ onCancel, media, onDelete }: { onCancel: React.MouseEvent
     }, [deleteMedia, media, onDelete]);
 
     return (
-        <Modal className='bg-additional-primary'>
+        <Modal className='bg-additional-primary' onClose={onDelete}>
             <T>shouldDelete</T>
             <div className='mt-3 flex justify-between items-center gap-4'>
                 <Button size={50} className='bg-red-500' onClick={onConfirm}>
@@ -41,21 +42,10 @@ const DeleteModal = ({ onCancel, media, onDelete }: { onCancel: React.MouseEvent
 }
 
 export const Media = () => {
-    const input = React.useRef<HTMLInputElement>(null);
     const { T } = useTranslations('Media', {'fr-FR': fr });
     const [shouldDelete, setShouldDelete] = React.useState<IMedia[] | undefined>(undefined);
 
-    const { actions, media } = useAppContext();
-    const { putMedia } = actions;
-
-    const onChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(async (e) => {
-        const file = (e.currentTarget.files as FileList)[0]
-        await putMedia({
-            file: file.name,
-            content: await file.arrayBuffer(),
-            weight: file.size,
-        } as unknown as IMedia)
-    }, [putMedia]);
+    const { media } = useAppContext();
 
     const onDelete: React.MouseEventHandler<HTMLButtonElement> = React.useCallback((e) => {
         const form = e.currentTarget.form;
@@ -68,12 +58,7 @@ export const Media = () => {
         <>
             <form className="grow flex flex-col gap-3 p-4">
                 <div className='flex justify-between items-center'>
-                    <div>
-                        <input ref={input} className="hidden" type="file" onChange={onChange} />
-                        <Button size={50} onClick={() => input.current?.click()}>
-                            <IconUpload /> <T>upload</T>
-                        </Button>
-                    </div>
+                    <ButtonUpload><T>upload</T></ButtonUpload>
                     <Button className='hover:bg-red-500' size={50} variant="light" onClick={onDelete}><IconTrash /> <T>delete</T></Button>
                 </div>
                 <div className='flex gap-3 grow'>

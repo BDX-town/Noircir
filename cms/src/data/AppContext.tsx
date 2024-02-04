@@ -26,7 +26,7 @@ interface IAppContext {
         editPost: (p: Post) => Promise<boolean>,
         deletePost: (p: Post) => Promise<void>,
         deleteMedia: (m: Media) => Promise<void>,
-        putMedia: (m: Media) => Promise<void>,
+        putMedia: (m: Media) => Promise<Media>,
     }
 }
   
@@ -119,8 +119,9 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     // media 
     const putMedia = React.useCallback(async (_media: Media) => {
-        await putMediaService(client, _media);
-        setMedia([...(media as Media[]), _media]);
+        const m = await putMediaService(client, _media);
+        setMedia([...(media as Media[]), m]);
+        return m;
     }, [client, media]);
 
     const deleteMedia = React.useCallback(async (cmedia: Media) => {
