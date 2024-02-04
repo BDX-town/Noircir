@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate, useMatch } from 'react-router-dom';
 import { useAppContext } from '../data/AppContext';
 
 import fr from './Base.fr-FR.i18n.json';
@@ -8,7 +8,7 @@ import { IconFeather, IconHome, IconPhoto, IconSettings2 } from '@tabler/icons-r
 import { Location as PostsLocation } from '../views/Posts';
 import { Location as MediaLocation } from '../views/Media';
 import { Location as BlogLocation } from '../views/Blog';
-import { Location } from '../views/Post';
+import { Location as PostLocation } from '../views/Post';
 import { weight } from './../helpers/weight';
 
 export const Base = () => {
@@ -16,6 +16,7 @@ export const Base = () => {
     const { blog, posts, media } = useAppContext();
     const { pathname } = useLocation();
     const navigate = useNavigate();
+    const postMatch = useMatch(PostLocation.path);
 
     const cweight = React.useMemo(() => {
         return weight(
@@ -57,9 +58,14 @@ export const Base = () => {
                     </p>
                 </div>
                 <div className='text-center pb-3'>
-                    <Link to={Location.path.replace(':file', '')}>
-                        <Button size={50}><IconFeather /><T>write</T></Button>
-                    </Link>
+                    {
+                        !postMatch && (
+                            <Link to={PostLocation.path.replace(':file', '')}>
+                                <Button size={50}><IconFeather /><T>write</T></Button>
+                            </Link>
+                        )
+                    }
+
                 </div>
             </div>
             <div className='grow flex flex-col basis-0 overflow-auto'>
