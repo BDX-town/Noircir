@@ -27,7 +27,7 @@ export const Base = () => {
     }, [blog, media, posts]);
 
     return (
-        <main className='min-h-screen flex flex-row bg-additional-primary'>
+        <main className='h-screen flex flex-row bg-additional-primary'>
             <div className='min-h-100 w-[175px] shrink-0 flex flex-col gap-4 px-5 my-5 overflow-hidden relative'>
                 <Line className='absolute w-[100vh] origin-top-left rotate-90 left-[100%]' />
                 <div className='text-center'>
@@ -62,7 +62,7 @@ export const Base = () => {
                     </Link>
                 </div>
             </div>
-            <div className='grow flex flex-col basis-0'>
+            <div className='grow flex flex-col basis-0 overflow-auto'>
                 <div className='px-5 shrink-0'>
                     <nav className='flex items-center justify-center py-4 gap-4'>
                         <label className='flex gap-2 items-center'>
