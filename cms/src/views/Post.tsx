@@ -13,6 +13,8 @@ import { slugify } from './../helpers/slugify';
 import { formatPost } from '../helpers/formatPost';
 import { ImageUploader } from './../bits/ImageUploader';
 import { useUpload } from '../bits/ButtonUpload';
+import debounce from 'debounce';
+import { weight as calculateWeight } from './../helpers/weight'
 
 export const Location = {
     path: '/post/:file',
@@ -62,8 +64,23 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
     const editor = React.useRef<MDXEditorMethods>(null);
     const [shouldDelete, setShouldDelete] = React.useState(false);
     const upload = useUpload();
+    const editorWrapper = React.useRef<HTMLDivElement>(null);
+    const [imageWeight, setImageWeight] = React.useState(0);
 
     const [weight, setWeight] = React.useState(post ? new TextEncoder().encode(formatPost(post)).length : 0);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const calculateImageWeight = React.useCallback(debounce(async () => {
+        if(!editorWrapper.current) return;
+        const imgRequest = (Array.from(editorWrapper.current.querySelectorAll('img')) as HTMLImageElement[])
+            .map((r) => fetch(r.currentSrc).then((f) => f.text()));
+        const imgSizes = await Promise.all(imgRequest);
+        setImageWeight(imgSizes.reduce((acc, curr) => acc += curr.length, 0));
+    }, 500), []);
+
+    React.useEffect(() => {
+        calculateImageWeight();
+    }, [calculateImageWeight]);
 
     const onChange: React.KeyboardEventHandler<HTMLFormElement> = React.useCallback((e) => {
         const formData: Partial<IPost> = Array.from(new FormData(e.currentTarget as HTMLFormElement)
@@ -78,7 +95,8 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
 
         const weight = new TextEncoder().encode(formatPost(data)).length;
         setWeight(weight);
-    }, [post]);
+        calculateImageWeight();
+    }, [calculateImageWeight, post]);
 
 
     const onSubmit: React.FormEventHandler = React.useCallback(async (e) => {
@@ -110,31 +128,33 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
             <form className="grow p-5 flex flex-col gap-4" onSubmit={onSubmit} onKeyUp={onChange}>
                 <TextInput name="title" label={__('title')} defaultValue={post?.title} />
                 <TextInput name="description" label={__('description')} defaultValue={post?.description} />
-                <MDXEditor 
-                    className='grow border-solid border-2 border-grey-100 rounded-2xl overflow-hidden' 
-                    markdown={post?.content as string || ""} 
-                    ref={editor}
-                    plugins={[
-                        linkDialogPlugin(),
-                        imagePlugin({ 
-                            imageUploadHandler: upload
-                        }),
-                        headingsPlugin(),
-                        toolbarPlugin({
-                            toolbarContents: () => (
-                            <>
-                                {' '}
-                                <UndoRedo />
-                                <BlockTypeSelect />
-                                <BoldItalicUnderlineToggles />
-                                <CreateLink />
-                                <ImageUploader />
-                            </>
-                            )
-                        }),
-                        markdownShortcutPlugin()
-                    ]} 
-                />
+                <div ref={editorWrapper}>
+                    <MDXEditor 
+                        className='grow border-solid border-2 border-grey-100 rounded-2xl overflow-hidden' 
+                        markdown={post?.content as string || ""} 
+                        ref={editor}
+                        plugins={[
+                            linkDialogPlugin(),
+                            imagePlugin({ 
+                                imageUploadHandler: upload
+                            }),
+                            headingsPlugin(),
+                            toolbarPlugin({
+                                toolbarContents: () => (
+                                <>
+                                    {' '}
+                                    <UndoRedo />
+                                    <BlockTypeSelect />
+                                    <BoldItalicUnderlineToggles />
+                                    <CreateLink />
+                                    <ImageUploader onPick={calculateImageWeight} />
+                                </>
+                                )
+                            }),
+                            markdownShortcutPlugin()
+                        ]} 
+                    />
+                </div>
                 <div className='flex justify-between'>
                     {
                         !blank ? (
@@ -147,7 +167,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
                     }
                     <div className='flex gap-3 items-center'>
                         <div>
-                            {Math.floor(weight / 10) / 10}Ko
+                            {calculateWeight(weight + imageWeight)}
                         </div>
                         <Button size={50} htmlType='submit'>
                             <IconBookUpload /> <T>publish</T>
