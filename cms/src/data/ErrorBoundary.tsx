@@ -8,7 +8,12 @@ import fr from './ErrorBoundary.fr-FR.i18n.json';
 
 // eslint-disable-next-line react-refresh/only-export-components
 const Error = ({ error } : { error: AppError}) => {
-  const { T } = useTranslations('ErrorBoundary', {'fr-FR': fr})
+  const { T } = useTranslations('ErrorBoundary', {'fr-FR': fr});
+
+  const reload = React.useCallback(() => {
+    sessionStorage.clear();
+    window.location.reload();
+  }, []);
 
   return (
     <Modal onClose={() => null}>
@@ -19,7 +24,7 @@ const Error = ({ error } : { error: AppError}) => {
         { error.userMessage || error.message }
       </p>
       <div className='text-right mt-3'>
-        <Button size={50} onClick={() => window.location.reload()}>
+        <Button size={50} onClick={reload}>
           <IconReload /> <T>reload</T>
         </Button>
       </div>

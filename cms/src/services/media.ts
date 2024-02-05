@@ -3,6 +3,13 @@ import { WebdavFile } from '../types/webdav';
 import { Blog } from '../types/Blog';
 import { CURRENT_BLOG } from './client';
 
+export function deserializeMedia(m: Media): Media {
+    return {
+        ...m,
+        updatedAt: new Date(m.updatedAt)
+    }
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function parseMedia(client: any, file: WebdavFile): Promise<Media> {
     return {

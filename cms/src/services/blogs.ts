@@ -3,7 +3,6 @@ import { Blog } from '../types/Blog';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function editBlog(client: any, blog: Blog): Promise<boolean> {
-    console.log(blog);
     return client.putFileContents(`/${CURRENT_BLOG.name}/meta.json`, JSON.stringify(blog), { overwrite: true }) as Promise<boolean>
 }
 

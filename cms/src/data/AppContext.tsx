@@ -8,8 +8,8 @@ import { Post } from "../types/Post";
 import { Media } from "../types/Media";
 
 import { fetchBlog, editBlog as editBlogService } from "../services/blogs";
-import { fetchMedia, deleteMedia as deleteMediaService, putMedia as putMediaService } from "../services/media";
-import { fetchPosts, deletePost as deletePostService, editPost as editPostService } from "../services/posts";
+import { fetchMedia, deleteMedia as deleteMediaService, putMedia as putMediaService, deserializeMedia } from "../services/media";
+import { fetchPosts, deletePost as deletePostService, editPost as editPostService, deserializePost } from "../services/posts";
 import { AppError } from "./AppError";
 
 interface IAppContext {
@@ -29,14 +29,41 @@ interface IAppContext {
         putMedia: (m: Media) => Promise<Media>,
     }
 }
+
+function save(context: Partial<IAppContext>) {
+    sessionStorage.setItem("context", JSON.stringify({ ...context, actions: undefined }));
+}
+
+function load(): Partial<IAppContext> {
+    const context = JSON.parse(sessionStorage.getItem("context") || "{}")  as Partial<IAppContext>
+    return {
+        ...context,
+        // we init a new client here, restoring auth state is done via the ServiceWorker
+        client: context.client ? webdav.createClient(import.meta.env.VITE_SERVER) : undefined,
+        posts: context.posts?.map(deserializePost),
+        media: context.media?.map(deserializeMedia),
+    }
+}
   
 const AppContext = createContext<IAppContext>({} as IAppContext);
 
 export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [client, setClient] = React.useState<unknown>(undefined);
-    const [blog, setBlog] = React.useState<Blog | undefined>(undefined);
-    const [posts, setPosts] = React.useState<Post[] | undefined>(undefined);
-    const [media, setMedia] = React.useState<Media[] | undefined>(undefined);
+
+    const savedData = React.useRef(load());
+
+    const [client, setClient] = React.useState<unknown>(savedData.current.client);
+    const [blog, setBlog] = React.useState<Blog | undefined>(savedData.current.blog);
+    const [posts, setPosts] = React.useState<Post[] | undefined>(savedData.current.posts);
+    const [media, setMedia] = React.useState<Media[] | undefined>(savedData.current.media);
+
+    // save each time data changes
+    React.useEffect(() => {
+        const ctx = {
+            client, blog, posts, media
+        };
+        console.log(ctx);
+        save(ctx)
+    }, [client, blog, posts, media]);
 
     const loadBlog = React.useCallback(async (fclient: unknown = undefined) => {
         try {

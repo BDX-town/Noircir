@@ -5,6 +5,14 @@ import { WebdavFile } from '../types/webdav';
 import yaml from 'yaml';
 import { formatPost } from '../helpers/formatPost';
 
+
+export function deserializePost(p: Post): Post {
+    return {
+        ...p,
+        updatedAt: new Date(p.updatedAt),
+    }
+}
+
 function parsePost(meta: WebdavFile, raw: string): Post{
     const etyMetaRaw = raw.match(/---\n(.|\n)+\n---/gm);
     if(!etyMetaRaw) throw new Error("File is not a valid 11ty .md file");
