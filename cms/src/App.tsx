@@ -3,7 +3,7 @@ import { ErrorBoundary } from './data/ErrorBoundary';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Base } from './layout/Base';
 import { TranslationContext } from '@bdxtown/canaille';
-import '@bdxtown/canaille/src/scss/google-fonts.scss';
+// import '@bdxtown/canaille/src/scss/google-fonts.scss';
 import translate from 'counterpart';
 
 

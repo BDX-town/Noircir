@@ -53,7 +53,7 @@ export class ErrorBoundary extends React.Component {
     }
   
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    componentDidCatch(error: Error, info: { componentStack: string }) {
+    componentDidCatch(_error: Error, _info: { componentStack: string }) {
         // TODO: do something with error 
     }
 

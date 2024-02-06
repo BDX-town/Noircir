@@ -1563,9 +1563,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bdxtown/canaille@portal:/home/synapse/Canaille::locator=noircir%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@bdxtown/canaille@portal:/home/synapse/Canaille::locator=noircir%40workspace%3A."
+"@bdxtown/canaille@npm:^1.0.0-rc1":
+  version: 1.0.0-rc1
+  resolution: "@bdxtown/canaille@npm:1.0.0-rc1"
   dependencies:
     "@babel/core": "npm:^7.23.6"
     "@babel/preset-env": "npm:^7.23.6"
@@ -1596,8 +1596,9 @@ __metadata:
     typescript: "npm:^5.3.3"
     webpack: "npm:^5.89.0"
     webpack-cli: "npm:^5.1.4"
+  checksum: f6b7d206d070a38731b34678fd218a89a6161bad51febe93206525e84293757cc0d9384c9ecba29392d07db110b8acdce12471b3366a203443e7e09d992e2a47
   languageName: node
-  linkType: soft
+  linkType: hard
 
 "@buttercup/fetch@npm:^0.1.1":
   version: 0.1.2
@@ -5731,7 +5732,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "cms@workspace:cms"
   dependencies:
-    "@bdxtown/canaille": "npm:^1.0.0-rc0"
+    "@bdxtown/canaille": "npm:^1.0.0-rc1"
     "@floating-ui/react": "npm:^0.26.6"
     "@mdxeditor/editor": "npm:^2.3.4"
     "@mdxeditor/gurx": "npm:^1.1.1"
@@ -5753,6 +5754,7 @@ __metadata:
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
     react-router-dom: "npm:^6.21.2"
+    register-service-worker: "npm:^1.7.2"
     tailwindcss: "npm:^3.4.1"
     typescript: "npm:^5.2.2"
     vite: "npm:^5.0.8"
@@ -12680,6 +12682,13 @@ __metadata:
     unicode-match-property-ecmascript: "npm:^2.0.0"
     unicode-match-property-value-ecmascript: "npm:^2.1.0"
   checksum: 7945d5ab10c8bbed3ca383d4274687ea825aee4ab93a9c51c6e31e1365edd5ea807f6908f800ba017b66c462944ba68011164e7055207747ab651f8111ef3770
+  languageName: node
+  linkType: hard
+
+"register-service-worker@npm:^1.7.2":
+  version: 1.7.2
+  resolution: "register-service-worker@npm:1.7.2"
+  checksum: 3ce63aee5fcc601bbe8ecb83589a75787cf2796f2c01554391fa47074db6a665907a0564eca176558c8882e698825b1fca0c0189d53aca11b4d907591bb72143
   languageName: node
   linkType: hard
 

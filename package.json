@@ -10,7 +10,6 @@
   ],
   "packageManager": "yarn@4.0.2",
   "resolutions": {
-    "@bdxtown/canaille": "portal:/home/synapse/Canaille",
     "@synapse-medicine/boto": "portal:/home/synapse/material/packages/boto"
   },
   "dependencies": {

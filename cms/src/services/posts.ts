@@ -33,13 +33,13 @@ function parsePost(meta: WebdavFile, raw: string): Post{
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function editPost(client: any, blog: Blog, post: Post) {
+export function editPost(client: any, _blog: Blog, post: Post) {
     const content = formatPost(post);
     return client.putFileContents(`/${CURRENT_BLOG.name}/${post.file}`, content, { overwrite: true }) as boolean
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function deletePost(client: any, blog: Blog, post: Post) {
+export function deletePost(client: any, _blog: Blog, post: Post) {
     return client.deleteFile(`/${CURRENT_BLOG.name}/${post.file}`);
 }
 

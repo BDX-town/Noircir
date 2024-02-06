@@ -39,6 +39,7 @@ function load(): Partial<IAppContext> {
     return {
         ...context,
         // we init a new client here, restoring auth state is done via the ServiceWorker
+        // it keep in memory the last auth header used
         client: context.client ? webdav.createClient(import.meta.env.VITE_SERVER) : undefined,
         posts: context.posts?.map(deserializePost),
         media: context.media?.map(deserializeMedia),
