@@ -19,26 +19,20 @@ const registerServiceWorker = async () => {
       const registration = await navigator.serviceWorker.register('/sw.js', {
         scope: '/'
       });
-      if (registration.installing) {
-        console.log("Installation du service worker en cours");
-      } else if (registration.waiting) {
-        console.log("Service worker installé");
+      if (registration.installing || registration.waiting) {
+        console.log("ServiceWorker installed, reloading to activate");
+        await navigator.serviceWorker.ready;
+        window.location.reload();
       } else if (registration.active) {
-        console.log("Service worker actif");
+        console.log("ServiceWorker active");
+        await navigator.serviceWorker.ready;
+        registration.active.postMessage({ type: 'webdav', value: import.meta.env.VITE_SERVER })
       }
     } catch (error) {
-      console.error(`L'enregistrement a échoué : ${error}`);
+      console.error(error);
     }
-
-    navigator.serviceWorker.ready.then((registration) => {
-      console.log('ready');
-      console.log(registration.active);
-      registration.active?.postMessage({ type: 'webdav', value: import.meta.env.VITE_SERVER })
-    })
   }
 };
-
-// …
 
 registerServiceWorker();
 
