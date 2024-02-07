@@ -1,11 +1,11 @@
 FROM node:21.6.1
 
 # install deps
-RUN apt update -yq \
-    && apt install git \
-    && apt install nginx nginx-extras libnginx-mod-http-dav-ext libnginx-mod-http-auth-pam \
+RUN apt-get update -yq \
+    && apt-get install git \
+    && apt-get install nginx nginx-extras libnginx-mod-http-dav-ext libnginx-mod-http-auth-pam \
     && corepack enable \
-    && apt clean -y
+    && apt-get clean -y
 
 # configure webdav
 RUN  chown -R www-data:www-data /var/www/html && touch /var/www/.auth.allow
