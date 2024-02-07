@@ -29,7 +29,7 @@ export const Base = () => {
 
     return (
         <main className='h-screen flex flex-row bg-additional-primary'>
-            <div className='min-h-100 w-[175px] shrink-0 flex flex-col gap-4 px-5 my-5 overflow-hidden relative'>
+            <div className='min-h-100 w-[175px] shrink-0 flex flex-col gap-4 px-5 my-5 overflow-x-hidden overflow-y-auto relative'>
                 <Line className='absolute w-[100vh] origin-top-left rotate-90 left-[100%]' />
                 <div className='text-center'>
                     <img className='rounded-full w-[50px] h-[50px]' src={blog?.picture} />
