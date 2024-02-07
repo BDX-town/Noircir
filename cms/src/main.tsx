@@ -4,6 +4,7 @@ import App from './App.tsx'
 import './main.css'
 import "@bdxtown/canaille";
 
+// @ts-expect-error we need that to reload in dev mode
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import SW from '../public/sw.js?url';
 
