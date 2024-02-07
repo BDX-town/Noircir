@@ -1,10 +1,10 @@
-# Noirsir - Blog Generator for bdx.town
+# Noircir - Blog Generator for bdx.town
 
-Noirsir is a blog generator developed for bdx.town, aiming to address issues with the current Plume platform. Due to concerns about its reliability and a commitment to eco-responsibility, the transition to a static file-based solution became necessary.
+Noircir is a blog generator developed for bdx.town, aiming to address issues with the current Plume platform. Due to concerns about its reliability and a commitment to eco-responsibility, the transition to a static file-based solution became necessary.
 
 ## Project Focus
 
-- **Not Another Static Blog Generator:** Noirsir utilizes 11ty to create a static file-based CMS, ensuring users can manage blogs independently without relying on servers other than Nginx.
+- **Not Another Static Blog Generator:** Noircir utilizes 11ty to create a static file-based CMS, ensuring users can manage blogs independently without relying on servers other than Nginx.
 - **User Experience Considerations:** The project focuses on improving user experience, especially for non-tech-savvy users, by using static HTML files to create a multi-page application with progressive enhancement.
 
 ## Technical Components
