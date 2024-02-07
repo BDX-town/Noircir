@@ -12,6 +12,6 @@ RUN  chown -R www-data:www-data /var/www/html && touch /var/www/.auth.allow
 COPY nginx.conf /etc/nginx/sites-available/default
 
 # install noircir 
-RUN git clone https://github.com/BDX-town/Noircir.git noircir && npx yarn && cd noircir/cms && npx yarn build && cp dist/* /var/www/html
+RUN git clone https://github.com/BDX-town/Noircir.git noircir && cd noircir/cms && npx yarn && npx yarn build && cp dist/* /var/www/html
 
 CMD service nginx start
