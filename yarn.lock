@@ -1563,9 +1563,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bdxtown/canaille@portal:/home/synapse/Canaille::locator=noircir%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@bdxtown/canaille@portal:/home/synapse/Canaille::locator=noircir%40workspace%3A."
+"@bdxtown/canaille@npm:^1.0.0-rc1":
+  version: 1.0.0-rc1
+  resolution: "@bdxtown/canaille@npm:1.0.0-rc1"
   dependencies:
     "@babel/core": "npm:^7.23.6"
     "@babel/preset-env": "npm:^7.23.6"
@@ -1596,8 +1596,9 @@ __metadata:
     typescript: "npm:^5.3.3"
     webpack: "npm:^5.89.0"
     webpack-cli: "npm:^5.1.4"
+  checksum: f6b7d206d070a38731b34678fd218a89a6161bad51febe93206525e84293757cc0d9384c9ecba29392d07db110b8acdce12471b3366a203443e7e09d992e2a47
   languageName: node
-  linkType: soft
+  linkType: hard
 
 "@buttercup/fetch@npm:^0.1.1":
   version: 0.1.2
