@@ -14,7 +14,7 @@ COPY nginx.conf /etc/nginx/sites-available/default
 # install noircir 
 RUN git clone https://github.com/BDX-town/Noircir.git noircir && cd noircir/cms && npx yarn && npx yarn build && cp -r dist/* /var/www/html
 
-EXPOSE 80
+EXPOSE 8080
 
 STOPSIGNAL SIGQUIT
 
