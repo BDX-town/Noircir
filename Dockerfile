@@ -14,4 +14,8 @@ COPY nginx.conf /etc/nginx/sites-available/default
 # install noircir 
 RUN git clone https://github.com/BDX-town/Noircir.git noircir && cd noircir/cms && npx yarn && npx yarn build && cp -r dist/* /var/www/html
 
-CMD service nginx start
+EXPOSE 80
+
+STOPSIGNAL SIGQUIT
+
+CMD ["nginx", "-g", "daemon off;"]
