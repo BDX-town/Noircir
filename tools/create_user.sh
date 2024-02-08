@@ -34,5 +34,5 @@ then
 fi
 
 mkdir -p "$BLOGS_FOLDER/$USERNAME/$RESSOURCES_FOLDER"
-echo '{ "name": "'"$USERNAME"' blog", "description": "'"$USERNAME"'\'s blog description", "cover": null }' > "$BLOGS_FOLDER/$USERNAME/meta.json"
+echo '{ "name": "blog name", "description": "blog description", "cover": null }' > "$BLOGS_FOLDER/$USERNAME/meta.json"
 echo "$USERNAME:$PASSWORD" >> $AUTH_FILE
