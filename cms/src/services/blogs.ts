@@ -1,14 +1,12 @@
-import { CURRENT_BLOG } from './client';
 import { Blog } from '../types/Blog';
+import { WebdavClient } from '../types/webdav';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function editBlog(client: any, blog: Blog): Promise<boolean> {
-    return client.putFileContents(`/${CURRENT_BLOG.name}/meta.json`, JSON.stringify(blog), { overwrite: true }) as Promise<boolean>
+export function editBlog(client: WebdavClient, blog: Blog): Promise<boolean> {
+    return client.putFileContents(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/meta.json`, JSON.stringify(blog), { overwrite: true }) as Promise<boolean>
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function fetchBlog(client: any): Promise<Blog> {
-    const basePath = `/${CURRENT_BLOG.name}`;
+export async function fetchBlog(client: WebdavClient): Promise<Blog> {
+    const basePath = `/${import.meta.env.VITE_BLOGS_PATH}/${client.username}`;
     const rawMeta: string = await client.getFileContents(`${basePath}/meta.json`, { format: "text" });
     const meta = JSON.parse(rawMeta) as Blog;
     return {

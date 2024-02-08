@@ -6,6 +6,9 @@ set -euo pipefail
 # path must be the same that root in nginx.conf + a blogs folder
 : "${BLOGS_FOLDER:=/var/www/html/blogs}"
 : "${RESSOURCES_FOLDER:=ressources}"
+: "${WWW_USER:=www-data}"
+: "${WWW_GROUP:=www-data}"
+
 
 # source 
 # https://starbeamrainbowlabs.com/blog/article.php?article=posts%2F237-WebDav-Nginx-Setup.html
@@ -36,3 +39,4 @@ fi
 mkdir -p "$BLOGS_FOLDER/$USERNAME/$RESSOURCES_FOLDER"
 echo '{ "name": "blog name", "description": "blog description", "cover": null }' > "$BLOGS_FOLDER/$USERNAME/meta.json"
 echo "$USERNAME:$PASSWORD" >> $AUTH_FILE
+chown -R "$WWW_USER:$WWW_GROUP" $BLOGS_FOLDER

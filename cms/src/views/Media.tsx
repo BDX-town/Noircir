@@ -47,6 +47,7 @@ export const Media = () => {
 
     const { media } = useAppContext();
 
+
     const onDelete: React.MouseEventHandler<HTMLButtonElement> = React.useCallback((e) => {
         const form = e.currentTarget.form;
         const data = Array.from(new FormData(form as HTMLFormElement).keys());

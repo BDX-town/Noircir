@@ -1,5 +1,3 @@
-console.log("Hey, I am a service workerf.");
-
 const context = {
     webdavServer: undefined,
     webdavAuth: undefined,
@@ -15,7 +13,6 @@ self.addEventListener('message', (event) => {
         default:
             throw new Error(`Unhandled message ${message.value}`)
     }
-    console.log(context);
 });
 
 self.addEventListener("fetch", (event) => {

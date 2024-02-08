@@ -1,7 +1,5 @@
-import { CURRENT_BLOG } from './client';
-import { Blog } from '../types/Blog';
 import { Post } from '../types/Post';
-import { WebdavFile } from '../types/webdav';
+import { WebdavClient, WebdavFile } from '../types/webdav';
 import yaml from 'yaml';
 import { formatPost } from '../helpers/formatPost';
 
@@ -32,20 +30,17 @@ function parsePost(meta: WebdavFile, raw: string): Post{
     }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function editPost(client: any, _blog: Blog, post: Post) {
+export function editPost(client: WebdavClient, post: Post) {
     const content = formatPost(post);
-    return client.putFileContents(`/${CURRENT_BLOG.name}/${post.file}`, content, { overwrite: true }) as boolean
+    return client.putFileContents(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/${post.file}`, content, { overwrite: true }) as boolean
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function deletePost(client: any, _blog: Blog, post: Post) {
-    return client.deleteFile(`/${CURRENT_BLOG.name}/${post.file}`);
+export function deletePost(client: WebdavClient, post: Post) {
+    return client.deleteFile(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/${post.file}`);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function fetchPosts(client: any, blog: Partial<Blog>): Promise<Post[]> {
-    const files: WebdavFile[] = await client.getDirectoryContents(`/${blog.name}`);
+export async function fetchPosts(client: WebdavClient): Promise<Post[]> {
+    const files: WebdavFile[] = await client.getDirectoryContents(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}`);
     const postsMeta = files.filter((f) => f.basename.endsWith(".md"));
     const postsData = await Promise.all(
         postsMeta
