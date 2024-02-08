@@ -100,6 +100,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
 
 
     const onSubmit: React.FormEventHandler = React.useCallback(async (e) => {
+        console.log(e);
         e.preventDefault();
         if(!editor.current || !blog || (!blank && !post)) return;
         const formData: Partial<IPost> = Array.from(new FormData(e.currentTarget as HTMLFormElement)
@@ -109,12 +110,14 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
             ...post,
             ...formData,
             file: post?.file || `${slugify(formData.title as string)}-${new Date().getTime()}.md`,
-            content: editor.current?.getMarkdown()
+            content: editor.current?.getMarkdown(),
+            updatedAt: new Date(),
+            weight,
         } as IPost
         // TODO: feedback
         const result = await editPost(data);
         console.log(result);
-    }, [blank, blog, editPost, post]);
+    }, [blank, blog, editPost, post, weight]);
 
 
     if(!post && !blank) return (
@@ -126,8 +129,8 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
     return (
         <>
             <form className="grow p-5 flex flex-col gap-4" onSubmit={onSubmit} onKeyUp={onChange}>
-                <TextInput name="title" label={__('title')} defaultValue={post?.title} />
-                <TextInput name="description" label={__('description')} defaultValue={post?.description} />
+                <TextInput required name="title" label={__('title')} defaultValue={post?.title} />
+                <TextInput required name="description" label={__('description')} defaultValue={post?.description} />
                 <div ref={editorWrapper}>
                     <MDXEditor 
                         className='grow border-solid border-2 border-grey-100 rounded-2xl overflow-hidden' 

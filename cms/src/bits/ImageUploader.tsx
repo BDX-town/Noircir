@@ -25,7 +25,7 @@ export const ImageUploader = ({ onPick }: { onPick?: (m: Media) => void }) => {
 
     return (
       <>
-        <button className='bg-transparent border-none opacity-60 hover:bg-gray-300 rounded' onClick={() => setModal(true)}><IconPhoto /></button>
+        <button type="button" className='bg-transparent border-none opacity-60 hover:bg-gray-300 rounded' onClick={() => setModal(true)}><IconPhoto /></button>
         {
           modal && <MediaSelectionModal onPick={onInternalPick} onCancel={() => setModal(false)}/>
         }
