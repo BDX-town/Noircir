@@ -1,6 +1,7 @@
 {
     "Blog": {
         "title": "Nom du blog",
+        "cover": "Couverture du blog",
         "publish": "Enregistrer"
     }
 }

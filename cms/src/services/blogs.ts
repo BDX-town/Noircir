@@ -12,6 +12,6 @@ export async function fetchBlog(client: WebdavClient): Promise<Blog> {
     return {
         description: meta.description,
         name: meta.name,
-        picture: meta.picture
+        cover: meta.cover
     }
 }

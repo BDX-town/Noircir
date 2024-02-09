@@ -39,6 +39,7 @@ export const MediaSelectionModal = ({ onPick, onCancel }: { onPick: (m: Media, a
 
   const onSubmit: React.FormEventHandler = React.useCallback((e) => {
     e.preventDefault();
+    e.stopPropagation();
     const data = new FormData(e.currentTarget as HTMLFormElement);
     onPick(media.find((m) => m.file === data.get("media")) as Media, data.get("alt") as string);
   }, [media, onPick]);
@@ -50,8 +51,8 @@ export const MediaSelectionModal = ({ onPick, onCancel }: { onPick: (m: Media, a
           <Radio name="media" className={`${mediaList} shrink flex flex-wrap gap-2 overflow-y-scroll basis-0 grow`}>
             {
                 media.map((m) => (
-                  <label>
-                    <Block key={m.url} className={`relative bg-transparent text-center p-0 overflow-hidden flex items-center`}>
+                  <label key={m.url}>
+                    <Block  className={`relative bg-transparent text-center p-0 overflow-hidden flex items-center`}>
                         <Radio.Item className='absolute top-0 left-0 m-2' value={m.file} required />
                         <img className='w-[150px] h-[150px] object-contain' src={m.url} alt={m.file} />
                     </Block>

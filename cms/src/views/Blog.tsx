@@ -5,6 +5,8 @@ import {MDXEditor, headingsPlugin, toolbarPlugin, markdownShortcutPlugin, BlockT
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { Blog as IBlog } from '../types/Blog';
 
+import { MediaInput } from '../bits/MediaInput';
+
 import fr from './Blog.fr-FR.i18n.json';
 
 export const Location = {
@@ -24,6 +26,7 @@ export const Blog = () => {
         const formData: Partial<IBlog> = Array.from(new FormData(e.currentTarget as HTMLFormElement)
             .entries())
             .reduce((acc, curr) => ({...acc, [curr[0]]: curr[1]}), {});
+
         const data: IBlog = {
             ...blog,
             ...formData,
@@ -36,7 +39,8 @@ export const Blog = () => {
 
     return (
         <form className="grow p-5 flex flex-col gap-4" onSubmit={onSubmit}>
-            <TextInput name="name" label={__('title')} defaultValue={blog.name} />
+            <TextInput name="name" label={__('title')} defaultValue={blog.name} required />
+            <MediaInput label={__('cover')} name="cover" required defaultValue={blog.cover} />
             <MDXEditor 
                 className='grow border-solid border-2 border-grey-100 rounded-2xl overflow-hidden' 
                 markdown={blog.description} 
