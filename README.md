@@ -24,6 +24,17 @@ Users can:
 - Delete blog posts
 - Remove media
 
+## Roadmap
+
+- fix auth between reload 
+- restrict user access to their own directory
+- prevent ressources folder to be erased 
+- Ensure meta.json format after edition
+- Prevent files that are not media / markdown to be uploaded via webdav
+- Add an option to dither media at upload
+- compress media on a regular basis 
+
+
 ## Mockups
 
 Explore the [Figma mockups](https://www.figma.com/file/4yeNx17sBsMgZeaoCX2jhT/Noirsir?type=design&node-id=0-1&mode=design&t=AFuMcptQkwRsC053-0) for a visual representation.
