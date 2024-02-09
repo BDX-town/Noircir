@@ -1,12 +1,14 @@
 {
     "Post": {
         "title": "Titre",
+        "cover": "Couverture",
         "description": "Description",
         "content": "Contenu",
         "publish": "Publier",
         "delete": "Supprimer",
         "shouldDelete": "Êtes-vous sûr de vouloir supprimer ce billet ?",
         "confirm": "Oui, supprimer le billet",
-        "cancel": "Conserver le billet"
+        "cancel": "Conserver le billet",
+        "for-reader": "%(weight)s pour le lecteur"
     }
 }

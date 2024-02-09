@@ -17,6 +17,7 @@ function parsePost(meta: WebdavFile, raw: string): Post{
     const etyMeta = etyMetaRaw[0].replace(/---/g, '');
     // TODO: add supports for tags
     const partialPost: Pick<Post, "title" | "description"> & { cover: string  } = yaml.parse(etyMeta);
+    console.log(partialPost);
     const content = raw.replace(etyMetaRaw[0], '');
 
     return {

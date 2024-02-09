@@ -16,6 +16,8 @@ import { useUpload } from '../bits/ButtonUpload';
 import debounce from 'debounce';
 import { weight as calculateWeight } from './../helpers/weight'
 
+import { MediaInput } from '../bits/MediaInput';
+
 export const Location = {
     path: '/post/:file',
 }
@@ -72,8 +74,12 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const calculateImageWeight = React.useCallback(debounce(async () => {
         if(!editorWrapper.current) return;
-        const imgRequest = (Array.from(editorWrapper.current.querySelectorAll('img')) as HTMLImageElement[])
-            .map((r) => fetch(r.currentSrc).then((f) => f.text()));
+        const sources = [
+            post?.cover,
+            ...(Array.from(editorWrapper.current.querySelectorAll('img')) as HTMLImageElement[]).map((r) => r.currentSrc)
+        ].filter((r) => (!!r)) as string[];
+        const imgRequest = Array.from(new Set(sources))
+            .map((r) => fetch(r).then((f) => f.text()));
         const imgSizes = await Promise.all(imgRequest);
         setImageWeight(imgSizes.reduce((acc, curr) => acc += curr.length, 0));
     }, 500), []);
@@ -100,7 +106,6 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
 
 
     const onSubmit: React.FormEventHandler = React.useCallback(async (e) => {
-        console.log(e);
         e.preventDefault();
         if(!editor.current || !blog || (!blank && !post)) return;
         const formData: Partial<IPost> = Array.from(new FormData(e.currentTarget as HTMLFormElement)
@@ -119,7 +124,6 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
         console.log(result);
     }, [blank, blog, editPost, post, weight]);
 
-
     if(!post && !blank) return (
         <div className='grow flex flex-col items-center justify-center'>
             <Loader />
@@ -130,6 +134,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
         <>
             <form className="grow p-5 flex flex-col gap-4" onSubmit={onSubmit} onKeyUp={onChange}>
                 <TextInput required name="title" label={__('title')} defaultValue={post?.title} />
+                <MediaInput required name="cover" label={__('cover')} defaultValue={post?.cover} />
                 <TextInput required name="description" label={__('description')} defaultValue={post?.description} />
                 <div ref={editorWrapper}>
                     <MDXEditor 
@@ -170,7 +175,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
                     }
                     <div className='flex gap-3 items-center'>
                         <div>
-                            {calculateWeight(weight + imageWeight)}
+                            <T weight={calculateWeight(weight + imageWeight)}>for-reader</T>
                         </div>
                         <Button size={50} htmlType='submit'>
                             <IconBookUpload /> <T>publish</T>

@@ -29,7 +29,7 @@ export const MediaInput = ({ label, onPick, defaultValue, value, ...rest }: { la
 
     return (
         <>
-            <TextInput {...rest} label={label} readonly value={currentMedia?.url || ''}>
+            <TextInput {...rest} label={label} value={currentMedia?.url || ''}>
                 {
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     (currentMedia && <img className='order-first rounded-lg w-[40px] h-[40px] object-cover mr-1' src={currentMedia.url} />) as any

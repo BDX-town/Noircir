@@ -1,0 +1,5 @@
+{
+    "Posts": {
+        "on-disk": "%(weight)s sur le disque"
+    }
+}
