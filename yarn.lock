@@ -1523,6 +1523,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.18.3":
+  version: 7.23.9
+  resolution: "@babel/runtime@npm:7.23.9"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: e71205fdd7082b2656512cc98e647d9ea7e222e4fe5c36e9e5adc026446fcc3ba7b3cdff8b0b694a0b78bb85db83e7b1e3d4c56ef90726682b74f13249cf952d
+  languageName: node
+  linkType: hard
+
 "@babel/template@npm:^7.22.15, @babel/template@npm:^7.22.5":
   version: 7.22.15
   resolution: "@babel/template@npm:7.22.15"
@@ -5759,6 +5768,7 @@ __metadata:
     vite: "npm:^5.0.8"
     vite-plugin-node-polyfills: "npm:^0.19.0"
     webdav: "npm:^5.3.1"
+    webp-converter-browser: "npm:^1.0.4"
     yaml: "npm:^2.3.4"
   languageName: unknown
   linkType: soft
@@ -14677,6 +14687,15 @@ __metadata:
     url-join: "npm:^5.0.0"
     url-parse: "npm:^1.5.10"
   checksum: 67f824100a4c5c0061cf26f776c54288d9171fb4d6978e29103bf2da89f6fb46b4ae7b2bcec1593cf45c4585a039b0caf09d283ec3c6e60b259c2ce9c52d9f63
+  languageName: node
+  linkType: hard
+
+"webp-converter-browser@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "webp-converter-browser@npm:1.0.4"
+  dependencies:
+    "@babel/runtime": "npm:^7.18.3"
+  checksum: de640448eece8215d79cbb807734dfa57c8bf868bc1c4b46e5fa6878cc7d99eab837615520421943a6df22009c671525d228987c28fa927bdc7f677532a51366
   languageName: node
   linkType: hard
 
