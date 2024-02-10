@@ -22,10 +22,10 @@ RUN git clone https://github.com/BDX-town/Noircir.git noircir
 RUN cp noircir/tools/* /tools
 RUN cd noircir/cms && npx yarn && npx yarn build && cp -r dist/* /var/www/html && cd .. 
 
-COPY startup.sh
+COPY startup.sh /run/startup.sh
 
 EXPOSE 8080
 
 STOPSIGNAL SIGQUIT
 
-CMD ["startup.sh"]
+CMD ["/run/startup.sh"]
