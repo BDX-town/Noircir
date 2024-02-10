@@ -6,6 +6,7 @@ Noircir is a blog generator developed for bdx.town, aiming to address issues wit
 
 - **Not Another Static Blog Generator:** Noircir utilizes 11ty to create a static file-based CMS, ensuring users can manage blogs independently without relying on servers other than Nginx.
 - **User Experience Considerations:** The project focuses on improving user experience, especially for non-tech-savvy users, by using static HTML files to create a multi-page application with progressive enhancement.
+- **Eco-responsability**: Effortlessly create a minimalistic blog using flat files, promoting responsible practices such as image dithering, media compression, and the use of lightweight JavaScript bundles for a swift and eco-friendly browsing experience. Prioritize simplicity without compromising on thoughtful behaviors.
 
 ## Technical Components
 
