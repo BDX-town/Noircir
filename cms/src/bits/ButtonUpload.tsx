@@ -4,6 +4,7 @@ import { Button } from '@bdxtown/canaille';
 import { useAppContext } from '../data/AppContext';
 import { IconUpload } from '@tabler/icons-react';
 import { Media } from './../types/Media';
+import { arrayBufferToWebP } from 'webp-converter-browser'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useUpload() {
@@ -11,10 +12,12 @@ export function useUpload() {
     const { putMedia } = actions;
 
     return React.useCallback(async (file: File) => {
+        const webpBlob = await arrayBufferToWebP(await file.arrayBuffer(), { quality: parseFloat(import.meta.env.VITE_WEBP_QUALITY) })
+
         const media = await putMedia({
-            file: file.name,
-            content: await file.arrayBuffer(),
-            weight: file.size,
+            file: `${file.name}.webp`,
+            content: await webpBlob.arrayBuffer(),
+            weight: webpBlob.size,
         } as unknown as Media);
         return media.url
     }, [putMedia]);
@@ -33,7 +36,7 @@ export const ButtonUpload = ({ children, onUpload, ...rest }: { className?: stri
 
     return (
         <>
-            <input ref={input} className="hidden" type="file" onChange={onChange} />
+            <input ref={input} className="hidden" accept='image/*' type="file" onChange={onChange} />
             <Button {...rest} size={50} onClick={() => input.current?.click()}>
                 <IconUpload /> { children }
             </Button>
