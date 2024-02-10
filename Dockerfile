@@ -19,11 +19,13 @@ COPY nginx.conf /etc/nginx/sites-available/default
 
 # install noircir 
 RUN git clone https://github.com/BDX-town/Noircir.git noircir 
-RUN cp noircir/tools/* .
+RUN cp noircir/tools/* /tools
 RUN cd noircir/cms && npx yarn && npx yarn build && cp -r dist/* /var/www/html && cd .. 
+
+COPY startup.sh
 
 EXPOSE 8080
 
 STOPSIGNAL SIGQUIT
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["startup.sh"]
