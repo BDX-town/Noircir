@@ -5,14 +5,22 @@ class Article {
         }
     }
 
-    render({ title, cover, description, content }) {
+    render({ title, cover, description, content, blogName, blogDescription }) {
         return `
-            <h1>${data.title}</h1>
-            <img src="${data.cover}" />
-            <p>${data.description}</p>
-            <article>
-                ${data.content}
-            </article>
+            <header>
+                <h2>${blogName}</h2>
+                <p>
+                    ${blogDescription}
+                </p>
+            </header>
+            <main>
+                <h1>${title}</h1>
+                <img src="${cover}" />
+                <p>${description}</p>
+                <article>
+                    ${content}
+                </article>
+            </main>
         `
     }
 }
