@@ -37,6 +37,6 @@ then
 fi
 
 mkdir -p "$BLOGS_FOLDER/$USERNAME/$RESSOURCES_FOLDER"
-echo '{ "name": "blog name", "description": "blog description", "cover": null }' > "$BLOGS_FOLDER/$USERNAME/meta.json"
+echo '{ "name": "blog name", "description": "blog description", "cover": null }' > "$BLOGS_FOLDER/$USERNAME/$USERNAME.json"
 echo "$USERNAME:$PASSWORD" >> $AUTH_FILE
 chown -R "$WWW_USER:$WWW_GROUP" $BLOGS_FOLDER
