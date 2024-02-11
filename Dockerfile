@@ -23,10 +23,8 @@ RUN cd noircir && npx yarn && cd ..
 RUN mkdir -p /tools && cp noircir/tools/* /tools
 RUN cd noircir/cms && npx yarn build && cp -r dist/* /var/www/html && cd .. 
 
-COPY startup.sh /run/startup.sh
-
 EXPOSE 8080
 
 STOPSIGNAL SIGQUIT
 
-CMD ["/run/startup.sh"]
+CMD ["/tools/startup.sh"]
