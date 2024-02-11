@@ -19,8 +19,9 @@ COPY nginx.conf /etc/nginx/sites-available/default
 
 # install noircir 
 RUN git clone https://github.com/BDX-town/Noircir.git noircir 
+RUN cd noircir && npx yarn && cd ..
 RUN mkdir -p /tools && cp noircir/tools/* /tools
-RUN cd noircir/cms && npx yarn && npx yarn build && cp -r dist/* /var/www/html && cd .. 
+RUN cd noircir/cms && npx yarn build && cp -r dist/* /var/www/html && cd .. 
 
 COPY startup.sh /run/startup.sh
 
