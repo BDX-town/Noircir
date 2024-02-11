@@ -13,8 +13,8 @@ export async function fetchBlog(client: WebdavClient): Promise<Blog> {
     const rawMeta: string = await client.getFileContents(`${basePath}/${client.username}.json`, { format: "text" });
     const meta = JSON.parse(rawMeta) as Blog;
     return {
-        description: meta.description,
-        name: meta.name,
-        cover: meta.cover
+        blogDescription: meta.blogDescription,
+        blogName: meta.blogName,
+        blogCover: meta.blogCover
     }
 }

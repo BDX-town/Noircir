@@ -20,8 +20,8 @@ export const Base = () => {
 
     const cweight = React.useMemo(() => {
         return weight(
-            ((blog ? (new TextEncoder().encode(blog.name)).length : 0) +
-            (blog ? (new TextEncoder().encode(blog.description)).length : 0) +
+            ((blog ? (new TextEncoder().encode(blog.blogName)).length : 0) +
+            (blog ? (new TextEncoder().encode(blog.blogDescription)).length : 0) +
             (media?.reduce((acc, curr) => acc + curr.weight, 0) || 0)
             + (posts?.reduce((acc, curr) => acc + curr.weight, 0) || 0))
         );
@@ -32,9 +32,9 @@ export const Base = () => {
             <div className='min-h-100 max-h-full w-[175px] shrink-0 flex flex-col gap-4 px-5 my-5 relative'>
                 <Line className='absolute w-[100vh] origin-top-left rotate-90 left-[100%]' />
                 <div className='text-center'>
-                    <img className='rounded-full w-[50px] h-[50px]' src={blog?.cover} />
+                    <img className='rounded-full w-[50px] h-[50px]' src={blog?.blogCover} />
                     <h3 className='my-2'>
-                        { blog?.name }
+                        { blog?.blogName }
                     </h3>
                 </div>
                 <div>
@@ -53,7 +53,7 @@ export const Base = () => {
                     </ul>
                 </div>
                 <p className='grow shrink opacity-60 italic my-0 min-h-[150px] overflow-auto'>
-                    { blog?.description }
+                    { blog?.blogDescription }
                 </p>
                 <div className='text-center pb-3'>
                     {

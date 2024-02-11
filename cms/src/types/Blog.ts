@@ -1,5 +1,5 @@
 export interface Blog {
-    name: string,
-    description: string,
-    cover: string,
+    blogName: string,
+    blogDescription: string,
+    blogCover: string,
 }

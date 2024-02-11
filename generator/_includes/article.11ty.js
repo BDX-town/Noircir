@@ -5,7 +5,7 @@ class Article {
         }
     }
 
-    render(data) {
+    render({ title, cover, description, content }) {
         return `
             <h1>${data.title}</h1>
             <img src="${data.cover}" />

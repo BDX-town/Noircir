@@ -8,7 +8,28 @@ module.exports = function(eleventyConfig) {
       dir: {
         input: "/var/www/html/blogs/",
         output: "/var/www/html/",
-        includes: "/noircir/generator/_includes"
+        includes: "../../../../noircir/generator/_includes"
       }
     }
   };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -30,7 +30,7 @@ export const Blog = () => {
         const data: IBlog = {
             ...blog,
             ...formData,
-            description: editor.current.getMarkdown(),
+            blogDescription: editor.current.getMarkdown(),
         };
         const result = await editBlog(data);
         // TODO: add feedback
@@ -39,11 +39,11 @@ export const Blog = () => {
 
     return (
         <form className="grow p-5 flex flex-col gap-4" onSubmit={onSubmit}>
-            <TextInput name="name" label={__('title')} defaultValue={blog.name} required />
-            <MediaInput label={__('cover')} name="cover" required defaultValue={blog.cover} />
+            <TextInput name="blogName" label={__('title')} defaultValue={blog.blogName} required />
+            <MediaInput label={__('cover')} name="blogCover" required defaultValue={blog.blogCover} />
             <MDXEditor 
                 className='grow border-solid border-2 border-grey-100 rounded-2xl overflow-hidden' 
-                markdown={blog.description} 
+                markdown={blog.blogDescription} 
                 ref={editor}
                 plugins={[
                     linkDialogPlugin(),
