@@ -1,0 +1,23 @@
+{
+  "name": "template",
+  "private": true,
+  "version": "0.0.0",
+  "files":["dist"],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "vite": "^5.1.0"
+  },
+  "main":"./dist/index.umd.js",
+  "module":"./dist/index.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
+    }
+  }
+}

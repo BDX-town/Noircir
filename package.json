@@ -6,12 +6,10 @@
   "private": true,
   "workspaces": [
     "cms",
-    "generator"
+    "generator",
+    "template"
   ],
   "packageManager": "yarn@4.0.2",
-  "resolutions": {
-    "@synapse-medicine/boto": "portal:/home/synapse/material/packages/boto"
-  },
   "dependencies": {
     "error-stack-parser": "^2.1.4"
   }
