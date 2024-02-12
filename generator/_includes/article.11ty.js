@@ -11,7 +11,8 @@ class Article {
     }
 
     render(props) {
-        return ReactDOM.renderToStaticMarkup(React.createElement(ArticleComponent, props))
+        ReactDOM.renderToStaticMarkup(React.createElement(ArticleComponent, props));
+        return ReactDOM.renderToStaticMarkup(React.createElement(ArticleComponent, props));
     }
 }
 
