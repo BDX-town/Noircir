@@ -2,22 +2,34 @@
   "name": "template",
   "private": true,
   "version": "0.0.0",
-  "files":["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "story": "node toolchain/create-story.mjs",
+    "dev": "npx ladle serve",
+    "build": "tsc && vite build"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
     "vite": "^5.1.0"
   },
-  "main":"./dist/index.umd.js",
-  "module":"./dist/index.es.js",
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
   "exports": {
     ".": {
       "import": "./dist/index.es.js",
       "require": "./dist/index.umd.js"
     }
+  },
+  "dependencies": {
+    "@bdxtown/canaille": "^1.0.0-rc1",
+    "@ladle/react": "^4.0.2",
+    "counterpart": "^0.18.6",
+    "prettier": "^3.2.5",
+    "react-docgen": "^7.0.3"
   }
 }

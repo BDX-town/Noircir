@@ -1,8 +1,7 @@
-class Article {
+class Base {
     data() {
         return {
             templateEngineOverride: "11ty.js, md",
-            layout: "base.11ty.js"
         }
     }
 
@@ -26,4 +25,4 @@ class Article {
     }
 }
 
-module.exports = Article;
+module.exports = Base;
