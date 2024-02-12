@@ -28,12 +28,10 @@ Users can:
 ## Roadmap
 
 - fix auth between reload 
-- restrict user access to their own directory
 - prevent ressources folder to be erased 
 - Ensure meta.json format after edition
 - Prevent files that are not media / markdown to be uploaded via webdav
-- Add an option to dither media at upload
-- compress media on a regular basis 
+- sanitize blog post content in template 
 
 
 ## Mockups

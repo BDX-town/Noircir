@@ -7,7 +7,7 @@
     "@11ty/eleventy": "^2.0.1"
   },
   "scripts": {
-    "run": "npx @11ty/eleventy --config=config.js --watch",
-    "test": "npx @11ty/eleventy --watch"
+    "build": "npx @11ty/eleventy --config=.eleventy.prod.js --watch",
+    "test": "npx @11ty/eleventy --config=.eleventy.common.js --serve"
   }
 }

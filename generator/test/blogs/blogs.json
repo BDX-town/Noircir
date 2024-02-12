@@ -1,3 +1,4 @@
 {
-    "layout": "article.11ty.js"
+    "layout": "article.11ty.js",
+    "lang": "fr-FR"
 }

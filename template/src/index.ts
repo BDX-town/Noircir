@@ -1,2 +1,7 @@
-import 'tailwindcss/tailwind.css'
-export * from './Article';
+import './index.css';
+
+import Article from './Article';
+
+export { 
+    Article,
+}
