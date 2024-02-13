@@ -6,12 +6,11 @@ class Article {
     data() {
         return {
             templateEngineOverride: "11ty.js, md",
-            style: "/style.css",
+            layout: "html.11ty.js",
         }
     }
 
     render(props) {
-        ReactDOM.renderToStaticMarkup(React.createElement(ArticleComponent, props));
         return ReactDOM.renderToStaticMarkup(React.createElement(ArticleComponent, props));
     }
 }
