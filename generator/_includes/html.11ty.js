@@ -11,7 +11,7 @@ class Style {
     }
 
     render(props) {
-        return ReactDOM.renderToStaticMarkup(React.createElement(HTML, props));
+        return `<!DOCTYPE html>${ReactDOM.renderToStaticMarkup(React.createElement(HTML, props))}`;
     }
 }
 
