@@ -22,13 +22,14 @@ RUN mkdir -p /etc/apt/keyrings \
 
 # install deps
 RUN apt-get update -yq \
-    && apt-get install -y git gum nginx nginx-extras libnginx-mod-http-dav-ext libnginx-mod-http-auth-pam openssl \
+    && apt-get install -y gettext git gum nginx nginx-extras libnginx-mod-http-dav-ext libnginx-mod-http-auth-pam openssl \
     && corepack enable \
     && apt-get clean -y
 
 # configure webdav
 RUN  chown -R $WWW_USER:$WWW_GROUP $NGINX_FOLDER && touch $AUTH_FILE
-COPY nginx.conf /etc/nginx/sites-available/default
+COPY nginx.conf /tmp/nginx.conf
+RUN envsubst < /tmp/nginx.conf > /tmp/default.conf && mv /tmp/default.conf /etc/nginx/sites-available/default
 
 # install noircir 
 RUN git clone https://github.com/BDX-town/Noircir.git $NOIRCIR_FOLDER 
