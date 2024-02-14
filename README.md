@@ -25,6 +25,27 @@ Users can:
 - Delete blog posts
 - Remove media
 
+## Configuration
+
+You can set or change these values in your environement in order to change some parameters: 
+
+```bash
+# auth_basic_user_file: contains login informations for authorized webdav users. You can create new users with /tools/create_user.sh
+ENV AUTH_FILE=/var/www/.auth.allow
+# noircir folder: where you saved noircir files
+ENV NOIRCIR_FOLDER="/noircir"
+# nginx root: all noircir data will be saved there, blogs and generated content
+ENV NGINX_FOLDER=/var/www/html
+# 11ty base path: all blogs data will be saved there. Will be under NGINX_FOLDER
+ENV BLOGS_FOLDER=blogs
+# blog's ressources: each blog has it's own ressources folder, where all media will be uploaded. Will be under NGINX_FOLDER/BLOGS_FOLDER/username
+ENV RESSOURCES_FOLDER=ressources
+# must match nginx user 
+ENV WWW_USER=www-data
+# must match nginx group
+ENV WWW_GROUP=www-data
+```
+
 ## Roadmap
 
 - fix auth between reload 

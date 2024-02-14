@@ -9,6 +9,10 @@
     "generator",
     "template"
   ],
+  "scripts": {
+    "build": "npx yarn workspaces foreach -Rpt --from '{cms,template}' run build",
+    "start": "cd generator && npx yarn start"
+  },
   "packageManager": "yarn@4.0.2",
   "dependencies": {
     "error-stack-parser": "^2.1.4"

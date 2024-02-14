@@ -3,8 +3,9 @@ set -euo pipefail
 
 # path must be the same that auth_basic_user_file in nginx.conf
 : "${AUTH_FILE:=/var/www/.auth.allow}"
+: "${NGINX_FOLDER:=/var/www/html}"
 # path must be the same that root in nginx.conf + a blogs folder
-: "${BLOGS_FOLDER:=/var/www/html/blogs}"
+: "${BLOGS_FOLDER:=blogs}"
 : "${RESSOURCES_FOLDER:=ressources}"
 : "${WWW_USER:=www-data}"
 : "${WWW_GROUP:=www-data}"
@@ -36,7 +37,7 @@ then
       exit 1
 fi
 
-mkdir -p "$BLOGS_FOLDER/$USERNAME/$RESSOURCES_FOLDER"
-echo '{ "blogName": "blog name", "blogDescription": "blog description", "blogCover": null }' > "$BLOGS_FOLDER/$USERNAME/$USERNAME.json"
+mkdir -p "$NGINX_FOLDER/$BLOGS_FOLDER/$USERNAME/$RESSOURCES_FOLDER"
+echo '{ "blogName": "blog name", "blogDescription": "blog description", "blogCover": null }' > "$NGINX_FOLDER/$BLOGS_FOLDER/$USERNAME/$USERNAME.json"
 echo "$USERNAME:$PASSWORD" >> $AUTH_FILE
-chown -R "$WWW_USER:$WWW_GROUP" $BLOGS_FOLDER
+chown -R "$WWW_USER:$WWW_GROUP" "$NGINX_FOLDER/$BLOGS_FOLDER"
