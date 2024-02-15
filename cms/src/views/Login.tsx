@@ -6,10 +6,6 @@ import fr from './Login.fr-FR.i18n.json';
 import { useAppContext } from '../data/AppContext';
 import { useNavigate } from 'react-router-dom';
 
-export const Location = {
-    path: '/login',
-}
-
 export const Login = () => {
     const { T, __ } = useTranslations('Login', { 'fr-FR': fr });
     const { actions } = useAppContext();

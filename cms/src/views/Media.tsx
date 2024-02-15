@@ -9,11 +9,6 @@ import fr from './Media.fr-FR.i18n.json';
 import { useAppContext } from '../data/AppContext';
 import { ButtonUpload } from '../bits/ButtonUpload';
 
-export const Location = {
-    path: '/media',
-}
-
-
 const DeleteModal = ({ onCancel, media, onDelete }: { onCancel: React.MouseEventHandler, onDelete: React.MouseEventHandler, media: IMedia[] }) => {
     const { actions } = useAppContext();
     const { deleteMedia } = actions;

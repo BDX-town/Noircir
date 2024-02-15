@@ -1,49 +1,64 @@
 import { AppContextProvider, useAppContext } from './data/AppContext';
 import { ErrorBoundary } from './data/ErrorBoundary';
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import { Base } from './layout/Base';
 import { TranslationContext } from '@bdxtown/canaille';
 // import '@bdxtown/canaille/src/scss/google-fonts.scss';
 import translate from 'counterpart';
 
 
-import { Posts, Location as PostsLocation } from './views/Posts';
-import { Post, Location as PostLocation } from './views/Post';
-import { Login, Location as LoginLocation } from './views/Login';
-import { Blog, Location as BlogLocation } from './views/Blog';
-import { Media, Location as MediaLocation } from './views/Media';
+import { Login } from './views/Login';
+import { Posts } from './views/Posts';
+import { BlogLocation, PostsLocation, PostLocation, MediaLocation } from './views/Locations';
+
+
+
+const baseRouter = createBrowserRouter([
+  {
+    path: '*',
+    element: <Login />
+  }
+]);
+
+const loggedRouter = createBrowserRouter([
+  {
+    path: '/',
+    element: <Base />,
+    children: [
+      {
+        ...BlogLocation,
+        lazy: async () => { const { Blog } = await import('./views/Blog'); return { Component: Blog } },
+      },
+      {
+        ...PostsLocation,
+        element: <Posts />
+      },
+      {
+        ...PostLocation,
+        lazy: async () => { const { Post } = await import('./views/Post'); return { Component: Post } },
+      },
+      {
+        ...MediaLocation,
+        lazy: async () => { const { Media } = await import('./views/Media'); return { Component: Media } },
+      },
+      {
+        path: 'post',
+        lazy: async () => { const { Post } = await import('./views/Post'); return { Component: Post } },
+      },
+      {
+        index: true,
+        element: <Navigate to={PostsLocation.path} replace />
+      }
+    ]
+  }
+]);
 
 const Routing = () => {
   const { client } = useAppContext();
-  return (
-    <Routes>
-        <Route { ...LoginLocation } element={<Login />} />
-        {
-        !client ? (
-          <>
-            <Route
-                path="*"
-                element={<Navigate to={LoginLocation.path} replace />}
-            />
-          </>
-        ) : (
-          <Route path="/" element={<Base />}>
-            <Route {...BlogLocation} element={<Blog />} />
-            <Route {...PostsLocation} element={<Posts />} />
-            <Route {...PostLocation} element={<Post />} />
-            <Route {...MediaLocation} element={<Media />} />
-            <Route path="post" element={<Post blank />} />
-            <Route
-                index
-                element={<Navigate to={PostsLocation.path} replace />}
-            />
-          </Route>
-        )
-      }
-
-    </Routes>
-  )
+  if(!client) return <RouterProvider router={baseRouter} />
+  return <RouterProvider router={loggedRouter} />
 }
+
 
 function App() {
   return (
@@ -53,9 +68,7 @@ function App() {
     >
         <AppContextProvider>
           <ErrorBoundary>
-              <BrowserRouter>
-                <Routing />
-              </BrowserRouter>
+              <Routing />
           </ErrorBoundary>
         </AppContextProvider>
     </TranslationContext>

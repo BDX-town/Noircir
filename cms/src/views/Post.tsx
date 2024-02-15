@@ -18,10 +18,6 @@ import { weight as calculateWeight } from './../helpers/weight'
 
 import { MediaInput } from '../bits/MediaInput';
 
-export const Location = {
-    path: '/post/:file',
-}
-
 const DeleteModal = ({ onCancel, post }: { onCancel: React.MouseEventHandler, post: IPost }) => {
     const { actions } = useAppContext();
     const { deletePost } = actions;

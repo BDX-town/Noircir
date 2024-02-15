@@ -5,11 +5,9 @@ import { useAppContext } from '../data/AppContext';
 import fr from './Base.fr-FR.i18n.json';
 import { Button, useTranslations, Line } from '@bdxtown/canaille';
 import { IconFeather, IconHome, IconPhoto, IconSettings2 } from '@tabler/icons-react';
-import { Location as PostsLocation } from '../views/Posts';
-import { Location as MediaLocation } from '../views/Media';
-import { Location as BlogLocation } from '../views/Blog';
-import { Location as PostLocation } from '../views/Post';
+import { BlogLocation, PostsLocation, MediaLocation, PostLocation } from '../views/Locations';
 import { weight } from './../helpers/weight';
+
 
 export const Base = () => {
     const { T } = useTranslations("Base", { "fr-FR": fr })

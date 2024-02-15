@@ -1,12 +1,8 @@
 import { Block, useTranslations } from '@bdxtown/canaille';
 import { useAppContext } from '../data/AppContext';
 import { Link } from 'react-router-dom';
-import { Location as PostLocation } from './Post';
+import { PostLocation } from './Locations';
 import { weight } from '../helpers/weight';
-
-export const Location = {
-    path: '/posts',
-}
 
 import fr from './Posts.fr-FR.i18n.json';
 

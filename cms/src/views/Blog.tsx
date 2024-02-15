@@ -9,10 +9,6 @@ import { MediaInput } from '../bits/MediaInput';
 
 import fr from './Blog.fr-FR.i18n.json';
 
-export const Location = {
-    path: '/blog'
-}
-
 export const Blog = () => {
     const { blog, actions} = useAppContext();
     const { editBlog } = actions;
