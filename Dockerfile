@@ -26,10 +26,6 @@ RUN apt-get update -yq \
     && corepack enable \
     && apt-get clean -y
 
-# configure webdav
-RUN  chown -R $WWW_USER:$WWW_GROUP $NGINX_FOLDER && touch $AUTH_FILE
-COPY nginx.conf /tmp/nginx.conf
-RUN envsubst < /tmp/nginx.conf > /tmp/default.conf && mv /tmp/default.conf /etc/nginx/sites-available/default
 
 # install noircir 
 RUN git clone https://github.com/BDX-town/Noircir.git $NOIRCIR_FOLDER 
