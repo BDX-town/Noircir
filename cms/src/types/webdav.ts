@@ -9,6 +9,7 @@ export interface WebdavFile {
 
 export interface WebdavClient {
     username: string,
+    password: string,
 
     copyFile: (...a: any) => any,
     createDirectory: (...a: any) => any,

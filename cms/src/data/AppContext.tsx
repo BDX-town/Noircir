@@ -32,7 +32,9 @@ interface IAppContext {
 }
 
 function save(context: Partial<IAppContext>) {
-    sessionStorage.setItem("context", JSON.stringify({ ...context, client: context.client ? { username: context.client.username  } : undefined, actions: undefined }));
+    // I know this is not that call to store that in sessionStorage, however given that webdav lib design, I don't know how I can do that in a better way
+    // https://security.stackexchange.com/questions/36958/is-it-safe-to-store-password-in-html5-sessionstorage
+    sessionStorage.setItem("context", JSON.stringify({ ...context, client: context.client ? { username: context.client.username, password: context.client.password  } : undefined, actions: undefined }));
 }
 
 function load(): Partial<IAppContext> {
@@ -41,7 +43,7 @@ function load(): Partial<IAppContext> {
         ...context,
         // we init a new client here, restoring auth state is done via the ServiceWorker
         // it keep in memory the last auth header used
-        client: context.client ? Object.assign(webdav.createClient(import.meta.env.VITE_SERVER), { username: context.client.username }) : undefined,
+        client: context.client ? Object.assign(webdav.createClient(import.meta.env.VITE_SERVER, { authType: webdav.AuthType.Password, username: context.client.username, password: context.client.password }), { username: context.client.username, password: context.client.password }) : undefined,
         posts: context.posts?.map(deserializePost),
         media: context.media?.map(deserializeMedia),
     }
@@ -111,7 +113,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             username,
             password
         });
-        const a = Object.assign(c, { username }) as WebdavClient;
+        const a = Object.assign(c, { username, password }) as WebdavClient;
         setClient(a);
         return a;
     }, []);
