@@ -28,12 +28,12 @@ RUN apt-get update -yq \
 
 
 # install noircir 
-RUN git clone https://github.com/BDX-town/Noircir.git $NOIRCIR_FOLDER 
+COPY . $NOIRCIR_FOLDER 
 RUN mkdir -p /tools && cp $NOIRCIR_FOLDER/tools/* /tools
 RUN cd $NOIRCIR_FOLDER && npx yarn && npx yarn run build && cd /
 RUN cp -r $NOIRCIR_FOLDER/cms/dist/* $NGINX_FOLDER
 
-RUN useradd -u 1001 --shell /bin/bash $WWW_USER && usermod -a -G $WWW_GROUP $WWW_USER \
+RUN useradd -u 1001 --shell /bin/bash -d /home/$WWW_USER $WWW_USER && usermod -a -G $WWW_GROUP $WWW_USER \
     mkdir -p $NGINX_FOLDER/$BLOGS_FOLDER \
     touch $AUTH_FILE \
     chown -R $WWW_USER:$WWW_GROUP $NGINX_FOLDER \
