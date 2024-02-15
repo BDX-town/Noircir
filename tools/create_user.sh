@@ -24,7 +24,7 @@ then
     exit 1
 fi
 
-if test -d "$BLOGS_FOLDER/$USERNAME"
+if test -d "$NGINX_FOLDER/$BLOGS_FOLDER/$USERNAME"
 then
     echo "Username '$USERNAME' is already taken"
     exit 1
@@ -41,3 +41,4 @@ mkdir -p "$NGINX_FOLDER/$BLOGS_FOLDER/$USERNAME/$RESSOURCES_FOLDER"
 echo '{ "blogName": "blog name", "blogDescription": "blog description", "blogCover": null }' > "$NGINX_FOLDER/$BLOGS_FOLDER/$USERNAME/$USERNAME.json"
 echo "$USERNAME:$PASSWORD" >> $AUTH_FILE
 chown -R "$WWW_USER:$WWW_GROUP" "$NGINX_FOLDER/$BLOGS_FOLDER"
+chmod -R g+w "$NGINX_FOLDER/$BLOGS_FOLDER"

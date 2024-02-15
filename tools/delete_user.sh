@@ -20,7 +20,7 @@ then
     exit 1
 fi
 
-if [ ! -d "$BLOGS_FOLDER/$USERNAME" ]
+if [ ! -d "$NGINX_FOLDER/$BLOGS_FOLDER/$USERNAME" ]
 then
     echo "User '$USERNAME' does not exist"
     exit 1
