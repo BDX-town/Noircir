@@ -40,8 +40,8 @@ ENV NGINX_FOLDER=/var/www/html
 ENV BLOGS_FOLDER=blogs
 # blog's ressources: each blog has it's own ressources folder, where all media will be uploaded. Will be under NGINX_FOLDER/BLOGS_FOLDER/username
 ENV RESSOURCES_FOLDER=ressources
-# must match nginx user 
-ENV WWW_USER=www-data
+# Please create a dedicated to run noircir and it to the nginx www-data group
+ENV WWW_USER=noircir
 # must match nginx group
 ENV WWW_GROUP=www-data
 ```

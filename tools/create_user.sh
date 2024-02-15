@@ -7,7 +7,7 @@ set -euo pipefail
 # path must be the same that root in nginx.conf + a blogs folder
 : "${BLOGS_FOLDER:=blogs}"
 : "${RESSOURCES_FOLDER:=ressources}"
-: "${WWW_USER:=www-data}"
+: "${WWW_USER:=noircir}"
 : "${WWW_GROUP:=www-data}"
 
 
