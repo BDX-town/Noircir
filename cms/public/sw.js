@@ -1,33 +1,37 @@
-const context = {
-    webdavServer: undefined,
-    webdavAuth: undefined,
-}
+self.addEventListener('install', function(event) {
+    event.waitUntil(self.skipWaiting());
+  });
+self.addEventListener("activate", (event) => {
+    event.waitUntil(self.clients.claim());
+});
 
 self.addEventListener('message', (event) => {
     const message = event.data;
     switch(message.type) {
-        case "webdav": {
-            context.webdavServer = message.value;
-            break;
-        }
         default:
             throw new Error(`Unhandled message ${message.value}`)
     }
 });
 
+async function networkFirst(request) {
+    try {
+        const networkResponse = await fetch(request);
+        const cache = await caches.open(`v1-${request.mode}`);
+        const clone = networkResponse.clone();
+        cache.put(request, clone);
+        return networkResponse;
+    } catch (e) {
+        console.log('fetch error', e);
+        const cacheResponse = await caches.match(request);
+        console.log('cache', cacheResponse);
+        return cacheResponse;
+    }
+}
+
+
 self.addEventListener("fetch", (event) => {
-    if(!event.request.url.startsWith(context.webdavServer)) return;
-    if(event.request.headers.get("authorization")) {
-        context.webdavAuth = event.request.headers.get("authorization");
-    } else if(context.webdavAuth) {
-          // decide for yourself which values you provide to mode and credentials
-        // Copy existing headers
-        const headers = new Headers(event.request.headers);
-        // Set a new header
-        headers.set('authorization', context.webdavAuth);
-        const newRequest = new Request(event.request, {
-            headers: headers
-        })
-        event.respondWith(fetch(newRequest));
+    if(event.request.method === "GET") {
+        event.respondWith(networkFirst(event.request));
+        return;
     }
 });

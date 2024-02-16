@@ -3,6 +3,7 @@ import { ErrorBoundary } from './data/ErrorBoundary';
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import { Base } from './layout/Base';
 import { TranslationContext } from '@bdxtown/canaille';
+import '@mdxeditor/editor/style.css';
 // import '@bdxtown/canaille/src/scss/google-fonts.scss';
 import translate from 'counterpart';
 
@@ -10,7 +11,6 @@ import translate from 'counterpart';
 import { Login } from './views/Login';
 import { Posts } from './views/Posts';
 import { BlogLocation, PostsLocation, PostLocation, MediaLocation } from './views/Locations';
-
 
 
 const baseRouter = createBrowserRouter([
