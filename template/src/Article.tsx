@@ -21,7 +21,6 @@ const Article: React.FC<IArticle> = ({ title, blogName, lang, content, blogCover
                         { blogName }
                     </h1>
                 </div>
-                <Line />
             </header>
             <main>
                 <article className='bg-additional-primary'>
@@ -31,14 +30,17 @@ const Article: React.FC<IArticle> = ({ title, blogName, lang, content, blogCover
                         <div className='text-center'>
                             <T date={new Date(updatedAt).toLocaleDateString(lang)}>date</T>
                         </div>
-                        <h4 className='p-3 max-w-[800px]'>
+                        <h4 className='p-3 max-w-[800px] mx-auto mb-0'>
                             { description }
                         </h4>
                     </section>
                     {
                         // TODO: sanitize what's outputed (?) here
                     }
-                    <section className='p-3 max-w-[800px]' dangerouslySetInnerHTML={{ __html: content }} />
+                    <section className='p-3 max-w-[800px] mx-auto'>
+                        <Line />
+                        <div dangerouslySetInnerHTML={{ __html: content }} />
+                    </section>
                 </article>
             </main>
         </>
