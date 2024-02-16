@@ -30,14 +30,14 @@ const Article: React.FC<IArticle> = ({ title, blogName, lang, content, blogCover
                         <div className='text-center'>
                             <T date={new Date(updatedAt).toLocaleDateString(lang)}>date</T>
                         </div>
-                        <h4 className='p-3 max-w-[800px] mx-auto mb-0'>
+                        <h4 className='p-3 max-w-[800px] mx-auto mb-0 break-words'>
                             { description }
                         </h4>
                     </section>
                     {
                         // TODO: sanitize what's outputed (?) here
                     }
-                    <section className='p-3 max-w-[800px] mx-auto'>
+                    <section className='p-3 max-w-[800px] mx-auto break-words'>
                         <Line />
                         <div dangerouslySetInnerHTML={{ __html: content }} />
                     </section>
