@@ -8,6 +8,7 @@ import { Modal } from '../bits/Modal';
 import fr from './Media.fr-FR.i18n.json';
 import { useAppContext } from '../data/AppContext';
 import { ButtonUpload } from '../bits/ButtonUpload';
+import { weight } from '../helpers/weight';
 
 const DeleteModal = ({ onCancel, media, onDelete }: { onCancel: React.MouseEventHandler, onDelete: React.MouseEventHandler, media: IMedia[] }) => {
     const { actions } = useAppContext();
@@ -62,11 +63,13 @@ export const Media = () => {
                         media.map((m) => (
                             <Block key={m.url} className='relative h-[150px] w-[150px] bg-transparent text-center p-0 overflow-hidden'>
                                 <label>
-                                    <Checkbox className='absolute top-0 left-0 m-2' name={m.file} />
                                     {
                                         // TODO: add alt and description
                                     }
                                     <img className='h-full' src={m.url} alt={m.file} />
+                                    <div className='absolute opacity-50 top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-transparent via-transparent via-transparent to-gray-900' />
+                                    <Checkbox className='absolute top-0 left-0 m-2' name={m.file} />
+                                    <div className=' absolute bottom-0 right-0 m-1 text-white'>{weight(m.weight)}</div>
                                 </label>
                             </Block>
                         ))

@@ -1,6 +1,7 @@
 {
     "Base": {
         "weight": "Ce blog pèse %(weight)s",
+        "on-disk": "sur le disque",
         "posts": "Billet(s)",
         "media": "Media",
         "write": "Rédiger",

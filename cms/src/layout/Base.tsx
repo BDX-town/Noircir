@@ -40,6 +40,8 @@ export const Base = () => {
                         <T weight={cweight}>
                             weight
                         </T>
+                        <br />
+                        <T>on-disk</T>
                     </span>
                     <ul className='list-none p-0'>
                         <li className='text-lg '>
