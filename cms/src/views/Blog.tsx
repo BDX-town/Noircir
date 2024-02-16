@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAppContext } from '../data/AppContext';
 import { TextInput, Button, useTranslations } from '@bdxtown/canaille';
-import {MDXEditor, headingsPlugin, toolbarPlugin, markdownShortcutPlugin, BlockTypeSelect, BoldItalicUnderlineToggles, UndoRedo, InsertImage, linkDialogPlugin, CreateLink, imagePlugin, MDXEditorMethods  } from '@mdxeditor/editor';
+import {MDXEditor, toolbarPlugin, markdownShortcutPlugin, BlockTypeSelect, BoldItalicUnderlineToggles, UndoRedo, linkDialogPlugin, CreateLink, MDXEditorMethods, listsPlugin, linkPlugin, quotePlugin  } from '@mdxeditor/editor';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { Blog as IBlog } from '../types/Blog';
 
@@ -42,9 +42,11 @@ export const Blog = () => {
                 markdown={blog.blogDescription} 
                 ref={editor}
                 plugins={[
+                    listsPlugin(),
+                    linkPlugin(),
+                    quotePlugin(),
+                    markdownShortcutPlugin(),
                     linkDialogPlugin(),
-                    imagePlugin(),
-                    headingsPlugin(),
                     toolbarPlugin({
                         toolbarContents: () => (
                         <>
@@ -53,7 +55,6 @@ export const Blog = () => {
                             <BlockTypeSelect />
                             <BoldItalicUnderlineToggles />
                             <CreateLink />
-                            <InsertImage />
                         </>
                         )
                     }),

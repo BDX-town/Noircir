@@ -9,6 +9,6 @@
         "shouldDelete": "Êtes-vous sûr de vouloir supprimer ce billet ?",
         "confirm": "Oui, supprimer le billet",
         "cancel": "Conserver le billet",
-        "for-reader": "%(weight)s pour le lecteur"
+        "for-reader": "%(weight)s de contenu pour le lecteur"
     }
 }
