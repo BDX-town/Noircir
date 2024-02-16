@@ -8,17 +8,17 @@ export default {
       colors: {
         "brand-primary": "#6ddbb4",
         "brand-primary-light": "#e2edda",
-        "brand-primary-medium": "6ddbb4",
+        "brand-primary-medium": "#6ddbb4",
         "brand-primary-dark": "#31b285",
 
         "additional-primary": "#fff1e3",
-        "additional-primary-light": "faf4f0",
-        "additional-primary-medium": "fff1e3",
+        "additional-primary-light": "#faf4f0",
+        "additional-primary-medium": "#fff1e3",
         "additional-primary-dark": "#ccae91",
         "additional-secondary": "#070727",
-        "additional-secondary-light": "0c0c46",
-        "additional-secondary-medium": "070727",
-        "additional-secondary-dark": "010029",
+        "additional-secondary-light": "#0c0c46",
+        "additional-secondary-medium": "#070727",
+        "additional-secondary-dark": "#010029",
 
         "white": "white",
         "grey-0": "#c7c7f2",

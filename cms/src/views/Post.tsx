@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, TextInput, useTranslations } from '@bdxtown/canaille';
-import {MDXEditor, headingsPlugin, toolbarPlugin, markdownShortcutPlugin, BlockTypeSelect, BoldItalicUnderlineToggles, UndoRedo, linkDialogPlugin, CreateLink, imagePlugin, MDXEditorMethods  } from '@mdxeditor/editor';
+import { Button, TextInput, useTranslations, createUseStyles } from '@bdxtown/canaille';
+import {MDXEditor, headingsPlugin, toolbarPlugin, markdownShortcutPlugin, BlockTypeSelect, BoldItalicUnderlineToggles, UndoRedo, linkDialogPlugin, CreateLink, imagePlugin, MDXEditorMethods, listsPlugin, linkPlugin, quotePlugin  } from '@mdxeditor/editor';
 import '@mdxeditor/editor/style.css'
 import { IconBookUpload, IconTrash, IconBook2 } from '@tabler/icons-react'
 import fr from './Post.fr-FR.i18n.json';
@@ -49,6 +49,16 @@ const DeleteModal = ({ onCancel, post }: { onCancel: React.MouseEventHandler, po
 
 
   
+const useStyle = createUseStyles({
+    editorCSS: {
+        "&>.mdxeditor-toolbar": {
+            overflow: "hidden",
+            borderTopLeftRadius: "1rem !important",
+            borderTopRightRadius: "1rem !important",
+        }
+    } as React.CSSProperties
+})
+
 
 export const Post = ({ blank = false }: { blank?: boolean }) => {
     const param = useParams();
@@ -66,6 +76,8 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
     const [imageWeight, setImageWeight] = React.useState(0);
 
     const [weight, setWeight] = React.useState(post ? new TextEncoder().encode(formatPost(post)).length : 0);
+
+    const { editorCSS } = useStyle();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const calculateImageWeight = React.useCallback(debounce(async () => {
@@ -134,28 +146,30 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
                 <TextInput required name="description" label={__('description')} defaultValue={post?.description} />
                 <div ref={editorWrapper}>
                     <MDXEditor 
-                        className='grow border-solid border-2 border-grey-100 rounded-2xl overflow-hidden' 
+                        className={`${editorCSS} grow border-solid border-2 border-grey-100 rounded-2xl`}
                         markdown={post?.content as string || ""} 
                         ref={editor}
                         plugins={[
+                            headingsPlugin(),
+                            listsPlugin(),
+                            linkPlugin(),
+                            quotePlugin(),
+                            markdownShortcutPlugin(),
                             linkDialogPlugin(),
                             imagePlugin({ 
                                 imageUploadHandler: upload
                             }),
-                            headingsPlugin(),
                             toolbarPlugin({
                                 toolbarContents: () => (
-                                <>
-                                    {' '}
-                                    <UndoRedo />
-                                    <BlockTypeSelect />
-                                    <BoldItalicUnderlineToggles />
-                                    <CreateLink />
-                                    <ImageUploader onPick={calculateImageWeight} />
-                                </>
+                                    <>
+                                        <UndoRedo />
+                                        <BlockTypeSelect />
+                                        <BoldItalicUnderlineToggles />
+                                        <CreateLink />
+                                        <ImageUploader onPick={calculateImageWeight} />
+                                    </>
                                 )
                             }),
-                            markdownShortcutPlugin()
                         ]} 
                     />
                 </div>
