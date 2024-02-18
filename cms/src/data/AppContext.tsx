@@ -107,13 +107,14 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }, [loadBlog, loadMedia, loadPost]);
 
     // login
-    const login = React.useCallback((username: string, password: string) => {
+    const login = React.useCallback(async (username: string, password: string) => {
         const c = webdav.createClient(import.meta.env.VITE_SERVER, {
             authType: webdav.AuthType.Password,
             username,
             password
         });
         const a = Object.assign(c, { username, password }) as WebdavClient;
+        await fetchBlog(a);
         setClient(a);
         return a;
     }, []);
