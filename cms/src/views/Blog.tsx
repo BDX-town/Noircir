@@ -35,10 +35,10 @@ export const Blog = () => {
 
     return (
         <form className="grow p-5 flex flex-col gap-4" onSubmit={onSubmit}>
-            <TextInput name="blogName" label={__('title')} defaultValue={blog.blogName} required />
+            <TextInput  name="blogName" label={__('title')} defaultValue={blog.blogName} required />
             <MediaInput label={__('cover')} name="blogCover" required defaultValue={blog.blogCover} />
             <MDXEditor 
-                className='grow border-solid border-2 border-grey-100 rounded-2xl overflow-hidden' 
+                className='grow border-solid border-2 border-grey-100 rounded-2xl overflow-hidden bg-white' 
                 markdown={blog.blogDescription} 
                 ref={editor}
                 plugins={[

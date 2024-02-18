@@ -2,6 +2,7 @@ import { AppContextProvider, useAppContext } from './data/AppContext';
 import { ErrorBoundary } from './data/ErrorBoundary';
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import { Base } from './layout/Base';
+import { Write } from './layout/Write';
 import { TranslationContext } from '@bdxtown/canaille';
 import '@mdxeditor/editor/style.css';
 // import '@bdxtown/canaille/src/scss/google-fonts.scss';
@@ -10,7 +11,9 @@ import translate from 'counterpart';
 
 import { Login } from './views/Login';
 import { Posts } from './views/Posts';
+import { ErrorElement } from './bits/ErrorElement';
 import { BlogLocation, PostsLocation, PostLocation, MediaLocation } from './views/Locations';
+import { Post } from './views/Post';
 
 
 const baseRouter = createBrowserRouter([
@@ -22,28 +25,40 @@ const baseRouter = createBrowserRouter([
 
 const loggedRouter = createBrowserRouter([
   {
+    path: PostLocation.path + "/*",
+    element: <Write />,
+    children: [
+      {
+        path: ":file",
+        lazy: async () => { const { Post } = await import('./views/Post'); return { Component: Post } },
+        errorElement: <ErrorElement />
+      },
+      {
+        index: true,
+        element: <Post blank />,
+        errorElement: <ErrorElement />
+      }
+    ]
+  },
+  {
     path: '/',
     element: <Base />,
     children: [
       {
         ...BlogLocation,
         lazy: async () => { const { Blog } = await import('./views/Blog'); return { Component: Blog } },
+        errorElement: <ErrorElement />
       },
       {
         ...PostsLocation,
-        element: <Posts />
+        element: <Posts />,
+        errorElement: <ErrorElement />
       },
-      {
-        ...PostLocation,
-        lazy: async () => { const { Post } = await import('./views/Post'); return { Component: Post } },
-      },
+
       {
         ...MediaLocation,
         lazy: async () => { const { Media } = await import('./views/Media'); return { Component: Media } },
-      },
-      {
-        path: 'post',
-        lazy: async () => { const { Post } = await import('./views/Post'); return { Component: Post } },
+        errorElement: <ErrorElement />
       },
       {
         index: true,

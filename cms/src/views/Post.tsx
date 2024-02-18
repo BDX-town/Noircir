@@ -52,9 +52,11 @@ const DeleteModal = ({ onCancel, post }: { onCancel: React.MouseEventHandler, po
 const useStyle = createUseStyles({
     editorCSS: {
         "&>.mdxeditor-toolbar": {
-            overflow: "hidden",
-            borderTopLeftRadius: "1rem !important",
-            borderTopRightRadius: "1rem !important",
+            marginLeft: "-32px",
+            marginRight: "-32px",
+
+            paddingLeft: "32px",
+            paddingRight: "32px",
         }
     } as React.CSSProperties
 })
@@ -140,13 +142,16 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
 
     return (
         <>
-            <form className="grow p-5 flex flex-col gap-4" onSubmit={onSubmit} onKeyUp={onChange}>
-                <TextInput required name="title" label={__('title')} defaultValue={post?.title} />
-                <MediaInput required name="cover" label={__('cover')} defaultValue={post?.cover} />
-                <TextInput required name="description" label={__('description')} defaultValue={post?.description} />
+            <form className="grow mt-5 flex flex-col gap-4" onSubmit={onSubmit} onKeyUp={onChange}>
+                <div className='px-5 flex flex-col gap-4'>
+                    <TextInput required name="title" label={__('title')} defaultValue={post?.title} />
+                    <MediaInput required name="cover" label={__('cover')} defaultValue={post?.cover} />
+                    <TextInput required name="description" label={__('description')} defaultValue={post?.description} />
+                </div>
                 <div ref={editorWrapper}>
                     <MDXEditor 
-                        className={`${editorCSS} grow border-solid border-2 border-grey-100 rounded-2xl`}
+                        className={`${editorCSS} grow border-solid border-0 border-t-2 border-b-2  border-grey-100 bg-white text-[22px] leading-[135%] px-5`}
+                        contentEditableClassName='min-h-[450px]'
                         markdown={post?.content as string || ""} 
                         ref={editor}
                         plugins={[
@@ -173,7 +178,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
                         ]} 
                     />
                 </div>
-                <div className='flex justify-between'>
+                <div className='flex justify-between px-5 pb-5'>
                     {
                         !blank ? (
                             <Button variant='secondary' onClick={() => setShouldDelete(true)}>

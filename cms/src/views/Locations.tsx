@@ -12,7 +12,8 @@ export const MediaLocation = {
 }
 
 export const PostLocation = {
-    path: '/post/:file',
+    path: '/post',
+    param: ":file"
 }
 
 export const PostsLocation = {
