@@ -15,7 +15,7 @@ const Article: React.FC<IArticle> = ({ title, blogName, lang, content, blogCover
     return (
         <>
             <header className='p-3'>
-                <div className='flex items-center gap-2'>
+                <div className='flex items-center gap-3'>
                     <img className='rounded-full w-[50px] h-[50px]' src={blogCover} />
                     <h1>
                         { blogName }
