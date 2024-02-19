@@ -44,3 +44,8 @@ html, body {
     line-height: 135%;
     font-size: 22px;
 }
+
+#article_content img {
+    display: block;
+    margin: auto;
+}

@@ -37,7 +37,7 @@ const Article: React.FC<IArticle> = ({ title, blogName, lang, content, blogCover
                     {
                         // TODO: sanitize what's outputed (?) here
                     }
-                    <section className='p-4 max-w-[800px] mx-auto break-words'>
+                    <section id="article_content" className='p-4 max-w-[800px] mx-auto break-words'>
                         <Line />
                         <div dangerouslySetInnerHTML={{ __html: content }} />
                     </section>
