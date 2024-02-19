@@ -1,6 +1,6 @@
 import React from 'react';
-import { Block, Button, useTranslations, Checkbox } from "@bdxtown/canaille";
-import { IconTrash, IconBook2 } from '@tabler/icons-react';
+import { Block, Button, useTranslations, Checkbox, Line } from "@bdxtown/canaille";
+import { IconTrash, IconBook2, IconDownload } from '@tabler/icons-react';
 import { Media as IMedia } from '../types/Media';
 import { Modal } from '../bits/Modal';
 
@@ -53,15 +53,11 @@ export const Media = () => {
 
     return (
         <>
-            <form className="grow flex flex-col gap-3 p-4">
-                <div className='flex justify-between items-center'>
-                    <ButtonUpload><T>upload</T></ButtonUpload>
-                    <Button className='hover:bg-red-500' size={50} variant="light" onClick={onDelete}><IconTrash /> <T>delete</T></Button>
-                </div>
-                <div className='flex gap-3 grow'>
+            <form className="grow flex flex-col gap-3 p-4 pb-2">
+                <div className='flex gap-3 grow flex-wrap'>
                     {
                         media.map((m) => (
-                            <Block key={m.url} className='relative h-[150px] w-[150px] bg-transparent text-center p-0 overflow-hidden'>
+                            <Block key={m.url} className='relative h-[150px] w-[150px] bg-transparent text-center p-0 overflow-hidden shrink-0'>
                                 <label>
                                     {
                                         // TODO: add alt and description
@@ -69,11 +65,19 @@ export const Media = () => {
                                     <img className='h-full' src={m.url} alt={m.file} />
                                     <div className='absolute opacity-50 top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-transparent via-transparent via-transparent to-gray-900' />
                                     <Checkbox className='absolute top-0 left-0 m-2' name={m.file} />
-                                    <div className=' absolute bottom-0 right-0 m-1 text-white'>{weight(m.weight)}</div>
+                                    <div className='absolute bottom-0 w-full text-white flex justify-between items-center'>
+                                        <a href={m.url} target="_blank" type="button" className='p-1 text-white'><IconDownload /></a>
+                                        <span className='p-1'>{weight(m.weight)}</span>
+                                    </div>
                                 </label>
                             </Block>
                         ))
                     }
+                </div>
+                <div className='flex justify-between items-center sticky bottom-0 py-2 bg-additional-primary'>
+                    <Button className='hover:bg-red-500' size={50} variant="light" onClick={onDelete}><IconTrash /> <T>delete</T></Button>
+                    <span className='text-gray-800 text-sm'><T number={media.length}>number</T></span>
+                    <ButtonUpload><T>upload</T></ButtonUpload>
                 </div>
 
             </form>
