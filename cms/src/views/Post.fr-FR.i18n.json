@@ -1,7 +1,7 @@
 {
     "Post": {
         "title": "Titre",
-        "cover": "Couverture",
+        "cover": "Choisir une couverture",
         "description": "Description",
         "content": "Contenu",
         "publish": "Publier",

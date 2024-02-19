@@ -1,16 +1,15 @@
 import React from 'react';
-import { TextInput, Button, useTranslations } from '@bdxtown/canaille';
+import { Button } from '@bdxtown/canaille';
 
 import { MediaSelectionModal } from './MediaSelectionModal';
 import { Media } from '../types/Media';
-import { IconPhoto } from '@tabler/icons-react';
+import { IconColorPicker, IconPhotoOff } from '@tabler/icons-react';
 
-import fr from './MediaInput.fr-FR.i18n.json';
 import { useAppContext } from '../data/AppContext';
+import { weight } from '../helpers/weight';
 
 
-export const MediaInput = ({ label, onPick, defaultValue, value, className, ...rest }: { className?: string, label?: React.ReactNode, onPick?: (m: Media, alt: string) => void, defaultValue?: string, value?: string, [x: string]: unknown } ) => {
-    const { T } = useTranslations('MediaInput', {'fr-FR': fr});
+export const MediaInput = ({ onPick, defaultValue, value, className, children,...rest }: { children: React.ReactNode, className?: string, label?: React.ReactNode, onPick?: (m: Media, alt: string) => void, defaultValue?: string, value?: string, [x: string]: unknown } ) => {
     const [modal, setModal] = React.useState(false);
     const { media } = useAppContext();
     const [currentMedia, setCurrentMedia] = React.useState<Media | undefined>(media.find((m) => m.url === value || m.url === defaultValue));
@@ -28,22 +27,24 @@ export const MediaInput = ({ label, onPick, defaultValue, value, className, ...r
     }, [onPick]);
 
     return (
-        <div className='flex gap-2'>
-            <TextInput {...rest} className={`grow ${className}`} label={label} value={currentMedia?.url}>
+        <>
+            <div className={`flex flex-col gap-1 rounded-md w-min border-2 border-solid border-grey-100 bg-additional-primary-light p-2 ${className}`}>
+                <input {...rest} type="hidden" value={currentMedia?.url} />
                 {
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    (currentMedia && <img className='order-first rounded-lg w-[40px] h-[40px] object-cover mr-1' src={currentMedia.url} />) as any
+                    currentMedia && <img className='rounded-lg w-full object-cover basis-0 min-h-0 grow' src={currentMedia?.url} />
                 }
-            </TextInput>
-            <Button className='text-nowrap break-keep whitespace-nowrap block' size={50} variant='light' onClick={() => setModal(true)}>
-                    <IconPhoto size={20} />
-                    <div>
-                        <T>choose</T>
-                    </div>
-            </Button>
+                {
+                    !currentMedia && <div className='w-full basis-0 min-h-0 grow flex items-center justify-center text-gray-500'><IconPhotoOff /></div>
+                }
+            
+                <div className='flex justify-between gap-3 items-center'>
+                    <span className='text-nowrap whitespace-nowrap'>{currentMedia ? weight(currentMedia.weight) : "--Ko"}</span>
+                    <Button variant='light' size={50} className='text-nowrap whitespace-nowrap' onClick={() => setModal(true)}>{ children } <IconColorPicker size={16} /></Button>
+                </div>
+            </div>
             {
-                modal && <MediaSelectionModal onPick={onInternalPick} onCancel={() => setModal(false)}/>
+                    modal && <MediaSelectionModal onPick={onInternalPick} onCancel={() => setModal(false)}/>
             }
-        </div>
-    )
+        </>
+    );
 }

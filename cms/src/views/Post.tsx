@@ -144,9 +144,15 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
         <>
             <form className="grow mt-5 flex flex-col gap-4" onSubmit={onSubmit} onKeyUp={onChange}>
                 <div className='px-5 flex flex-col gap-4'>
-                    <TextInput required name="title" label={__('title')} defaultValue={post?.title} />
-                    <MediaInput required name="cover" label={__('cover')} defaultValue={post?.cover} />
-                    <TextInput required name="description" label={__('description')} defaultValue={post?.description} />
+                    <div className='flex gap-3 items-center'>
+                        <div className='grow flex flex-col justify-between gap-4'>
+                            <TextInput required name="title" label={__('title')} defaultValue={post?.title} />
+                            <TextInput required name="description" label={__('description')} defaultValue={post?.description} />
+                        </div>
+                        <MediaInput className='h-[110px]' required name="cover" label={__('cover')} defaultValue={post?.cover}>
+                            <T>cover</T>
+                        </MediaInput>
+                    </div>
                 </div>
                 <div ref={editorWrapper}>
                     <MDXEditor 
