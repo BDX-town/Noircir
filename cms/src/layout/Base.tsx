@@ -1,19 +1,20 @@
 import React from 'react';
-import { Link, Outlet, useLocation, useNavigate, useMatch } from 'react-router-dom';
+import { Link, Outlet, useMatch } from 'react-router-dom';
 import { useAppContext } from '../data/AppContext';
 
 import fr from './Base.fr-FR.i18n.json';
 import { Button, useTranslations, Line } from '@bdxtown/canaille';
-import { IconFeather, IconHome, IconPhoto, IconSettings2 } from '@tabler/icons-react';
-import { BlogLocation, PostsLocation, MediaLocation, PostLocation } from '../views/Locations';
+import { IconFeather } from '@tabler/icons-react';
+import { PostLocation } from '../views/Locations';
 import { weight } from './../helpers/weight';
+
+import { Nav } from '../bits/Nav';
 
 
 export const Base = () => {
     const { T } = useTranslations("Base", { "fr-FR": fr })
     const { blog, posts, media } = useAppContext();
-    const { pathname } = useLocation();
-    const navigate = useNavigate();
+
     const postMatch = useMatch(PostLocation.path);
 
     const cweight = React.useMemo(() => {
@@ -69,27 +70,8 @@ export const Base = () => {
                 </div>
             </div>
             <div className='grow flex flex-col basis-0 overflow-auto'>
-                <div className='px-5 shrink-0'>
-                    <nav className='flex items-center justify-center pt-4 gap-4'>
-                        <label className='flex gap-2 items-center'>
-                            <Button variant={pathname !== PostsLocation.path ? 'secondary' : undefined} size={50} onClick={() => navigate(PostsLocation.path)}>
-                                <IconHome />
-                            </Button>
-                            <T>posts</T>
-                        </label>
-                        <label className='flex gap-2 items-center'>
-                            <Button variant={pathname !== MediaLocation.path ? 'secondary' : undefined} size={50} onClick={() => navigate(MediaLocation.path)}>
-                                <IconPhoto />
-                            </Button>
-                            <T>media</T>
-                        </label>
-                        <label className='flex gap-2 items-center'>
-                            <Button variant={pathname !== BlogLocation.path ? 'secondary' : undefined} size={50} onClick={() => navigate(BlogLocation.path)}>
-                                <IconSettings2 />
-                            </Button>
-                            <T>blog</T>
-                        </label>
-                    </nav>
+                <div className='px-5 shrink-0 pt-3'>
+                    <Nav />
                 </div>
                 <Outlet />
             </div>
