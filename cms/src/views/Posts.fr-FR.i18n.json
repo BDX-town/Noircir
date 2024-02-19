@@ -1,5 +1,6 @@
 {
     "Posts": {
-        "on-disk": "%(weight)s sur le disque"
+        "on-disk": "%(weight)s sur le disque",
+        "read": "Lire"
     }
 }
