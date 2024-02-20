@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@bdxtown/canaille": "^1.0.0-rc1",
+    "@bdxtown/canaille": "^1.0.0-rc4",
     "@floating-ui/react": "^0.26.6",
     "@mdxeditor/editor": "^2.3.4",
     "@mdxeditor/gurx": "^1.1.1",

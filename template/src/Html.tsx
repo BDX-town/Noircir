@@ -15,7 +15,7 @@ const HTML: React.FC<IArticle> = ({ title, blogName, blogCover, lang, content, s
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <link rel="icon" type="image/x-icon" href={blogCover} />
-                <title>{title} - {blogName}</title>
+                <title>{ title ? `${title} - ${blogName}` : blogName}</title>
                 <link rel="stylesheet" href={style} />
                 <style dangerouslySetInnerHTML={{__html: clean.minify([...StyleMeta.layerSheet.style, ...StyleMeta.staticSheet.style, ...StyleMeta.dynamicSheet.style].join('\n')).styles }} />
             </head>
