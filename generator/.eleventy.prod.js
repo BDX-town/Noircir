@@ -16,7 +16,6 @@ module.exports = function(eleventyConfig) {
         input: path.join(NGINX_FOLDER, BLOGS_FOLDER),
         output: NGINX_FOLDER,
         includes: path.join(includesPath, "/generator/_includes"),
-        data: path.join(includesPath, "/generator/_data"),
       }
     }
   };
