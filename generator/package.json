@@ -1,5 +1,5 @@
 {
-  "name": "eleventy",
+  "name": "generator",
   "version": "1.0.0",
   "main": "index.js",
   "private": true,
@@ -10,7 +10,7 @@
     "template": "^0.0.0"
   },
   "scripts": {
-    "start": "npx @11ty/eleventy --config=.eleventy.prod.js --watch --incremental",
-    "test": "npx @11ty/eleventy --config=.eleventy.common.js --serve"
+    "start": "./../node_modules/@11ty/eleventy/cmd.js --config=.eleventy.prod.js --watch --incremental",
+    "test": "./../node_modules/@11ty/eleventy/cmd.js --config=.eleventy.common.js --serve"
   }
 }
