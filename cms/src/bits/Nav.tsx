@@ -12,7 +12,7 @@ export const Nav = () => {
     const navigate = useNavigate();
 
     return (
-        <nav className='flex items-center justify-end gap-4 text-sm'>
+        <nav className='flex items-center justify-end gap-4 text-lg'>
             <label className='flex gap-2 items-center'>
                 <Button variant={pathname !== PostsLocation.path ? 'secondary' : undefined} size={50} onClick={() => navigate(PostsLocation.path)}>
                     <IconHome size={20} />
