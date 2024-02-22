@@ -2,15 +2,7 @@ import React from 'react';
 
 import { Line, Block } from '@bdxtown/canaille';
 
-import { useTranslations } from '@bdxtown/canaille';
-import { withI18n } from './withI18n';
-
-
-import fr from './Article.fr-FR.i18n.json';
-
-const Index: React.FC = ({ blogName, blogDescription, blogCover, pages }: any) => {
-    const { T } = useTranslations('Article', { 'fr-FR': fr });
-
+const Index: React.FC = ({ blogName, blogDescription, blogCover, pages, lang }: any) => {
     return (
         <>
             <header className='p-3'>
@@ -26,7 +18,7 @@ const Index: React.FC = ({ blogName, blogDescription, blogCover, pages }: any) =
             <main className='p-3 mx-auto max-w-[800px] flex flex-col gap-4'>
                 {
                     pages.map((page: any) => (
-                        <a href={page.page.url} key={page.page.url}>
+                        <a href={page.page.url} className='no-underline' key={page.page.url}>
                             <Block className='bg-additional-primary no-underline text-grey-100 overflow-hidden p-0'>
                                 <article>
                                     <img className='w-full h-[100px] object-cover' src={page.data.cover} />
@@ -37,6 +29,9 @@ const Index: React.FC = ({ blogName, blogDescription, blogCover, pages }: any) =
                                         <p className='m-0'>
                                             { page.data.description }
                                         </p>
+                                        <div className='text-right'>
+                                            <time dateTime={page.date.toISOString()}>{page.date.toLocaleDateString(lang)}</time>
+                                        </div>
                                     </div>
                                 </article>
                             </Block>
@@ -48,4 +43,4 @@ const Index: React.FC = ({ blogName, blogDescription, blogCover, pages }: any) =
     );
 }
 
-export default withI18n(Index);
+export default (Index);
