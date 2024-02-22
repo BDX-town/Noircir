@@ -42,7 +42,7 @@ const Article: React.FC<IArticle> = ({ title, blogName, lang, content, blogCover
             </header>
             <main>
                 <article className='bg-additional-primary'>
-                    <img className={`w-full h-[300px] object-cover ${shadow} rounded-lg`} src={cover} />
+                    <img className={`w-full max-h-[300px] object-cover ${shadow} md:rounded-lg`} src={cover} />
                     <section>
                         <h1 className='mb-2 text-center'>{ title }</h1>
                         <div className='text-center'>
