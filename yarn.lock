@@ -1563,9 +1563,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bdxtown/canaille@npm:^1.0.0-rc4":
-  version: 1.0.0-rc4
-  resolution: "@bdxtown/canaille@npm:1.0.0-rc4"
+"@bdxtown/canaille@npm:^1.0.0-rc5":
+  version: 1.0.0-rc5
+  resolution: "@bdxtown/canaille@npm:1.0.0-rc5"
   dependencies:
     "@babel/core": "npm:^7.23.6"
     "@babel/preset-env": "npm:^7.23.6"
@@ -1596,7 +1596,7 @@ __metadata:
     typescript: "npm:^5.3.3"
     webpack: "npm:^5.89.0"
     webpack-cli: "npm:^5.1.4"
-  checksum: fda85fde27e0a7a79bdbf1274e3440a9755a503d1c0b4364c48d3bdbc26333369e02f25c70c2cdf69871bd3ba3bdd40e6c97acd4a483612dabbf361b7fabdb69
+  checksum: 8bfbc69bfb223cf22824f46f2ffda6d257086c1329e922583ad7948fd28ea53d135057b2f3614469fd72c5aab2c6fae6bbfc56e3b397b9b9299158d8fb88de66
   languageName: node
   linkType: hard
 
@@ -6044,7 +6044,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "cms@workspace:cms"
   dependencies:
-    "@bdxtown/canaille": "npm:^1.0.0-rc4"
+    "@bdxtown/canaille": "npm:^1.0.0-rc5"
     "@floating-ui/react": "npm:^0.26.6"
     "@mdxeditor/editor": "npm:^2.3.4"
     "@mdxeditor/gurx": "npm:^1.1.1"
@@ -6850,16 +6850,6 @@ __metadata:
   checksum: 56d3453886fd931aacc17288657b1713322384a412069653e3e9c7e59f4f3a876f21da4873ee80936bb94b9e2ca098558f176145c204650e75e5b59326f98451
   languageName: node
   linkType: hard
-
-"eleventy@workspace:generator":
-  version: 0.0.0-use.local
-  resolution: "eleventy@workspace:generator"
-  dependencies:
-    "@11ty/eleventy": "npm:^2.0.1"
-    glob: "npm:^10.3.10"
-    template: "npm:^0.0.0"
-  languageName: unknown
-  linkType: soft
 
 "elliptic@npm:^6.5.3, elliptic@npm:^6.5.4":
   version: 6.5.4
@@ -8207,6 +8197,16 @@ __metadata:
   checksum: 33e77fd29bddc2d9bb78ab3eb854c165909201f88c75faa8272e35899e2d35a8a642a15e7420ef945e1f64a9670d6aa3ec744106b2aa42be68ca5114025954ca
   languageName: node
   linkType: hard
+
+"generator@workspace:generator":
+  version: 0.0.0-use.local
+  resolution: "generator@workspace:generator"
+  dependencies:
+    "@11ty/eleventy": "npm:^2.0.1"
+    glob: "npm:^10.3.10"
+    template: "npm:^0.0.0"
+  languageName: unknown
+  linkType: soft
 
 "gensync@npm:^1.0.0-beta.2":
   version: 1.0.0-beta.2
@@ -14775,7 +14775,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "template@workspace:template"
   dependencies:
-    "@bdxtown/canaille": "npm:^1.0.0-rc4"
+    "@bdxtown/canaille": "npm:^1.0.0-rc5"
     "@ladle/react": "npm:^4.0.2"
     autoprefixer: "npm:^10.4.17"
     clean-css: "npm:^5.3.3"
