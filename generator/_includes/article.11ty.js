@@ -22,7 +22,7 @@ class Article {
             "index.html"
         );
         const content = await this.renderFile('./_includes/index.11ty.js', { ...props });
-        const wrapper = await this.renderFile('./_includes/html.11ty.js', { ...props, content })
+        const wrapper = await this.renderFile('./_includes/htmlIndex.11ty.js', { ...props, content })
         fs.writeFileSync(indexOutputPath, wrapper);
     }
 
