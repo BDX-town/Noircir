@@ -2,15 +2,7 @@ import React from 'react';
 
 import { Line, Block } from '@bdxtown/canaille';
 
-import { useTranslations } from '@bdxtown/canaille';
-import { withI18n } from './withI18n';
-
-
-import fr from './Article.fr-FR.i18n.json';
-
-const Index: React.FC = ({ blogName, blogDescription, blogCover, pages }: any) => {
-    const { T } = useTranslations('Article', { 'fr-FR': fr });
-
+const Index: React.FC = ({ blogName, blogDescription, blogCover, pages, lang }: any) => {
     return (
         <>
             <header className='p-3'>
@@ -37,6 +29,9 @@ const Index: React.FC = ({ blogName, blogDescription, blogCover, pages }: any) =
                                         <p className='m-0'>
                                             { page.data.description }
                                         </p>
+                                        <div className='text-right'>
+                                            <time dateTime={page.date.toISOString()}>{page.date.toLocaleDateString(lang)}</time>
+                                        </div>
                                     </div>
                                 </article>
                             </Block>
@@ -48,4 +43,4 @@ const Index: React.FC = ({ blogName, blogDescription, blogCover, pages }: any) =
     );
 }
 
-export default withI18n(Index);
+export default (Index);

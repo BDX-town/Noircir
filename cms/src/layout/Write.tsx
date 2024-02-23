@@ -12,9 +12,9 @@ export const Write = () => {
     return (
 
         <main className='min-h-screen bg-additional-primary'>
-            <div className='flex'>
-                <div className='w-[150px] border-0 border-r-2 border-solid border-grey-100 bg-cover bg-center' style={{ backgroundImage: `url(${blog?.blogCover})` }}></div>
-                <div className='grow px-5 align-self-center py-3'>
+            <div className='flex py-3 pl-3 items-center'>
+                <img src={blog?.blogCover} className='w-[45px] h-[45px] object-contain rounded-full' />
+                <div className='grow px-5 align-self-center'>
                     <Nav />
                 </div>
             </div>

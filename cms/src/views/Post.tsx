@@ -52,11 +52,28 @@ const DeleteModal = ({ onCancel, post }: { onCancel: React.MouseEventHandler, po
 const useStyle = createUseStyles({
     editorCSS: {
         "&>.mdxeditor-toolbar": {
-            marginLeft: "-32px",
-            marginRight: "-32px",
+            maxWidth: "800px",
+            marginLeft: "auto",
+            marginRight: "auto",
+            zIndex: 0,
+            overflow: "visible !important",
 
-            paddingLeft: "32px",
-            paddingRight: "32px",
+            "&>*": {
+                zIndex: "1 !important",
+            },
+
+            "&::before": {
+                content: "''",
+                position: "absolute",
+                width: "1vw",
+                height: "1%",
+                transformOrigin: "0 0",
+                transform: "scale(100, 100) translateX(-50%)",
+                backgroundColor: "inherit",
+                top: 0,
+                left: "50%",
+                zIndex: 0,
+            },
         }
     } as React.CSSProperties
 })
@@ -157,7 +174,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
                 <div ref={editorWrapper}>
                     <MDXEditor 
                         className={`${editorCSS} grow border-solid border-0 border-t-2 border-b-2  border-grey-100 bg-white text-[22px] leading-[135%] px-5`}
-                        contentEditableClassName='min-h-[450px]'
+                        contentEditableClassName='min-h-[450px] max-w-[800px] mx-auto'
                         markdown={post?.content as string || ""} 
                         ref={editor}
                         plugins={[

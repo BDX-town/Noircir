@@ -12,7 +12,9 @@ class Index {
     }
 
     render(props) {
-        const pages = props.collections.all.filter((p) => p.url.startsWith(path.dirname(props.page.url)));
+        const pages = props.collections.all.filter((p) => p.url.startsWith(path.dirname(props.page.url)))
+            .sort((a, b) => a.date - b.date);
+        console.log(pages);
         return ReactDOM.renderToStaticMarkup(React.createElement(IndexComponent, { ...props, pages }));
     }
 
