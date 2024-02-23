@@ -48,7 +48,7 @@ export const MediaSelectionModal = ({ onPick, onCancel }: { onPick: (m: Media, a
     <Modal className='h-[90%] max-w-[90%] w-full' onClose={onCancel as () => void}>
       <form onSubmit={onSubmit} onChange={onChange} className='flex h-full'>
         <div className='flex flex-col grow'>
-          <Radio name="media" className={`${mediaList} shrink flex flex-wrap gap-2 overflow-y-scroll basis-0 grow`}>
+          <Radio name="media" className={`${mediaList} shrink flex flex-wrap gap-2 overflow-y-scroll`}>
             {
                 media.map((m) => (
                   <label key={m.url}>
@@ -60,6 +60,7 @@ export const MediaSelectionModal = ({ onPick, onCancel }: { onPick: (m: Media, a
                 ))
             }
           </Radio>
+          <div className='grow'></div>
           <div className='p-1 text-left opacity-80'>
             <ButtonUpload><T>not-found</T></ButtonUpload>
           </div>

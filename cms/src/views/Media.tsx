@@ -54,7 +54,7 @@ export const Media = () => {
     return (
         <>
             <form className="grow flex flex-col gap-3 p-4 pb-2">
-                <div className='flex gap-3 grow flex-wrap'>
+                <div className='flex gap-3 flex-wrap'>
                     {
                         media.map((m) => (
                             <Block key={m.url} className='relative h-[150px] w-[150px] bg-transparent text-center p-0 overflow-hidden shrink-0'>
@@ -74,7 +74,8 @@ export const Media = () => {
                         ))
                     }
                 </div>
-                <div className='flex justify-between items-center sticky bottom-0 py-2 bg-additional-primary'>
+                <div className='grow'></div>
+                <div className='flex justify-between gap-2 items-center sticky bottom-0 py-2 bg-additional-primary'>
                     <Button className='hover:bg-red-500' size={50} variant="light" onClick={onDelete}><IconTrash /> <T>delete</T></Button>
                     <span className='text-gray-800 text-sm'><T number={media.length}>number</T></span>
                     <ButtonUpload><T>upload</T></ButtonUpload>
