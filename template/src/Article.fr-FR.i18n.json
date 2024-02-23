@@ -1,5 +1,5 @@
 {
     "Article": {
-        "date": "Le %(date)s"
+        "date": "Dernière édition le %(date)s"
     }
 }

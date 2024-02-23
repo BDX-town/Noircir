@@ -30,7 +30,7 @@ const Index: React.FC = ({ blogName, blogDescription, blogCover, pages, lang }: 
                                             { page.data.description }
                                         </p>
                                         <div className='text-right'>
-                                            <time dateTime={page.date.toISOString()}>{page.date.toLocaleDateString(lang)}</time>
+                                            <time dateTime={new Date(page.data.createdAt).toISOString()}>{new Date(page.data.createdAt).toLocaleDateString(lang)}</time>
                                         </div>
                                     </div>
                                 </article>

@@ -144,6 +144,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
             file: post?.file || `${slugify(formData.title as string)}-${new Date().getTime()}.md`,
             content: editor.current?.getMarkdown(),
             updatedAt: new Date(),
+            createdAt: post?.createdAt || new Date(),
             weight,
         } as IPost
         // TODO: feedback

@@ -8,6 +8,7 @@ export interface IArticle {
     blogCover: string,
     lang: string,
     updatedAt: string,
+    createdAt: string,
     style: string,
     page: {
         url: string,

@@ -5,5 +5,6 @@ export interface Post {
     weight: number,
     cover: string,
     updatedAt: Date,
+    createdAt: Date,
     content: string,
 }
