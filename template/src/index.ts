@@ -1,12 +1,14 @@
 import './index.css';
 
 import Article from './Article';
-import HTML from './Html';
+import HTMLIndex from './HtmlIndex.tsx';
+import HTMLArticle from './HtmlArticle.tsx';
 import Index from './Index.tsx';
 
 
 export { 
     Article,
-    HTML,
+    HTMLIndex,
+    HTMLArticle,
     Index,
 }

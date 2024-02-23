@@ -7,7 +7,7 @@ class Index {
     data() {
         return {
             templateEngineOverride: "11ty.js, md",
-            layout: "html.11ty.js",
+            layout: "htmlIndex.11ty.js",
         }
     }
 

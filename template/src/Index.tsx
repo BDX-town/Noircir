@@ -4,7 +4,7 @@ import { Line, Block } from '@bdxtown/canaille';
 
 const Index: React.FC = ({ blogName, blogDescription, blogCover, pages, lang }: any) => {
     return (
-        <>
+        <div className='mx-auto max-w-[800px]'>
             <header className='p-3'>
                 <div className='flex items-center gap-3'>
                     <img className='rounded-full w-[50px] h-[50px]' src={blogCover} />
@@ -13,9 +13,9 @@ const Index: React.FC = ({ blogName, blogDescription, blogCover, pages, lang }: 
                     </h1>
                 </div>
                 <Line />
-                <p className='px-3 mx-auto max-w-[800px]' dangerouslySetInnerHTML={{ __html: blogDescription}} />
+                <p className='px-3' dangerouslySetInnerHTML={{ __html: blogDescription}} />
             </header>
-            <main className='p-3 mx-auto max-w-[800px] flex flex-col gap-4'>
+            <main className='p-3 flex flex-col gap-4'>
                 {
                     pages.map((page: any) => (
                         <a href={page.page.url} key={page.page.url} className="no-underline">
@@ -39,7 +39,7 @@ const Index: React.FC = ({ blogName, blogDescription, blogCover, pages, lang }: 
                     ))  
                 }
             </main>
-        </>
+        </div>
     );
 }
 

@@ -8,7 +8,7 @@ class Article {
     data() {
         return {
             templateEngineOverride: "11ty.js, md",
-            layout: "html.11ty.js",
+            layout: "htmlArticle.11ty.js",
         }
     }
 

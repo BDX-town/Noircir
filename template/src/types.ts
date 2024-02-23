@@ -9,4 +9,7 @@ export interface IArticle {
     lang: string,
     updatedAt: string,
     style: string,
+    page: {
+        url: string,
+    }
 }
