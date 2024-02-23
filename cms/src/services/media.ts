@@ -1,5 +1,6 @@
 import { Media } from '../types/Media';
 import { WebdavClient, WebdavFile } from '../types/webdav';
+import { buildUrl } from '../helpers/buildUrl';
 
 export function deserializeMedia(m: Media): Media {
     return {
@@ -13,7 +14,7 @@ async function parseMedia(client: WebdavClient, file: WebdavFile): Promise<Media
         file: file.basename,
         updatedAt: new Date(file.lastmod),
         weight: file.size,
-        url: `${import.meta.env.VITE_SERVER}/${file.filename}`,
+        url: buildUrl(file.filename),
         content: await client.getFileContents(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources/${file.basename}`),
     }
 }
@@ -23,7 +24,7 @@ export async function putMedia(client: WebdavClient, media: Media) {
     if(request) {
         return {
             ...media,
-            url: `${import.meta.env.VITE_SERVER}/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources/${media.file}`,
+            url: buildUrl(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources/${media.file}`),
         }
     }
     throw new Error('Unable to upload');

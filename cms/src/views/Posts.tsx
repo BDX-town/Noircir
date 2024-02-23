@@ -18,8 +18,8 @@ export const Posts = () => {
             {
                 posts?.map((post) => (
                     <Link key={post.file} className='grow no-underline text-grey-100' to={PostLocation.path + "/" + post.file}>
-                        <Block className='flex p-0 overflow-hidden bg-additional-primary'>
-                            <img src={post.cover} className='object-cover w-[200px] h-[130px]' />
+                        <Block className='flex flex-col md:flex-row p-0 overflow-hidden bg-additional-primary min-h-[130px]'>
+                            <img src={post.cover} className='object-cover w-full md:w-[200px]' />
                             <article className='flex flex-col p-3 grow'>
                                 <div className='flex'>
                                     <h3 className='m-0 grow'>{post.title}</h3>
