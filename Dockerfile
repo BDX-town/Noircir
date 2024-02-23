@@ -26,6 +26,7 @@ RUN apt-get update -yq \
     && corepack enable \
     && apt-get clean -y
 
+COPY nginx.service /lib/systemd/system/nginx.service 
 
 # install noircir 
 COPY . $NOIRCIR_FOLDER 
