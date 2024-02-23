@@ -20,7 +20,7 @@ interface IAppContext {
 
     actions: {
         refresh: (c?: WebdavClient) => Promise<unknown>
-        login: (u: string, p: string) => WebdavClient,
+        login: (u: string, p: string) => Promise<WebdavClient>,
         logout: () => void,
         editBlog: (b: Blog) => Promise<boolean>,
         editPost: (p: Post) => Promise<boolean>,
