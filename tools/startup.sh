@@ -7,6 +7,6 @@
 : "${WWW_GROUP:=www-data}"
 
 su $WWW_USER
-echo '{"layout": "article.11ty.js", "lang": "fr-FR" }' > $NGINX_FOLDER/$BLOGS_FOLDER/blogs.json
+echo '{"layout": "article.11ty.js" }' > $NGINX_FOLDER/$BLOGS_FOLDER/blogs.json
 cd $NOIRCIR_FOLDER
 npx yarn start

@@ -2,9 +2,9 @@ import React, { createContext, useContext } from "react";
 import * as webdav from "webdav/web";
 
 
-import { Blog } from "../types/Blog";
-import { Post } from "../types/Post";
-import { Media } from "../types/Media";
+import { Blog } from "types/src/Blog";
+import { Post } from "types/src/Post";
+import { Media } from "types/src/Media";
 
 import { fetchBlog, editBlog as editBlogService } from "../services/blogs";
 import { fetchMedia, deleteMedia as deleteMediaService, putMedia as putMediaService, deserializeMedia } from "../services/media";

@@ -1,8 +1,8 @@
-import { Post } from '../types/Post';
+import { Post } from 'types/src/Post';
 import { WebdavClient, WebdavFile } from '../types/webdav';
 import yaml from 'yaml';
 import { formatPost } from '../helpers/formatPost';
-import { Blog } from '../types/Blog';
+import { Blog } from 'types/src/Blog';
 
 // @ts-expect-error var are used in eval
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

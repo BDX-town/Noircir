@@ -7,7 +7,8 @@
   "workspaces": [
     "cms",
     "generator",
-    "template"
+    "template",
+    "types"
   ],
   "scripts": {
     "build": "npx yarn workspaces foreach -Rpt --from '{cms,template}' run build",

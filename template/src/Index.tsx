@@ -1,8 +1,22 @@
 import React from 'react';
 
 import { Line, Block } from '@bdxtown/canaille';
+import { Blog } from 'types/src/Blog';
+import { Post } from 'types/src/Post';
 
-const Index: React.FC = ({ blogName, blogDescription, blogCover, pages, lang }: any) => {
+interface Collection {
+    /**
+     * Eleventy generated collection data
+     */
+    pages: Array<{
+        data: Post,
+        page: {
+            url: string,
+        }
+    }>
+}
+
+const Index: React.FC<Blog & Collection> = ({ blogName, blogDescription, blogCover, pages, lang }) => {
     return (
         <div className='mx-auto max-w-[800px]'>
             <header className='p-3'>
@@ -17,11 +31,13 @@ const Index: React.FC = ({ blogName, blogDescription, blogCover, pages, lang }: 
             </header>
             <main className='p-3 flex flex-col gap-4'>
                 {
-                    pages.map((page: any) => (
+                    pages.map((page) => (
                         <a href={page.page.url} key={page.page.url} className="no-underline">
                             <Block className='bg-additional-primary text-grey-100 overflow-hidden p-0'>
                                 <article>
-                                    <img className='w-full h-[100px] object-cover' src={page.data.cover} />
+                                    {
+                                        page.data.cover && <img className='w-full h-[100px] object-cover' src={page.data.cover} />
+                                    }
                                     <div className='p-3'>
                                         <h2 className='m-0 mb-3'>
                                             { page.data.title }

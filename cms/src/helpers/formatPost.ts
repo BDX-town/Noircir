@@ -1,4 +1,4 @@
-import { Post } from "../types/Post";
+import { Post } from "types/src/Post";
 
 export function formatPost(post: Post) {
     return `---

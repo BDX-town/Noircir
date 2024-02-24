@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@bdxtown/canaille';
 
 import { MediaSelectionModal } from './MediaSelectionModal';
-import { Media } from '../types/Media';
+import { Media } from 'types/src/Media';
 import { IconColorPicker, IconPhotoOff } from '@tabler/icons-react';
 
 import { useAppContext } from '../data/AppContext';

@@ -3,7 +3,7 @@ import { useAppContext } from '../data/AppContext';
 import { TextInput, Button, useTranslations } from '@bdxtown/canaille';
 import {MDXEditor, toolbarPlugin, markdownShortcutPlugin, BlockTypeSelect, BoldItalicUnderlineToggles, UndoRedo, linkDialogPlugin, CreateLink, MDXEditorMethods, listsPlugin, linkPlugin, quotePlugin  } from '@mdxeditor/editor';
 import { IconDeviceFloppy } from '@tabler/icons-react';
-import { Blog as IBlog } from '../types/Blog';
+import { Blog as IBlog } from 'types/src/Blog';
 
 import { MediaInput } from '../bits/MediaInput';
 

@@ -3,7 +3,7 @@ export interface Post {
     title: string,
     description: string,
     weight: number,
-    cover: string,
+    cover?: string,
     updatedAt: Date,
     createdAt: Date,
     content: string,

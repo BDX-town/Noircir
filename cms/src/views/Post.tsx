@@ -8,7 +8,7 @@ import { useAppContext } from '../data/AppContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Loader } from './../bits/Loader';
 import { Modal } from '../bits/Modal';
-import { Post as IPost } from '../types/Post';
+import { Post as IPost } from 'types/src/Post';
 import { slugify } from './../helpers/slugify';
 import { formatPost } from '../helpers/formatPost';
 import { ImageUploader } from './../bits/ImageUploader';
@@ -167,7 +167,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
                             <TextInput required name="title" label={__('title')} defaultValue={post?.title} />
                             <TextInput required name="description" label={__('description')} defaultValue={post?.description} />
                         </div>
-                        <MediaInput className='h-[110px]' required name="cover" label={__('cover')} defaultValue={post?.cover}>
+                        <MediaInput className='h-[110px]' name="cover" label={__('cover')} defaultValue={post?.cover}>
                             <T>cover</T>
                         </MediaInput>
                     </div>

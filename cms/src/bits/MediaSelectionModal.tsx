@@ -5,7 +5,7 @@ import { useAppContext } from '../data/AppContext';
 import { useTranslations, Block, Button, Radio, TextInput, createUseStyles } from '@bdxtown/canaille';
 import { IconPhoto, IconPhotoHexagon } from '@tabler/icons-react';
 import { Modal } from './Modal';
-import { Media } from '../types/Media';
+import { Media } from 'types/src/Media';
 import { weight } from '../helpers/weight';
 import { ButtonUpload } from './ButtonUpload';
 
@@ -26,7 +26,6 @@ export const MediaSelectionModal = ({ onPick, onCancel }: { onPick: (m: Media, a
   const { T, __ } = useTranslations('MediaSelectionModal', { 'fr-FR': fr });
   const { mediaList } = useStyle();
   const [selectedMedia, setSelectedMedia] = React.useState<Media | undefined>(undefined);
-
   const { media } = useAppContext();
 
 

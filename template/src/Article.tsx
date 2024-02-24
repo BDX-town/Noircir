@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { IArticle } from './types';
+import { Post } from 'types/src/Post';
+import { Blog } from 'types/src/Blog';
 
 import { Line } from '@bdxtown/canaille';
 
@@ -25,7 +26,7 @@ const useStyle = createUseStyles({
     }
 })
 
-const Article: React.FC<IArticle> = ({ title, blogName, lang, content, blogCover, cover, description, updatedAt }: IArticle) => {
+const Article: React.FC<Post & Blog> = ({ title, blogName, lang, content, blogCover, cover, description, updatedAt }) => {
     const { T } = useTranslations('Article', { 'fr-FR': fr });
     const { shadow, article } = useStyle();
     return (
@@ -42,7 +43,9 @@ const Article: React.FC<IArticle> = ({ title, blogName, lang, content, blogCover
             </header>
             <main>
                 <article className='bg-additional-primary'>
-                    <img className={`w-full max-h-[300px] object-cover ${shadow} md:rounded-lg`} src={cover} />
+                    {
+                        cover && <img className={`w-full max-h-[300px] object-cover ${shadow} md:rounded-lg`} src={cover} />
+                    }
                     <section>
                         <h1 className='mb-2 text-center'>{ title }</h1>
                         <div className='text-center'>

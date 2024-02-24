@@ -1,14 +1,15 @@
 import React from 'react';
 
-import { IArticle } from './types';
+import { Wrapper } from './types';
 import { StyleMeta } from '@bdxtown/canaille';
 
 // @ts-expect-error no type
 import CleanCSS from 'clean-css';
+import { Blog } from 'types/src/Blog';
 
 const clean = new CleanCSS({ level: 2 });
 
-const HTML: React.FC<IArticle> = ({ blogName, blogCover, lang, content, style, page, blogDescription }: IArticle) => {
+const HTML: React.FC<Wrapper & Blog> = ({ blogName, blogCover, lang, content, style, page, blogDescription }) => {
     return (
         <html lang={lang.split('-')[0]}>
             <head>

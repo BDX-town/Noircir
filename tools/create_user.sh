@@ -38,7 +38,7 @@ then
 fi
 
 mkdir -p "$NGINX_FOLDER/$BLOGS_FOLDER/$USERNAME/$RESSOURCES_FOLDER"
-echo '{ "blogName": "blog name", "blogDescription": "blog description", "blogCover": null }' > "$NGINX_FOLDER/$BLOGS_FOLDER/$USERNAME/$USERNAME.json"
+echo '{ "blogName": "blog name", "blogDescription": "blog description", "blogCover": null, "lang": "fr-FR" }' > "$NGINX_FOLDER/$BLOGS_FOLDER/$USERNAME/$USERNAME.json"
 echo "$USERNAME:$PASSWORD" >> $AUTH_FILE
 chown -R "$WWW_USER:$WWW_GROUP" "$NGINX_FOLDER/$BLOGS_FOLDER"
 chmod -R g+w "$NGINX_FOLDER/$BLOGS_FOLDER"

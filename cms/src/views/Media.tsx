@@ -1,7 +1,7 @@
 import React from 'react';
 import { Block, Button, useTranslations, Checkbox } from "@bdxtown/canaille";
 import { IconTrash, IconBook2, IconDownload } from '@tabler/icons-react';
-import { Media as IMedia } from '../types/Media';
+import { Media as IMedia } from 'types/src/Media';
 import { Modal } from '../bits/Modal';
 
 

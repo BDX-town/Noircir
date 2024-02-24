@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { IArticle } from './types';
+import { Post } from 'types/src/Post';
+import { Blog } from 'types/src/Blog';
+import { Wrapper } from './types';
 import { StyleMeta } from '@bdxtown/canaille';
 
 // @ts-expect-error no type
@@ -8,7 +10,8 @@ import CleanCSS from 'clean-css';
 
 const clean = new CleanCSS({ level: 2 });
 
-const HTML: React.FC<IArticle> = ({ title, blogName, blogCover, lang, content, style, page, cover, description }: IArticle) => {
+
+const HTML: React.FC<Blog & Post & Wrapper> = ({ title, blogName, blogCover, lang, content, style, page, cover, description }) => {
     return (
         <html lang={lang.split('-')[0]}>
             <head>
@@ -21,7 +24,7 @@ const HTML: React.FC<IArticle> = ({ title, blogName, blogCover, lang, content, s
                 <meta property="og:title" content={title}/>
                 <meta property="og:type" content="article"/>
                 <meta property="og:url" content={page.url}/>
-                <meta property="og:image" content={cover}/>
+                { cover && <meta property="og:image" content={cover}/>}
                 <meta property="og:description" content={description}/>
             </head>
             {

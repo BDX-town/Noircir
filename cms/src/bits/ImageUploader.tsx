@@ -7,7 +7,7 @@ import { MediaSelectionModal } from './MediaSelectionModal';
 
 import { IconPhoto } from '@tabler/icons-react';
 
-import { Media } from '../types/Media';
+import { Media } from 'types/src/Media';
 
 export const ImageUploader = ({ onPick }: { onPick?: (m: Media) => void }) => {
     // access the viewMode node value

@@ -1,4 +1,4 @@
-import { Media } from '../types/Media';
+import { Media } from 'types/src/Media';
 import { WebdavClient, WebdavFile } from '../types/webdav';
 import { buildUrl } from '../helpers/buildUrl';
 

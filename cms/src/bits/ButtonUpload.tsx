@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from '@bdxtown/canaille';
 import { useAppContext } from '../data/AppContext';
 import { IconUpload } from '@tabler/icons-react';
-import { Media } from './../types/Media';
+import { Media } from 'types/src/Media';
 import { arrayBufferToWebP } from 'webp-converter-browser'
 
 // eslint-disable-next-line react-refresh/only-export-components

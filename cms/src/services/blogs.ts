@@ -1,4 +1,4 @@
-import { Blog } from '../types/Blog';
+import { Blog } from 'types/src/Blog';
 import { WebdavClient } from '../types/webdav';
 
 // we make this data available to all 11ty templates 
@@ -15,6 +15,7 @@ export async function fetchBlog(client: WebdavClient): Promise<Blog> {
     return {
         blogDescription: meta.blogDescription,
         blogName: meta.blogName,
-        blogCover: meta.blogCover
+        blogCover: meta.blogCover,
+        lang: meta.lang,
     }
 }
