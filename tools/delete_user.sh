@@ -29,5 +29,3 @@ fi
 gum confirm "Are you sure you want to remove $USERNAME blog and access to Noircir ?" || exit 0
 
 rm -r "$NGINX_FOLDER/$BLOGS_FOLDER/$USERNAME"
-LINE_NUMBER=$(grep -n $USERNAME $AUTH_FILE | cut -d : -f 1)
-sed -i ''"$LINE_NUMBER"'d' $AUTH_FILE
