@@ -1,0 +1,8 @@
+{
+    "Settings": {
+       "apply": "Appliquer les paramètres",
+       "auth": "Authentification",
+       "password": "Mot de passe",
+       "password-confirm": "Confirmation du mot de passe"
+    }
+}

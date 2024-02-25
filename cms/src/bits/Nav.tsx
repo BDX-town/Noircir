@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button, useTranslations } from '@bdxtown/canaille';
 
-import { BlogLocation, PostsLocation, MediaLocation } from '../views/Locations';
-import { IconHome, IconPhoto, IconSettings2 } from '@tabler/icons-react';
+import { BlogLocation, PostsLocation, MediaLocation, SettingsLocation } from '../views/Locations';
+import { IconHome, IconPhoto, IconSettings2, IconSettings } from '@tabler/icons-react';
 
 import fr from './Nav.fr-FR.i18n.json';
 
@@ -30,6 +30,12 @@ export const Nav = () => {
                     <IconSettings2 size={20}  />
                 </Button>
                 <T>blog</T>
+            </label>
+            <label className='flex gap-2 items-center'>
+                <Button variant={pathname !== SettingsLocation.path ? 'secondary' : undefined} size={50} onClick={() => navigate(SettingsLocation.path)}>
+                    <IconSettings size={20}  />
+                </Button>
+                <T>settings</T>
             </label>
         </nav>
     )

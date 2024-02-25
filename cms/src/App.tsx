@@ -12,7 +12,7 @@ import translate from 'counterpart';
 import { Login } from './views/Login';
 import { Posts } from './views/Posts';
 import { ErrorElement } from './bits/ErrorElement';
-import { BlogLocation, PostsLocation, PostLocation, MediaLocation } from './views/Locations';
+import { BlogLocation, PostsLocation, PostLocation, MediaLocation, SettingsLocation } from './views/Locations';
 import { Post } from './views/Post';
 
 
@@ -58,6 +58,11 @@ const loggedRouter = createBrowserRouter([
       {
         ...MediaLocation,
         lazy: async () => { const { Media } = await import('./views/Media'); return { Component: Media } },
+        errorElement: <ErrorElement />
+      },
+      {
+        ...SettingsLocation,
+        lazy: async() => { const { Settings } = await import('./views/Settings'); return { Component: Settings }},
         errorElement: <ErrorElement />
       },
       {

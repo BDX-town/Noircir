@@ -19,3 +19,7 @@ export const PostLocation = {
 export const PostsLocation = {
     path: '/posts',
 }
+
+export const SettingsLocation = {
+    path: '/settings',
+}
