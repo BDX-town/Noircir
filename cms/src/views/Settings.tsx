@@ -3,15 +3,21 @@ import React from 'react';
 import { TextInput, Button, useTranslations } from '@bdxtown/canaille';
 
 import fr from './Settings.fr-FR.i18n.json';
+import { useAppContext } from '../data/AppContext';
 
 export const Settings = () => {
     const { T } = useTranslations('Settings', { 'fr-FR': fr });
+    const { actions } = useAppContext();
+    const { generatePassword } = actions;
 
     const [passwordChanged, setPasswordChanged] = React.useState(false);
 
-    const onSubmit: React.FormEventHandler = React.useCallback((e) => {
-
-    }, []);
+    const onSubmit: React.FormEventHandler = React.useCallback(async (e) => {
+        e.preventDefault();
+        const data = new FormData(e.target as HTMLFormElement);
+        const password = await generatePassword(data.get("password") as string);
+        console.log(password);
+    }, [generatePassword]);
 
     return (
         <form className='grow flex flex-col' onSubmit={onSubmit}>
@@ -26,7 +32,7 @@ export const Settings = () => {
 
             </div>
             <div className='sticky text-right p-3'>
-                <Button size={50}><T>apply</T></Button>
+                <Button htmlType='submit' size={50}><T>apply</T></Button>
             </div>
         </form>
     );
