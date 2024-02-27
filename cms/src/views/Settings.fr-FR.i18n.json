@@ -3,6 +3,7 @@
        "apply": "Appliquer les paramètres",
        "auth": "Authentification",
        "password": "Mot de passe",
-       "password-confirm": "Confirmation du mot de passe"
+       "password-confirm": "Confirmation du mot de passe",
+       "dont-match": "Les mots de passes ne sont pas identiques"
     }
 }

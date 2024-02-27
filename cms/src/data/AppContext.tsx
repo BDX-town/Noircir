@@ -11,7 +11,7 @@ import { fetchMedia, deleteMedia as deleteMediaService, putMedia as putMediaServ
 import { fetchPosts, deletePost as deletePostService, editPost as editPostService, deserializePost } from "../services/posts";
 import { AppError } from "./AppError";
 import { WebdavClient } from "../types/webdav";
-import { generatePassword as generatePasswordService } from "../services/settings";
+import { changePassword as changePasswordService } from "../services/settings";
 
 interface IAppContext {
     client: WebdavClient | undefined,
@@ -29,7 +29,7 @@ interface IAppContext {
         deleteMedia: (m: Media) => Promise<void>,
         putMedia: (m: Media) => Promise<Media>,
         loadMedia: () => Promise<void>
-        generatePassword: (s: string) => Promise<string>,
+        changePassword: (s: string) => Promise<boolean>,
     }
 }
 
@@ -166,10 +166,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }, [client, media]);
 
     // settings
-
-    const generatePassword = React.useCallback((password: string) => generatePasswordService(client as WebdavClient, password), [client]);
-
-    window.generatePassword = generatePassword;
+    const changePassword = React.useCallback((password: string) => changePasswordService(client as WebdavClient, password), [client]);
 
     const value = React.useMemo(() => ({
         client,
@@ -186,9 +183,9 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             deleteMedia,
             logout,
             loadMedia,
-            generatePassword,
+            changePassword,
         }
-    }), [blog, client, deleteMedia, deletePost, editBlog, editPost, loadMedia, login, logout, media, posts, putMedia, refresh, generatePassword]);
+    }), [client, blog, posts, media, refresh, login, editBlog, editPost, deletePost, putMedia, deleteMedia, logout, loadMedia]);
 
     return (
         <AppContext.Provider value={value}>
