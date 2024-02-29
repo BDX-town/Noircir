@@ -36,7 +36,10 @@ export const Blog = () => {
     return (
         <form className="grow p-5 flex flex-col gap-4" onSubmit={onSubmit}>
             <div className='flex gap-3 items-start'>
-                <TextInput className='grow' name="blogName" label={__('title')} defaultValue={blog.blogName} required />
+                <div className='flex flex-col w-full'>
+                    <TextInput className='grow' name="blogName" label={__('title')} defaultValue={blog.blogName} required />
+                    <p className='self-end max-w-[450px] text-right text-sm text-gray-700'><T>cover-description</T></p>
+                </div>
                 <MediaInput className='h-[100px]' label={__('cover')} name="blogCover" required defaultValue={blog.blogCover}>
                     <T>cover</T>
                 </MediaInput>

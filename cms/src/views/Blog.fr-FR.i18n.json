@@ -1,7 +1,8 @@
 {
     "Blog": {
         "title": "Nom du blog",
-        "cover": "Choisir une couverture",
-        "publish": "Enregistrer"
+        "cover": "Choisir un aperçu",
+        "publish": "Enregistrer",
+        "cover-description": "L'aperçu représente votre blog. Il sera utilisé en guise d'icône pour les onglets et favoris. Il apparaîtra sur la page d'accueil de votre blog."
     }
 }

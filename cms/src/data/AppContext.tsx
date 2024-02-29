@@ -185,7 +185,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             loadMedia,
             changePassword,
         }
-    }), [client, blog, posts, media, refresh, login, editBlog, editPost, deletePost, putMedia, deleteMedia, logout, loadMedia]);
+    }), [client, blog, posts, media, refresh, login, editBlog, editPost, deletePost, putMedia, deleteMedia, logout, loadMedia, changePassword]);
 
     return (
         <AppContext.Provider value={value}>

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { TextInput, Button, useTranslations } from '@bdxtown/canaille';
+import { IconDeviceFloppy } from '@tabler/icons-react';
 
 import fr from './Settings.fr-FR.i18n.json';
 import { useAppContext } from '../data/AppContext';
@@ -11,7 +12,7 @@ export const Settings = () => {
     const form = React.useRef<HTMLFormElement>(null);
     const { T, __ } = useTranslations('Settings', { 'fr-FR': fr });
     const { actions } = useAppContext();
-    const { changePassword } = actions;
+    const { changePassword, logout } = actions;
 
     const [passwordChanged, setPasswordChanged] = React.useState(false);
 
@@ -22,7 +23,12 @@ export const Settings = () => {
         const password = data.get("password");
         const passwordConfirm = data.get("password-confirm");
 
-    }, []);
+        if(!password || !passwordConfirm || password !== passwordConfirm) return;
+
+        await changePassword(password as string);
+        // TODO: feedback
+        logout();
+    }, [changePassword, logout]);
 
     const checkValidity = React.useCallback((value: unknown) => {
         const data = new FormData(form.current as HTMLFormElement);
@@ -34,10 +40,11 @@ export const Settings = () => {
 
     return (
         <form ref={form} className='grow flex flex-col' onSubmit={onSubmit}>
-            <div className='grow p-4'>
+            <div className='p-4'>
                 <div className=''>
-                    <h2><T>auth</T></h2>
-                    <fieldset className='border-0 flex flex-col gap-4' onChange={() => setPasswordChanged(true)}>
+                    <h2 className='mb-2'><T>auth</T></h2>
+                    <p className='text-sm text-gray-600 mb-4'><T>will-deconnect</T></p>
+                    <fieldset className='border-0 flex flex-col gap-4 p-0' onChange={() => setPasswordChanged(true)}>
                         <TextInput name="password" minLength={12} pattern={pattern} required={passwordChanged} placeholder="•••••••••••••••" htmlType='password' label={<T>password</T>} />
                         <TextInput name="password-confirm" checkValidity={checkValidity} minLength={12} pattern={pattern} required={passwordChanged} placeholder="•••••••••••••••" htmlType='password' label={<T>password-confirm</T>} />
                     </fieldset>
@@ -45,7 +52,7 @@ export const Settings = () => {
 
             </div>
             <div className='sticky text-right p-3'>
-                <Button htmlType='submit' size={50}><T>apply</T></Button>
+                <Button htmlType='submit' size={50}><IconDeviceFloppy /> <T>apply</T></Button>
             </div>
         </form>
     );

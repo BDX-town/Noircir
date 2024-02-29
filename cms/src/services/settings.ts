@@ -18,6 +18,7 @@ export async function changePassword(client: WebdavClient, password: string): Pr
     const hashedPassword = await generatePassword(client, password);
     const source = (`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/.auth.allow`);
     const destination = (`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/.auth.allow.backup`);
-    await client.copyFile(source, destination);
+    // initial destination header is malformed 
+    await client.copyFile(source, destination, { headers: { "Destination": destination }});
     return client.putFileContents(source, `${client.username}:${hashedPassword}`, { overwrite: true }) as boolean
 }
