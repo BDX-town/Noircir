@@ -22,7 +22,7 @@ RUN mkdir -p /etc/apt/keyrings \
 
 # install deps
 RUN apt-get update -yq \
-    && apt-get install -y gettext git gum nginx nginx-extras libnginx-mod-http-dav-ext libnginx-mod-http-auth-pam openssl \
+    && apt-get install -y gettext git gum nginx nginx-core libnginx-mod-http-lua libnginx-mod-http-dav-ext libnginx-mod-http-auth-pam openssl \
     && corepack enable \
     && apt-get clean -y
 
