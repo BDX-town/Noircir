@@ -42,7 +42,6 @@ RUN cp -r $NOIRCIR_FOLDER/cms/dist/* $NGINX_FOLDER
 
 RUN useradd -u 1001 --shell /bin/bash -d /home/$WWW_USER $WWW_USER && usermod -a -G $WWW_GROUP $WWW_USER \
     && mkdir -p $NGINX_FOLDER/$BLOGS_FOLDER \
-    && touch $AUTH_FILE \
     && chown -R $WWW_USER:$WWW_GROUP $NGINX_FOLDER \
     && envsubst '$NGINX_FOLDER,$BLOGS_FOLDER,$AUTH_FILE' < $NOIRCIR_FOLDER/nginx.conf > /tmp/nginx.conf && mv /tmp/nginx.conf /etc/nginx/sites-available/noircir && ln -s /etc/nginx/sites-available/noircir /etc/nginx/sites-enabled/noircir
 
