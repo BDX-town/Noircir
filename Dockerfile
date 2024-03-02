@@ -16,7 +16,7 @@ ENV WWW_USER=noircir
 ENV WWW_GROUP=www-data
 
 RUN apt-get update -yq\
-    && apt-get -y curl gnupg
+    && apt-get -y install curl gnupg
 
 # add gum source
 RUN mkdir -p /etc/apt/keyrings \
