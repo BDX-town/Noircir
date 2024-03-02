@@ -1,4 +1,4 @@
-FROM node:21.6.1
+FROM debian:bookworm
 
 # auth_basic_user_file: contains login informations for authorized webdav users. You can create new users with /tools/create_user.sh
 ENV AUTH_FILE=/var/www/.auth.allow
@@ -20,9 +20,12 @@ RUN mkdir -p /etc/apt/keyrings \
     && curl -fsSL https://repo.charm.sh/apt/gpg.key | gpg --dearmor -o /etc/apt/keyrings/charm.gpg \
     && echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | tee /etc/apt/sources.list.d/charm.list
 
+# add node source 
+RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash -
+
 # install deps
 RUN apt-get update -yq \
-    && apt-get install -y gettext git gum nginx nginx-core libnginx-mod-http-lua libnginx-mod-http-dav-ext libnginx-mod-http-auth-pam openssl \
+    && apt-get install -y nodejs gettext git gum nginx nginx-core libnginx-mod-http-lua libnginx-mod-http-dav-ext libnginx-mod-http-auth-pam openssl \
     && corepack enable \
     && apt-get clean -y
 
