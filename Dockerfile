@@ -1,7 +1,5 @@
 FROM debian:bookworm
 
-# auth_basic_user_file: contains login informations for authorized webdav users. You can create new users with /tools/create_user.sh
-ENV AUTH_FILE=/var/www/.auth.allow
 # noircir folder: where you saved noircir files
 ENV NOIRCIR_FOLDER="/noircir"
 # nginx root: all noircir data will be saved there, blogs and generated content
@@ -32,8 +30,6 @@ RUN apt-get update -yq \
     && corepack enable \
     && apt-get clean -y
 
-COPY nginx.service /lib/systemd/system/nginx.service 
-
 # install noircir 
 COPY . $NOIRCIR_FOLDER 
 RUN mkdir -p /tools && cp $NOIRCIR_FOLDER/tools/* /tools
@@ -43,7 +39,7 @@ RUN cp -r $NOIRCIR_FOLDER/cms/dist/* $NGINX_FOLDER
 RUN useradd -u 1001 --shell /bin/bash -d /home/$WWW_USER $WWW_USER && usermod -a -G $WWW_GROUP $WWW_USER \
     && mkdir -p $NGINX_FOLDER/$BLOGS_FOLDER \
     && chown -R $WWW_USER:$WWW_GROUP $NGINX_FOLDER \
-    && envsubst '$NGINX_FOLDER,$BLOGS_FOLDER,$AUTH_FILE' < $NOIRCIR_FOLDER/nginx.conf > /tmp/nginx.conf && mv /tmp/nginx.conf /etc/nginx/sites-available/noircir && ln -s /etc/nginx/sites-available/noircir /etc/nginx/sites-enabled/noircir
+    && envsubst '$NGINX_FOLDER,$BLOGS_FOLDER' < $NOIRCIR_FOLDER/nginx.conf > /tmp/nginx.conf && mv /tmp/nginx.conf /etc/nginx/sites-available/noircir && ln -s /etc/nginx/sites-available/noircir /etc/nginx/sites-enabled/noircir
 
 EXPOSE 8080
 

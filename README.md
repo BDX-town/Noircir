@@ -30,8 +30,6 @@ Users can:
 You can set or change these values in your environement in order to change some parameters: 
 
 ```bash
-# auth_basic_user_file: contains login informations for authorized webdav users. You can create new users with /tools/create_user.sh
-ENV AUTH_FILE=/var/www/.auth.allow
 # noircir folder: where you saved noircir files
 ENV NOIRCIR_FOLDER="/noircir"
 # nginx root: all noircir data will be saved there, blogs and generated content

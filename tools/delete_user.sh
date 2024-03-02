@@ -1,8 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-# path must be the same that auth_basic_user_file in nginx.conf
-: "${AUTH_FILE:=/var/www/.auth.allow}"
 : "${NGINX_FOLDER:=/var/www/html}"
 # path must be the same that root in nginx.conf + a blogs folder
 : "${BLOGS_FOLDER:=blogs}"

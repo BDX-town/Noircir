@@ -1,5 +1,4 @@
 #!/bin/bash
-: "${AUTH_FILE:=/var/www/.auth.allow}"
 : "${NOIRCIR_FOLDER:=/noircir}"
 : "${NGINX_FOLDER:=/var/www/html}"
 : "${BLOGS_FOLDER:=blogs}"
