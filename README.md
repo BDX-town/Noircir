@@ -46,11 +46,13 @@ ENV WWW_GROUP=www-data
 
 ## Roadmap
 
-- fix auth between reload 
+- Error handling strategy
+- Offline operation
 - prevent ressources folder to be erased 
 - Ensure meta.json format after edition
 - Prevent files that are not media / markdown to be uploaded via webdav
 - sanitize blog post content in template 
+- use alpine instead of debian for container
 
 
 ## Mockups
