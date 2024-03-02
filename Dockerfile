@@ -15,6 +15,9 @@ ENV WWW_USER=noircir
 # must match nginx group
 ENV WWW_GROUP=www-data
 
+RUN apt-get update -yq \
+    apt-get -y curl gnupg
+
 # add gum source
 RUN mkdir -p /etc/apt/keyrings \
     && curl -fsSL https://repo.charm.sh/apt/gpg.key | gpg --dearmor -o /etc/apt/keyrings/charm.gpg \
