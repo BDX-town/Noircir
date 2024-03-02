@@ -15,7 +15,7 @@ ENV WWW_USER=noircir
 # must match nginx group
 ENV WWW_GROUP=www-data
 
-RUN apt-get update -yq \
+RUN apt-get update \
     apt-get -y curl gnupg
 
 # add gum source
@@ -27,7 +27,7 @@ RUN mkdir -p /etc/apt/keyrings \
 RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash -
 
 # install deps
-RUN apt-get update -yq \
+RUN apt-get update \
     && apt-get install -y nodejs gettext git gum nginx nginx-core libnginx-mod-http-lua libnginx-mod-http-dav-ext libnginx-mod-http-auth-pam openssl \
     && corepack enable \
     && apt-get clean -y
