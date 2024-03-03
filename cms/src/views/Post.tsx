@@ -162,7 +162,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
         <>
             <form className="grow mt-5 flex flex-col gap-4" onSubmit={onSubmit} onKeyUp={onChange}>
                 <div className='px-5 flex flex-col gap-4'>
-                    <div className='flex gap-3 items-end'>
+                    <div className='flex gap-3 items-center'>
                         <div className='grow flex flex-col justify-between gap-5'>
                             <TextInput required name="title" label={__('title')} defaultValue={post?.title} />
                             <TextInput required name="description" label={__('description')} defaultValue={post?.description} />

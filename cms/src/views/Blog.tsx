@@ -35,7 +35,7 @@ export const Blog = () => {
 
     return (
         <form className="grow p-5 flex flex-col gap-4" onSubmit={onSubmit}>
-            <div className='flex gap-3 items-end'>
+            <div className='flex gap-3 items-start'>
                 <div className='flex flex-col w-full'>
                     <TextInput className='grow' name="blogName" label={__('title')} defaultValue={blog.blogName} required />
                 </div>
