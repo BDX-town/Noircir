@@ -27,24 +27,24 @@ export const MediaInput = ({ onPick, defaultValue, value, className, children,..
     }, [onPick]);
 
     return (
-        <>
-            <div className={`flex flex-col gap-1 rounded-md w-min border-2 border-solid border-grey-100 bg-additional-primary-light p-2 ${className}`}>
-                <input {...rest} type="hidden" value={currentMedia?.url} />
+        <div className='flex flex-col gap-1 rounded-md w-min '>
+            <input {...rest} type="hidden" value={currentMedia?.url} />
+            <div className={`flex flex-col rounded-lg border-2 border-solid border-grey-100 bg-additional-primary-light p-2 ${className}`}>
                 {
-                    currentMedia && <img className='rounded-lg w-full object-cover basis-0 min-h-0 grow' src={currentMedia?.url} />
+                    currentMedia && <img className='rounded-lg w-full max-h-full object-contain basis-0 min-h-0 grow' src={currentMedia?.url} />
                 }
                 {
                     !currentMedia && <div className='w-full basis-0 min-h-0 grow flex items-center justify-center text-gray-500'><IconPhotoOff /></div>
                 }
+            </div>
             
-                <div className='flex justify-between gap-3 items-center'>
-                    <span className='text-nowrap whitespace-nowrap'>{currentMedia ? weight(currentMedia.weight) : "--Ko"}</span>
-                    <Button variant='light' size={50} className='text-nowrap whitespace-nowrap' onClick={() => setModal(true)}>{ children } <IconColorPicker size={16} /></Button>
-                </div>
+            <div className='flex justify-between gap-3 items-center'>
+                <span className='text-nowrap whitespace-nowrap'>{currentMedia ? weight(currentMedia.weight) : "--Ko"}</span>
+                <Button variant='light' size={50} className='text-nowrap whitespace-nowrap' onClick={() => setModal(true)}>{ children } <IconColorPicker size={16} /></Button>
             </div>
             {
                     modal && <MediaSelectionModal onPick={onInternalPick} onCancel={() => setModal(false)}/>
             }
-        </>
+        </div>
     );
 }
