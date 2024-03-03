@@ -56,9 +56,6 @@ const Article: React.FC<Post & Blog> = ({ title, blogName, lang, content, blogCo
                             { description }
                         </h4>
                     </section>
-                    {
-                        // TODO: sanitize what's outputed (?) here
-                    }
                     <section id="article_content" className={`p-4 break-words ${article}`}>
                         <Line />
                         <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(content) }} />

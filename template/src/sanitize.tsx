@@ -1,7 +1,5 @@
 import xss from 'xss';
 
-console.log(xss);
-
 const options = {
     whiteList: {
         // @ts-expect-error no types

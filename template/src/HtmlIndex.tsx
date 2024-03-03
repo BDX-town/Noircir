@@ -6,6 +6,7 @@ import { StyleMeta } from '@bdxtown/canaille';
 // @ts-expect-error no type
 import CleanCSS from 'clean-css';
 import { Blog } from 'types/src/Blog';
+import sanitize from './sanitize';
 
 const clean = new CleanCSS({ level: 2 });
 
@@ -25,10 +26,7 @@ const HTML: React.FC<Wrapper & Blog> = ({ blogName, blogCover, lang, content, st
                 <meta property="og:image" content={blogCover}/>
                 <meta property="og:description" content={blogDescription}/>
             </head>
-            {
-                // TODO: sanitize what's outputed (?) here
-            }
-            <body className='bg-additional-primary' dangerouslySetInnerHTML={{ __html: (content) }}>
+            <body className='bg-additional-primary' dangerouslySetInnerHTML={{ __html: sanitize(content) }}>
             </body>
         </html>
     )
