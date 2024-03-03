@@ -5,6 +5,7 @@ import { Blog } from 'types/src/Blog';
 import { Wrapper } from './types';
 import { StyleMeta } from '@bdxtown/canaille';
 
+
 // @ts-expect-error no type
 import CleanCSS from 'clean-css';
 
@@ -30,7 +31,7 @@ const HTML: React.FC<Blog & Post & Wrapper> = ({ title, blogName, blogCover, lan
             {
                 // TODO: sanitize what's outputed (?) here
             }
-            <body className='bg-additional-primary' dangerouslySetInnerHTML={{ __html: content }}>
+            <body className='bg-additional-primary' dangerouslySetInnerHTML={{ __html: (content) }}>
             </body>
         </html>
     )

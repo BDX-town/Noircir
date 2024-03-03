@@ -28,7 +28,7 @@ const HTML: React.FC<Wrapper & Blog> = ({ blogName, blogCover, lang, content, st
             {
                 // TODO: sanitize what's outputed (?) here
             }
-            <body className='bg-additional-primary' dangerouslySetInnerHTML={{ __html: content }}>
+            <body className='bg-additional-primary' dangerouslySetInnerHTML={{ __html: (content) }}>
             </body>
         </html>
     )

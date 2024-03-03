@@ -4,6 +4,9 @@ import { Line, Block } from '@bdxtown/canaille';
 import { Blog } from 'types/src/Blog';
 import { Post } from 'types/src/Post';
 
+import sanitizeHTML from './sanitize';
+
+
 interface Collection {
     /**
      * Eleventy generated collection data
@@ -27,7 +30,7 @@ const Index: React.FC<Blog & Collection> = ({ blogName, blogDescription, blogCov
                     </h1>
                 </div>
                 <Line />
-                <p className='px-3' dangerouslySetInnerHTML={{ __html: blogDescription}} />
+                <p className='px-3' dangerouslySetInnerHTML={{ __html: sanitizeHTML(blogDescription) }} />
             </header>
             <main className='p-3 flex flex-col gap-4'>
                 {

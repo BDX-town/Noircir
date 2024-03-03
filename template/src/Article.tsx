@@ -8,6 +8,7 @@ import { Line } from '@bdxtown/canaille';
 import { useTranslations, createUseStyles } from '@bdxtown/canaille';
 import { withI18n } from './withI18n';
 
+import sanitizeHTML from './sanitize'
 
 import fr from './Article.fr-FR.i18n.json';
 
@@ -60,7 +61,7 @@ const Article: React.FC<Post & Blog> = ({ title, blogName, lang, content, blogCo
                     }
                     <section id="article_content" className={`p-4 break-words ${article}`}>
                         <Line />
-                        <div dangerouslySetInnerHTML={{ __html: content }} />
+                        <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(content) }} />
                     </section>
                 </article>
             </main>
