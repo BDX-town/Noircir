@@ -4,10 +4,9 @@ import yaml from 'yaml';
 import { formatPost } from '../helpers/formatPost';
 import { Blog } from 'types/src/Blog';
 
-// @ts-expect-error var are used in eval
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function buildLink(server: string, client: WebdavClient, blog: Blog, post: Post) {
-    return eval('`'+import.meta.env.VITE_POST_LINK_FORMAT+'`');
+    // @ts-expect-error we use the otherwise unused variables to avoid production build to remove them
+    return eval('`'+import.meta.env.VITE_POST_LINK_FORMAT+'`', server, client, blog, post);
 }
 
 export function deserializePost(p: Post): Post {
