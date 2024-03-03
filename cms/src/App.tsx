@@ -12,11 +12,16 @@ import translate from 'counterpart';
 import { Login } from './views/Login';
 import { Posts } from './views/Posts';
 import { ErrorElement } from './bits/ErrorElement';
-import { BlogLocation, PostsLocation, PostLocation, MediaLocation, SettingsLocation } from './views/Locations';
+import { BlogLocation, PostsLocation, PostLocation, MediaLocation, SettingsLocation, InviteLocation } from './views/Locations';
 import { Post } from './views/Post';
+import { Invite } from './views/Invite';
 
 
 const baseRouter = createBrowserRouter([
+  { 
+    path: InviteLocation.path + '/' + InviteLocation.param,
+    element: <Invite />
+  },
   {
     path: '*',
     element: <Login />

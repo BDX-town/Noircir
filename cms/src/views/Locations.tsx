@@ -23,3 +23,8 @@ export const PostsLocation = {
 export const SettingsLocation = {
     path: '/settings',
 }
+
+export const InviteLocation = {
+    path: '/invite',
+    param: ":token"
+}

@@ -1,0 +1,9 @@
+{
+    "Invite": {
+        "welcome": "Bienvenue sur Noicir",
+        "error": "Mince...",
+        "description": "Pour votre sécurité et celle de la plateforme, veuillez choisir un mot de passe.",
+        "apply": "Appliquer le mot de passe",
+        "invalid": "Votre lien d'invitation n'est pas valide, assurez-vous de l'avoir correctement saisi et si l'erreur persiste, demandez une nouvelle invitation."
+    }
+}

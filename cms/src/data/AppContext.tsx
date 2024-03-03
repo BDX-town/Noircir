@@ -21,7 +21,7 @@ interface IAppContext {
 
     actions: {
         refresh: (c?: WebdavClient) => Promise<unknown>
-        login: (u: string, p: string) => Promise<WebdavClient>,
+        login: (u: string, p: string, t?: boolean) => Promise<WebdavClient>,
         logout: () => void,
         editBlog: (b: Blog) => Promise<boolean>,
         editPost: (p: Post) => Promise<boolean>,
@@ -109,7 +109,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }, [loadBlog, loadMedia, loadPost]);
 
     // login
-    const login = React.useCallback(async (username: string, password: string) => {
+    const login = React.useCallback(async (username: string, password: string, temp: boolean = false) => {
         const c = webdav.createClient(import.meta.env.VITE_SERVER, {
             authType: webdav.AuthType.Password,
             username,
@@ -117,7 +117,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         });
         const a = Object.assign(c, { username, password }) as WebdavClient;
         await fetchBlog(a);
-        setClient(a);
+        if(!temp) setClient(a);
         return a;
     }, []);
 
