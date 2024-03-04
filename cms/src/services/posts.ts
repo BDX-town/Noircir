@@ -22,8 +22,7 @@ function parsePost(meta: WebdavFile, raw: string): Post{
     if(!etyMetaRaw) throw new Error("File is not a valid 11ty .md file");
     const etyMeta = etyMetaRaw[0].replace(/---/g, '');
     // TODO: add supports for tags
-    const partialPost: Pick<Post, "title" | "description" | "createdAt"> & { cover: string  } = yaml.parse(etyMeta);
-    console.log(partialPost);
+    const partialPost: Pick<Post, "title" | "description" | "createdAt" | "draft"> & { cover: string  } = yaml.parse(etyMeta);
     const content = raw.replace(etyMetaRaw[0], '');
 
     return {
@@ -34,6 +33,7 @@ function parsePost(meta: WebdavFile, raw: string): Post{
         cover: partialPost.cover,
         description: partialPost.description,
         title: partialPost.title,
+        draft: partialPost.draft,
         content
     }
 }

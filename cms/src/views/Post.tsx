@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button, TextInput, useTranslations, createUseStyles } from '@bdxtown/canaille';
+import { Button, TextInput, useTranslations, createUseStyles, Checkbox } from '@bdxtown/canaille';
 import {MDXEditor, headingsPlugin, toolbarPlugin, markdownShortcutPlugin, BlockTypeSelect, BoldItalicUnderlineToggles, UndoRedo, linkDialogPlugin, CreateLink, imagePlugin, MDXEditorMethods, listsPlugin, linkPlugin, quotePlugin  } from '@mdxeditor/editor';
 import '@mdxeditor/editor/style.css'
-import { IconBookUpload, IconTrash, IconBook2 } from '@tabler/icons-react'
+import { IconBookUpload, IconTrash, IconBook2, IconDeviceFloppy } from '@tabler/icons-react'
 import fr from './Post.fr-FR.i18n.json';
 import { useAppContext } from '../data/AppContext';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -93,6 +93,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
     const upload = useUpload();
     const editorWrapper = React.useRef<HTMLDivElement>(null);
     const [imageWeight, setImageWeight] = React.useState(0);
+    const [draft, setDraft] = React.useState(post?.draft === undefined ? true : post.draft);
 
     const [weight, setWeight] = React.useState(post ? new TextEncoder().encode(formatPost(post)).length : 0);
 
@@ -138,6 +139,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
         const formData: Partial<IPost> = Array.from(new FormData(e.currentTarget as HTMLFormElement)
             .entries())
             .reduce((acc, curr) => ({...acc, [curr[0]]: curr[1]}), {});
+        console.log('formData', formData);
         const data: IPost = {
             ...post,
             ...formData,
@@ -146,6 +148,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
             updatedAt: new Date(),
             createdAt: post?.createdAt || new Date(),
             weight,
+            draft: (formData.draft as unknown as string) === "on" ? true : false,
         } as IPost
         // TODO: feedback
         const result = await editPost(data);
@@ -212,13 +215,26 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
                             <span className='opacity-0'></span>
                         )
                     }
-                    <div className='flex gap-3 items-center'>
+                    <div className='flex flex-col gap-2'>
                         <div>
                             <T weight={calculateWeight(weight + imageWeight)}>for-reader</T>
+                        </div>    
+                        <div className='flex gap-3 items-center'>
+                            <Checkbox name="draft" checked={draft} onChange={() => setDraft(!draft)}  ><T>draft</T></Checkbox>
+                            <Button size={50} htmlType='submit'>
+                                {
+                                    draft ? (
+                                        <>
+                                            <IconDeviceFloppy /> <T>save</T>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <IconBookUpload /> <T>publish</T>
+                                        </>
+                                    )
+                                }
+                            </Button>
                         </div>
-                        <Button size={50} htmlType='submit'>
-                            <IconBookUpload /> <T>publish</T>
-                        </Button>
                     </div>
 
                 </div>

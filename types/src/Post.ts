@@ -7,4 +7,5 @@ export interface Post {
     updatedAt: Date,
     createdAt: Date,
     content: string,
+    draft: boolean,
 }
