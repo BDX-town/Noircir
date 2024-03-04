@@ -49,8 +49,8 @@ export const Invite = () => {
             }
             throw e;
         }
-        await login(username, newPassword);
-        await refresh();
+        const client = await login(username, newPassword);
+        await refresh(client);
         navigate('/');
         // TODO: feedback
     }, [__, credentials, login, navigate, refresh]);
