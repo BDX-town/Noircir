@@ -13,12 +13,14 @@ class Article {
     }
 
     async updateIndex(props) {
-        const indexOutputPath = path.join(
+        const blogPath = path.dirname(
             path.dirname(
-                path.dirname(
-                    props.page.outputPath
-                )
-            ),
+                props.page.outputPath
+            )
+        ) ;
+        fs.mkdirSync(blogPath, { recursive: true })
+        const indexOutputPath = path.join(
+            blogPath,
             "index.html"
         );
         const content = await this.renderFile('./_includes/index.11ty.js', { ...props });
