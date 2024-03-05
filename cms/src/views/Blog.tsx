@@ -8,12 +8,19 @@ import { Blog as IBlog } from 'types/src/Blog';
 import { MediaInput } from '../bits/MediaInput';
 
 import fr from './Blog.fr-FR.i18n.json';
+import { AppError } from '../data/AppError';
+import { EDIT_BLOG_DENY, EDIT_BLOG_FAIL, EDIT_BLOG_FALSE } from '../services/blogs';
+import { ButtonProcess } from '../bits/ButtonProcess';
+
 
 export const Blog = () => {
     const { blog, actions} = useAppContext();
     const { editBlog } = actions;
     const { __, T} = useTranslations('Blog', { 'fr-FR': fr });
     const editor = React.useRef<MDXEditorMethods>(null);
+
+    const [processing, setProcessing] = React.useState(false);
+    const [error, setError] = React.useState<AppError | undefined>(undefined);
 
 
     const onSubmit: React.FormEventHandler<HTMLFormElement> = React.useCallback(async (e) => {
@@ -28,9 +35,17 @@ export const Blog = () => {
             ...formData,
             blogDescription: editor.current.getMarkdown(),
         };
-        const result = await editBlog(data);
-        // TODO: add feedback
-        console.log(result);
+        setProcessing(true);
+        try {
+            const result = await editBlog(data);
+            if(!result) setError(new AppError(EDIT_BLOG_FALSE, "The server file system refused the edit, something is wrong."));
+        } catch (e) {
+            const appError = e as AppError;
+            if(appError.code === EDIT_BLOG_FAIL || appError.code === EDIT_BLOG_DENY) setError(appError);
+            else throw e;
+        } finally {
+            setProcessing(false);
+        }
     }, [blog, editBlog]);
 
     return (
@@ -69,9 +84,9 @@ export const Blog = () => {
             />
             <div className='flex justify-end'>
                 <div className='flex gap-3 items-center'>
-                    <Button size={50} htmlType='submit'>
+                    <ButtonProcess processing={processing} error={error} size={50} htmlType="submit">
                         <IconDeviceFloppy /> <T>publish</T>
-                    </Button>
+                    </ButtonProcess>
                 </div>
 
             </div>
