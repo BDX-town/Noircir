@@ -139,7 +139,6 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
         const formData: Partial<IPost> = Array.from(new FormData(e.currentTarget as HTMLFormElement)
             .entries())
             .reduce((acc, curr) => ({...acc, [curr[0]]: curr[1]}), {});
-        console.log('formData', formData);
         const data: IPost = {
             ...post,
             ...formData,

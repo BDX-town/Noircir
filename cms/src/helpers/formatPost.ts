@@ -7,6 +7,7 @@ description: ${JSON.stringify(post.description)}
 cover: ${JSON.stringify(post.cover)}
 createdAt: ${JSON.stringify(post.createdAt.toISOString())}
 updatedAt: ${JSON.stringify(post.updatedAt.toISOString())}
+draft: ${JSON.stringify(post.draft)}
 ---
 ${post.content} `;
 }
