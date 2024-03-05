@@ -43,10 +43,10 @@ export async function fetchWithRetry(fn: () => Promise<Response>, retries = 0) {
  * @param rest params to pass to that function
  * @returns A response object
  */
-export async function fetchAdapter(fn: (p?: any) => Promise<unknown>, ...rest : any) {
+export async function fetchAdapter(fn: (p?: unknown) => Promise<unknown>, ...rest : unknown[]) {
     try {
         const body = await fn(...rest);
-        return new Response(body as any);
+        return new Response(body as never);
     } catch (e) {
         const error = e as Error;
         const codeMatch = error.message.match(/[0-9]{3}/);
