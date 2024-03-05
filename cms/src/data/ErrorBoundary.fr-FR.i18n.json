@@ -1,6 +1,7 @@
 {
     "ErrorBoundary": {
-        "error": "Erreur",
-        "reload": "Relancer"
+        "error": "Erreur inattendue",
+        "description": "L'application pourrait se trouver dans un état incohérent. Elle doit être relancée pour assurer un fonctionnement normal.",
+        "reload": "Relancer l'application"
     }
 }

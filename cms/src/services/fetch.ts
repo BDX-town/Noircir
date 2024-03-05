@@ -25,14 +25,20 @@ export async function fetchWithRetry(fn: () => Promise<Response>, retries = 0) {
         response = await fn();
     } catch (e) {
         // if fetch, network error we will retry
-        if(retries < MAX_RETRIES) return fetchWithRetry(fn, retries + 1);
+        if(retries < MAX_RETRIES) {
+            console.warn("Network error, retrying", e);
+            return fetchWithRetry(fn, retries + 1);
+        }
         else throw e;
     }
     // everything is ok we return the response
     if(response.ok) return response;
     // there was an error on the server, we may retry
     if(response.status >= 500 && response.status <= 599) {
-        if(retries < MAX_RETRIES) return fetchWithRetry(fn, retries + 1);
+        if(retries < MAX_RETRIES) {
+            console.warn("Server error, retrying", response.status, response.statusText);
+            return fetchWithRetry(fn, retries + 1);
+        }
     }
     return response;
 }
@@ -51,7 +57,7 @@ export async function fetchAdapter(fn: (p?: unknown) => Promise<unknown>, ...res
         const error = e as Error;
         const codeMatch = error.message.match(/[0-9]{3}/);
         return new Response(null, { 
-            status: codeMatch ? parseInt(codeMatch[1], 10) : 500,
+            status: codeMatch ? parseInt(codeMatch[0], 10) : 500,
             statusText: error.message
         })
     }

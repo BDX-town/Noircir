@@ -1,19 +1,22 @@
-import ErrorStackParser from "error-stack-parser";
 import { hashCode } from "../helpers/hashCode";
 
+const ERRORS: string[] = [];
+
+export function declareError(userMessage: string) {
+    const index = ERRORS.length;
+    ERRORS.push(userMessage);
+    return index;
+}
+
 export class AppError extends Error {
-    public code: string;
+    public code: number;
     public userMessage: string;
-    public isExpected: boolean;
+    public userCode: string;
 
-    constructor(error: Error, userMessage: string | undefined, isExpected: boolean | undefined) {
-        super(error.message);
-        Object.assign(this, error);
-        this.userMessage = userMessage || error.message;
-        this.isExpected = isExpected || false;
-
-        const trace = ErrorStackParser.parse(error);
-        if(trace.length === 0) throw new Error("Invalid trace");
-        this.code = hashCode(`${trace[0].fileName}-${trace[0].lineNumber}`);
+    constructor(code: number, message: string) {
+        super(message);
+        this.code = code;
+        this.userMessage = ERRORS[code];
+        this.userCode = hashCode(`${this.code}`);
     }
 }

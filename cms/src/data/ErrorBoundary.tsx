@@ -16,12 +16,15 @@ const Error = ({ error } : { error: AppError}) => {
   }, []);
 
   return (
-    <Modal onClose={() => null}>
+    <Modal className='max-w-[400px] text-left' onClose={() => null}>
       <h3>
-        <T>error</T> { error.code && <>#{error.code}</> }
+        <T>error</T> { error.userCode && <>#{error.userCode}</> }
       </h3>
       <p>
         { error.userMessage || error.message }
+      </p>
+      <p className='text-gray-700 text-sm'>
+        <T>description</T>
       </p>
       <div className='text-right mt-3'>
         <Button size={50} onClick={reload}>

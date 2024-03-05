@@ -6,10 +6,10 @@ import { Blog } from "types/src/Blog";
 import { Post } from "types/src/Post";
 import { Media } from "types/src/Media";
 
-import { fetchBlog, editBlog as editBlogService } from "../services/blogs";
+import { fetchBlog, editBlog as editBlogService, FETCH_BLOG_FAIL, FETCH_BLOG_DENY } from "../services/blogs";
 import { fetchMedia, deleteMedia as deleteMediaService, putMedia as putMediaService, deserializeMedia } from "../services/media";
 import { fetchPosts, deletePost as deletePostService, editPost as editPostService, deserializePost } from "../services/posts";
-import { AppError } from "./AppError";
+import { AppError, declareError } from "./AppError";
 import { WebdavClient } from "../types/webdav";
 import { changePassword as changePasswordService } from "../services/settings";
 
@@ -53,6 +53,8 @@ function load(): Partial<IAppContext> {
   
 const AppContext = createContext<IAppContext>({} as IAppContext);
 
+export const LOGIN_FAIL = declareError('Unable to log you in with these credentials, please check your inputs and retry.');
+
 export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     const savedData = React.useRef(load());
@@ -72,14 +74,8 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }, [client, blog, posts, media]);
 
     const loadBlog = React.useCallback(async (fclient: WebdavClient | undefined = undefined) => {
-        try {
-            const blog = await fetchBlog(fclient || client as WebdavClient);
-            setBlog(blog);
-        } catch (e) {
-            console.error(e);
-            const ue = new AppError(new Error((e as Error).message), "Unable to retrieve your blog. Please check your internet connection or retry later.", true);
-            throw ue;
-        }
+        const blog = await fetchBlog(fclient || client as WebdavClient);
+        setBlog(blog);
     }, [client]);
 
     const loadPost = React.useCallback(async (fclient: WebdavClient | undefined = undefined) => {
@@ -88,7 +84,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             setPosts(posts);
         } catch (e) {
             console.error(e);
-            const ue = new AppError(new Error((e as Error).message), "Unable to retrieve your posts. Please check your internet connection or retry later.", true);
+            const ue = new AppError(new Error((e as Error).message), "Unable to retrieve your posts. Please check your internet connection or retry later.");
             throw ue;
         }
     }, [client]);
@@ -99,7 +95,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             setMedia(media);
         } catch (e) {
             console.error(e);
-            const ue = new AppError(new Error((e as Error).message), "Unable to retrieve your media. Please check your internet connection or retry later.", true);
+            const ue = new AppError(new Error((e as Error).message), "Unable to retrieve your media. Please check your internet connection or retry later.");
             throw ue;
         }
     }, [client]);
@@ -116,7 +112,15 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             password
         });
         const a = Object.assign(c, { username, password }) as WebdavClient;
-        await fetchBlog(a);
+        try {
+            await fetchBlog(a);
+        } catch (e) {
+            const error = e as Error;
+            if((error as AppError).code == FETCH_BLOG_DENY) {
+                throw new AppError(LOGIN_FAIL, error.message);
+            } 
+            else throw e;
+        }
         if(!temp) setClient(a);
         return a;
     }, []);

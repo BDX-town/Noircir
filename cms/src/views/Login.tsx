@@ -1,10 +1,12 @@
 import React from 'react';
-import { Block, TextInput, Button, useTranslations } from '@bdxtown/canaille';
+import { Block, TextInput, useTranslations } from '@bdxtown/canaille';
 import { IconLogin2 } from '@tabler/icons-react';
 
 import fr from './Login.fr-FR.i18n.json';
-import { useAppContext } from '../data/AppContext';
+import { LOGIN_FAIL, useAppContext } from '../data/AppContext';
 import { useNavigate } from 'react-router-dom';
+import { ButtonProcess } from '../bits/ButtonProcess';
+import { AppError } from '../data/AppError';
 
 export const Login = () => {
     const { T, __ } = useTranslations('Login', { 'fr-FR': fr });
@@ -12,16 +14,22 @@ export const Login = () => {
     const { login, refresh } = actions;
     const navigate = useNavigate();
 
+    const [processing, setProcessing] = React.useState(false);
+    const [error, setError] = React.useState<AppError | undefined>(undefined);
+
     const onSubmit: React.FormEventHandler = React.useCallback(async (e) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget as HTMLFormElement);
         try {
+            setProcessing(true);
             const client = await login(data.get('username') as string, data.get('password') as string);
             await refresh(client);
             navigate('/');
-        } catch (e: unknown) {
-            // TODO: handle error
-            console.log(e);
+        } catch (e) {
+            if((e as AppError).code === LOGIN_FAIL) setError(e as AppError);
+            else throw e;
+        } finally {
+            setProcessing(false);
         }
     }, [login, navigate, refresh]);
 
@@ -32,14 +40,14 @@ export const Login = () => {
                     <img className='w-[50px]' src='/favicon.webp' alt="Noircir's logo" aria-hidden />
                     <h1 className='my-0'>Noircir</h1>
                 </div>
-                <Block className='bg-additional-primary'>
+                <Block className='bg-additional-primary w-[400px]'>
                     <form className='flex flex-col gap-4' onSubmit={onSubmit}>
-                        <TextInput name='username' label={__('username')} />
-                        <TextInput name='password' htmlType='password' label={__('password')} />
+                        <TextInput required name='username' label={__('username')} />
+                        <TextInput required name='password' htmlType='password' label={__('password')} />
                         <div className='text-right'>
-                            <Button htmlType='submit' size={50}>
+                            <ButtonProcess processing={processing} error={error} size={50} htmlType="submit">
                                 <IconLogin2 /> <T>login</T>
-                            </Button>
+                            </ButtonProcess>
                         </div>
                     </form>
                 </Block>
