@@ -90,14 +90,8 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }, [client]);
 
     const loadMedia = React.useCallback(async (fclient: WebdavClient | undefined = undefined) => {
-        try {
-            const media = await fetchMedia(fclient || client as WebdavClient);
-            setMedia(media);
-        } catch (e) {
-            console.error(e);
-            const ue = new AppError(new Error((e as Error).message), "Unable to retrieve your media. Please check your internet connection or retry later.");
-            throw ue;
-        }
+        const media = await fetchMedia(fclient || client as WebdavClient);
+        setMedia(media);
     }, [client]);
 
     const refresh = React.useCallback((fclient: WebdavClient | undefined = undefined) => {

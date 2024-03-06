@@ -1,10 +1,15 @@
 import React from 'react';
 
-import { Button } from '@bdxtown/canaille';
+import { useTranslations } from '@bdxtown/canaille';
 import { useAppContext } from '../data/AppContext';
 import { IconUpload } from '@tabler/icons-react';
 import { Media } from 'types/src/Media';
 import { arrayBufferToWebP } from 'webp-converter-browser'
+import { AppError } from '../data/AppError';
+import { ButtonProcess } from './ButtonProcess';
+
+import fr from './ButtonUpload.fr-FR.i18n.json';
+import { PUT_MEDIA_DENY, PUT_MEDIA_FAIL, PUT_MEDIA_FALSE } from '../services/media';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useUpload() {
@@ -23,23 +28,42 @@ export function useUpload() {
     }, [putMedia]);
 }
 
+
 export const ButtonUpload = ({ children, onUpload, ...rest }: { className?: string, children: React.ReactNode, onUpload?: (f: File) => void }) => {
+    const { __ } = useTranslations('ButtonUpload', { 'fr-FR': fr });
     const input = React.useRef<HTMLInputElement>(null);
+
 
     const upload = useUpload();
 
+    const [error, setError] = React.useState<AppError | undefined>(undefined);
+    const [success, setSuccess] = React.useState<string | undefined>(undefined);
+    const [processing, setProcessing] = React.useState(false);
+
     const onChange: React.ChangeEventHandler<HTMLInputElement> = React.useCallback(async (e) => {
         const file = (e.currentTarget.files as FileList)[0];
-        await upload(file);
-        if(onUpload) onUpload(file);
+        setProcessing(true);
+        setSuccess(undefined);
+        setError(undefined);
+        try {
+            await upload(file);
+            setSuccess(__('success'));
+            if(onUpload) onUpload(file);
+        } catch (e) {
+            const appError = e as AppError;
+            if(appError.code === PUT_MEDIA_FAIL || appError.code === PUT_MEDIA_DENY || appError.code === PUT_MEDIA_FALSE) setError(appError);
+            else throw e;
+        } finally {
+            setProcessing(false);
+        }
     }, [onUpload, upload]);
 
     return (
         <>
             <input ref={input} className="hidden" accept='image/*' type="file" onChange={onChange} />
-            <Button {...rest} size={50} onClick={() => input.current?.click()}>
+            <ButtonProcess {...rest} processing={processing} error={error} success={success} size={50} onClick={() => input.current?.click()}>
                 <IconUpload /> { children }
-            </Button>
+            </ButtonProcess>
         </>
     );
 }

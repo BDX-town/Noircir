@@ -34,15 +34,30 @@ async function parseMedia(client: WebdavClient, file: WebdavFile): Promise<Media
     }
 }
 
+
+export const PUT_MEDIA_FAIL = declareError('Unable to save your media. There is maybe something wrong on our end, but please check your connection.');
+export const PUT_MEDIA_DENY = declareError('You do not have access to this media. Please check your credentials.');
+export const PUT_MEDIA_FALSE = declareError('Your media was not saved. Please report this issue to your administrator.');
 export async function putMedia(client: WebdavClient, media: Media) {
-    const request = await client.putFileContents(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources/${media.file}`, media.content, { overwrite: true, contentLength: media.weight });
-    if(request) {
-        return {
-            ...media,
-            url: buildUrl(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources/${media.file}`),
+    const response = await fetchAdapter(client.putFileContents, `/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources/${media.file}`, media.content, { overwrite: true, contentLength: media.weight });
+    if(!response.ok) {
+        let code = PUT_MEDIA_FAIL;
+        if(response.status === 401 || response.status === 403) {
+            code = PUT_MEDIA_DENY;
         }
+        throw new AppError(code, `${response.status}: ${response.statusText}`)
     }
-    throw new Error('Unable to upload');
+    let result = false;
+    try {
+        result = await response.json();
+    } catch (e) {
+        throw new AppError(PUT_MEDIA_FAIL, (e as Error).message || (e as object).toString())
+    }
+    if(!result) throw new AppError(PUT_MEDIA_FALSE, 'There is something wrong with the filesystem, since overwrite is true.');
+    return {
+        ...media,
+        url: buildUrl(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources/${media.file}`),
+    }
 }
 
 export const DELETE_MEDIA_FAIL = declareError('Unable to delete your media. There is maybe something wrong on our end but please check your connection.');
