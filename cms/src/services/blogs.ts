@@ -37,11 +37,17 @@ export async function fetchBlog(client: WebdavClient): Promise<Blog> {
         if(response.status === 401 || response.status === 403) code = FETCH_BLOG_DENY;
         throw new AppError(code, `${response.status}: ${response.statusText}`);
     }
-    const meta = await response.json() as Blog;
-    return {
-        blogDescription: meta.blogDescription,
-        blogName: meta.blogName,
-        blogCover: meta.blogCover,
-        lang: meta.lang,
+    try {
+        const meta = await response.json() as Blog;
+        return {
+            blogDescription: meta.blogDescription,
+            blogName: meta.blogName,
+            blogCover: meta.blogCover,
+            lang: meta.lang,
+        }
+    } catch (e) {
+        // badly formated json
+        const error = e as Error;
+        throw new AppError(FETCH_BLOG_FAIL, error.message || (e as object).toString())
     }
 }
