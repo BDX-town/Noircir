@@ -12,7 +12,7 @@ export const EDIT_BLOG_FAIL = declareError('Unable to update your blog informati
 export const EDIT_BLOG_DENY = declareError('Unable to edit your blog informations, please check your credentials.')
 // the filesystem refused to edit the file, that's not normal since we used overwrite true
 export const EDIT_BLOG_FALSE = declareError('Your blog informations were not edited, please report that issue to the administrator.')
-export async function editBlog(client: WebdavClient, blog: Blog): Promise<boolean> {
+export async function editBlog(client: WebdavClient, blog: Blog): Promise<void> {
     // since overwrite is true, putFileContents can not return false 
     const response = await fetchAdapter(client.putFileContents, `/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/${client.username}.json`, JSON.stringify(blog), { overwrite: true });
     if(!response.ok) {
@@ -20,9 +20,9 @@ export async function editBlog(client: WebdavClient, blog: Blog): Promise<boolea
         if(response.status === 401 || response.status === 402) code = EDIT_BLOG_DENY;
         throw new AppError(code, `${response.status}: ${response.statusText}`);
     }    
-    const body = await response.text();
+    const body = JSON.parse(await response.text());
     console.log("editBlog", body);
-    return JSON.parse(body);
+    if(body === false) throw new AppError(EDIT_BLOG_FALSE, "The server file system refused the edit, something is wrong.")
 }
 
 

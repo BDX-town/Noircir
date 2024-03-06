@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAppContext } from '../data/AppContext';
-import { TextInput, Button, useTranslations } from '@bdxtown/canaille';
+import { TextInput, useTranslations } from '@bdxtown/canaille';
 import {MDXEditor, toolbarPlugin, markdownShortcutPlugin, BlockTypeSelect, BoldItalicUnderlineToggles, UndoRedo, linkDialogPlugin, CreateLink, MDXEditorMethods, listsPlugin, linkPlugin, quotePlugin  } from '@mdxeditor/editor';
 import { IconDeviceFloppy } from '@tabler/icons-react';
 import { Blog as IBlog } from 'types/src/Blog';
@@ -9,7 +9,7 @@ import { MediaInput } from '../bits/MediaInput';
 
 import fr from './Blog.fr-FR.i18n.json';
 import { AppError } from '../data/AppError';
-import { EDIT_BLOG_DENY, EDIT_BLOG_FAIL, EDIT_BLOG_FALSE } from '../services/blogs';
+import { EDIT_BLOG_DENY, EDIT_BLOG_FAIL } from '../services/blogs';
 import { ButtonProcess } from '../bits/ButtonProcess';
 
 
@@ -21,6 +21,7 @@ export const Blog = () => {
 
     const [processing, setProcessing] = React.useState(false);
     const [error, setError] = React.useState<AppError | undefined>(undefined);
+    const [success, setSuccess] = React.useState<string | undefined>(undefined)
 
 
     const onSubmit: React.FormEventHandler<HTMLFormElement> = React.useCallback(async (e) => {
@@ -37,10 +38,12 @@ export const Blog = () => {
         };
         setProcessing(true);
         try {
-            const result = await editBlog(data);
-            if(!result) setError(new AppError(EDIT_BLOG_FALSE, "The server file system refused the edit, something is wrong."));
+            await editBlog(data);
+            setSuccess(__('success'))
         } catch (e) {
             const appError = e as AppError;
+            // we do not handle EDIT_BLOG_FALSE since the case shouldnt appear. 
+            // If it's the case, there is an issue with the server configuration or the code base
             if(appError.code === EDIT_BLOG_FAIL || appError.code === EDIT_BLOG_DENY) setError(appError);
             else throw e;
         } finally {
@@ -84,7 +87,7 @@ export const Blog = () => {
             />
             <div className='flex justify-end'>
                 <div className='flex gap-3 items-center'>
-                    <ButtonProcess processing={processing} error={error} size={50} htmlType="submit">
+                    <ButtonProcess processing={processing} success={success} error={error} size={50} htmlType="submit">
                         <IconDeviceFloppy /> <T>publish</T>
                     </ButtonProcess>
                 </div>

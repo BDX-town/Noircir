@@ -23,7 +23,7 @@ interface IAppContext {
         refresh: (c?: WebdavClient) => Promise<unknown>
         login: (u: string, p: string, t?: boolean) => Promise<WebdavClient>,
         logout: () => void,
-        editBlog: (b: Blog) => Promise<boolean>,
+        editBlog: (b: Blog) => Promise<void>,
         editPost: (p: Post) => Promise<boolean>,
         deletePost: (p: Post) => Promise<void>,
         deleteMedia: (m: Media) => Promise<void>,
@@ -129,11 +129,8 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     // blog 
     const editBlog = React.useCallback(async (blog: Blog) => {
-        const result = await editBlogService(client as WebdavClient, blog);
-        if(result) {
-            setBlog(blog);
-        }
-        return result;
+        await editBlogService(client as WebdavClient, blog);
+        setBlog(blog);
     }, [client]);
 
     // posts
