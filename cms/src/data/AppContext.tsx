@@ -161,9 +161,8 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }, [client, media]);
 
     const deleteMedia = React.useCallback(async (cmedia: Media) => {
-        const result = await deleteMediaService(client as WebdavClient, cmedia);
+        await deleteMediaService(client as WebdavClient, cmedia);
         setMedia(media?.map((p) => p.file === cmedia.file ? null : p).filter((p) => !!p) as Media[]);
-        return result;
     }, [client, media]);
 
     // settings

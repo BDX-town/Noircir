@@ -9,16 +9,33 @@ import fr from './Media.fr-FR.i18n.json';
 import { useAppContext } from '../data/AppContext';
 import { ButtonUpload } from '../bits/ButtonUpload';
 import { weight } from '../helpers/weight';
+import { ButtonProcess } from '../bits/ButtonProcess';
+import { AppError } from '../data/AppError';
+import { DELETE_MEDIA_DENY, DELETE_MEDIA_FAIL } from '../services/media';
 
 const DeleteModal = ({ onCancel, media, onDelete }: { onCancel: React.MouseEventHandler, onDelete: React.MouseEventHandler, media: IMedia[] }) => {
     const { actions } = useAppContext();
     const { deleteMedia } = actions;
     const { T } = useTranslations('Media', {'fr-FR': fr});
 
+    const [processing, setProcessing] = React.useState(false);
+    const [error, setError] = React.useState<AppError | undefined>(undefined);
+
     const onConfirm: React.MouseEventHandler = React.useCallback(async (e) => {
-        // TODO: feedback
-        const result = await Promise.all(media.map((m) => deleteMedia(m)));
-        console.log(result);
+        setProcessing(true);
+        try {
+            await Promise.all(media.map((m) => deleteMedia(m)));
+        } catch (e) {
+            const appError = e as AppError;
+            if(appError.code === DELETE_MEDIA_FAIL || appError.code === DELETE_MEDIA_DENY) {
+                setError(error);
+            } else {
+                throw e;
+            }
+
+        } finally {
+            setProcessing(false);
+        }
         onDelete(e);
     }, [deleteMedia, media, onDelete]);
 
@@ -26,9 +43,9 @@ const DeleteModal = ({ onCancel, media, onDelete }: { onCancel: React.MouseEvent
         <Modal className='bg-additional-primary' onClose={onDelete}>
             <T>shouldDelete</T>
             <div className='mt-3 flex justify-between items-center gap-4'>
-                <Button size={50} className='bg-red-500' onClick={onConfirm}>
+                <ButtonProcess processing={processing} error={error} onClick={onConfirm}>
                     <IconTrash /> <T>confirm</T>
-                </Button>
+                </ButtonProcess>
                 <Button size={50} onClick={onCancel}>
                     <IconBook2 /> <T>cancel</T>
                 </Button>
