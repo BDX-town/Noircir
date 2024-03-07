@@ -11,6 +11,7 @@
         "cancel": "Conserver le billet",
         "for-reader": "La page générée pèsera %(weight)s",
         "draft": "Brouillon",
-        "save": "Enregistrer"
+        "save": "Enregistrer",
+        "success": "Le billet a bien été modifié"
     }
 }

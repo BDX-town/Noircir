@@ -17,38 +17,12 @@ import debounce from 'debounce';
 import { weight as calculateWeight } from './../helpers/weight'
 
 import { MediaInput } from '../bits/MediaInput';
-
-const DeleteModal = ({ onCancel, post }: { onCancel: React.MouseEventHandler, post: IPost }) => {
-    const { actions } = useAppContext();
-    const { deletePost } = actions;
-    const { T } = useTranslations('Post', {'fr-FR': fr});
-
-    const navigate = useNavigate();
-
-    const onConfirm = React.useCallback(async () => {
-        // TODO: feedback
-        const result = await deletePost(post);
-        console.log(result);
-        navigate('/');
-    }, [deletePost, navigate, post]);
-
-    return (
-        <Modal className='bg-additional-primary' onClose={onCancel}>
-            <T>shouldDelete</T>
-            <div className='mt-3 flex justify-between items-center gap-4'>
-                <Button size={50} className='bg-red-500' onClick={onConfirm}>
-                    <IconTrash /> <T>confirm</T>
-                </Button>
-                <Button size={50} onClick={onCancel}>
-                    <IconBook2 /> <T>cancel</T>
-                </Button>
-            </div>
-        </Modal>
-    );
-}
+import { ButtonProcess } from '../bits/ButtonProcess';
+import { AppError } from '../data/AppError';
+import { DELETE_MEDIA_DENY, DELETE_MEDIA_FAIL } from '../services/media';
+import { EDIT_POST_DENY, EDIT_POST_FAIL, EDIT_POST_FALSE } from '../services/posts';
 
 
-  
 const useStyle = createUseStyles({
     editorCSS: {
         "&>.mdxeditor-toolbar": {
@@ -75,8 +49,57 @@ const useStyle = createUseStyles({
                 zIndex: 0,
             },
         }
-    } as React.CSSProperties
+    } as React.CSSProperties,
+    confirmDelete: {
+        "&>button": {
+            background: "rgb(239 68 68 / var(--tw-bg-opacity))",
+        }
+    }
 })
+
+const DeleteModal = ({ onCancel, post }: { onCancel: React.MouseEventHandler, post: IPost }) => {
+    const { actions } = useAppContext();
+    const { deletePost } = actions;
+    const { T } = useTranslations('Post', {'fr-FR': fr});
+    const { confirmDelete } = useStyle();
+
+    const [error, setError] = React.useState<AppError | undefined>(undefined);
+    const [processing, setProcessing] = React.useState(false);
+
+    const navigate = useNavigate();
+
+    const onConfirm = React.useCallback(async () => {
+        setProcessing(true);
+        setError(undefined);
+        try {
+            await deletePost(post);
+            navigate('/');
+        } catch (e) {
+            const appError = e as AppError;
+            if(appError.code === DELETE_MEDIA_DENY || appError.code === DELETE_MEDIA_FAIL) setError(appError);
+            else throw e;
+        } finally {
+            setProcessing(false);
+        }
+    }, [deletePost, navigate, post]);
+
+    return (
+        <Modal className='bg-additional-primary' onClose={onCancel}>
+            <T>shouldDelete</T>
+            <div className='mt-3 flex justify-between items-center gap-4'>
+                <ButtonProcess className={confirmDelete} size={50} onClick={onConfirm} processing={processing} error={error}>
+                    <IconTrash /> <T>confirm</T>
+                </ButtonProcess>
+                <Button size={50} onClick={onCancel}>
+                    <IconBook2 /> <T>cancel</T>
+                </Button>
+            </div>
+        </Modal>
+    );
+}
+
+
+  
 
 
 export const Post = ({ blank = false }: { blank?: boolean }) => {
@@ -98,6 +121,10 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
     const [weight, setWeight] = React.useState(post ? new TextEncoder().encode(formatPost(post)).length : 0);
 
     const { editorCSS } = useStyle();
+
+    const [processing, setProcessing] = React.useState(false);
+    const [success, setSuccess] = React.useState<string | undefined>(undefined);
+    const [error, setError] = React.useState<AppError | undefined>(undefined);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const calculateImageWeight = React.useCallback(debounce(async () => {
@@ -148,11 +175,21 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
             createdAt: post?.createdAt || new Date(),
             weight,
             draft: (formData.draft as unknown as string) === "on" ? true : false,
-        } as IPost
-        // TODO: feedback
-        const result = await editPost(data);
-        console.log(result);
-    }, [blank, blog, editPost, post, weight]);
+        } as IPost;
+        setProcessing(true);
+        setError(undefined);
+        setSuccess(undefined);
+        try {
+            await editPost(data);
+            setSuccess(__('success'));
+        } catch (e) {
+            const appError = e as AppError;
+            if(appError.code === EDIT_POST_DENY || appError.code === EDIT_POST_FAIL || appError.code === EDIT_POST_FALSE) setError(appError);
+            else throw e;
+        } finally {
+            setProcessing(false);
+        }
+    }, [__, blank, blog, editPost, post, weight]);
 
     if(!post && !blank) return (
         <div className='grow flex flex-col items-center justify-center'>
@@ -220,7 +257,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
                         </div>    
                         <div className='flex gap-3 items-center'>
                             <Checkbox name="draft" checked={draft} onChange={() => setDraft(!draft)}  ><T>draft</T></Checkbox>
-                            <Button size={50} htmlType='submit'>
+                            <ButtonProcess size={50} htmlType='submit' processing={processing} error={error} success={success}>
                                 {
                                     draft ? (
                                         <>
@@ -232,7 +269,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
                                         </>
                                     )
                                 }
-                            </Button>
+                            </ButtonProcess>
                         </div>
                     </div>
 

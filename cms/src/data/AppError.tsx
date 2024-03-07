@@ -1,6 +1,8 @@
 import { hashCode } from "../helpers/hashCode";
 
 const ERRORS: string[] = [];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(window as any).ERRORS = ERRORS;
 
 export function declareError(userMessage: string) {
     const index = ERRORS.length;

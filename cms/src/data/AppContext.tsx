@@ -6,7 +6,7 @@ import { Blog } from "types/src/Blog";
 import { Post } from "types/src/Post";
 import { Media } from "types/src/Media";
 
-import { fetchBlog, editBlog as editBlogService, FETCH_BLOG_FAIL, FETCH_BLOG_DENY } from "../services/blogs";
+import { fetchBlog, editBlog as editBlogService, FETCH_BLOG_DENY } from "../services/blogs";
 import { fetchMedia, deleteMedia as deleteMediaService, putMedia as putMediaService, deserializeMedia } from "../services/media";
 import { fetchPosts, deletePost as deletePostService, editPost as editPostService, deserializePost } from "../services/posts";
 import { AppError, declareError } from "./AppError";
@@ -24,12 +24,12 @@ interface IAppContext {
         login: (u: string, p: string, t?: boolean) => Promise<WebdavClient>,
         logout: () => void,
         editBlog: (b: Blog) => Promise<void>,
-        editPost: (p: Post) => Promise<boolean>,
+        editPost: (p: Post) => Promise<void>,
         deletePost: (p: Post) => Promise<void>,
         deleteMedia: (m: Media) => Promise<void>,
         putMedia: (m: Media) => Promise<Media>,
         loadMedia: () => Promise<void>
-        changePassword: (s: string) => Promise<boolean>,
+        changePassword: (s: string) => Promise<void>,
     }
 }
 
@@ -79,14 +79,8 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }, [client]);
 
     const loadPost = React.useCallback(async (fclient: WebdavClient | undefined = undefined) => {
-        try {
-            const posts = await fetchPosts(fclient || client as WebdavClient);
-            setPosts(posts);
-        } catch (e) {
-            console.error(e);
-            const ue = new AppError(new Error((e as Error).message), "Unable to retrieve your posts. Please check your internet connection or retry later.");
-            throw ue;
-        }
+        const posts = await fetchPosts(fclient || client as WebdavClient);
+        setPosts(posts);
     }, [client]);
 
     const loadMedia = React.useCallback(async (fclient: WebdavClient | undefined = undefined) => {
@@ -129,16 +123,13 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     // posts
     const editPost = React.useCallback(async (post: Post) => {
-        const result = await editPostService(client as WebdavClient, post);
-        if(result) {
-            const index = posts?.findIndex((p) => p.file === post.file);
-            if(index === -1) {
-                setPosts([...(posts as Post[]), post]);
-            } else {
-                setPosts(posts?.map((p) => p.file === post.file ? post : p));
-            }
+        await editPostService(client as WebdavClient, post);
+        const index = posts?.findIndex((p) => p.file === post.file);
+        if(index === -1) {
+            setPosts([...(posts as Post[]), post]);
+        } else {
+            setPosts(posts?.map((p) => p.file === post.file ? post : p));
         }
-        return result;
     }, [client, posts]);
 
     const deletePost = React.useCallback(async (post: Post) => {

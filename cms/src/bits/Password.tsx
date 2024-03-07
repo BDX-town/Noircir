@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useTranslations, TextInput } from '@bdxtown/canaille';
 
-const pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$&]).{12,}$"
+const pattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$]).{12,}$"
 
 import fr from './Password.fr-FR.i18n.json';
 

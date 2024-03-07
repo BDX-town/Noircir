@@ -15,6 +15,7 @@ export function deserializeMedia(m: Media): Media {
 export const PARSE_MEDIA_FAIL = declareError('Unable to retrieve your media. There is maybe something wrong on our end but please check your connection.');
 export const PARSE_MEDIA_DENY = declareError('You do not have access to this media. Please check your credentials.');
 export const PARSE_MEDIA_NOTFOUND = declareError('The requested media does not exsist (anymore ?).')
+export const PARSE_MEDIA_FORMAT = declareError('The requested media is malformed. Please try to reupload it.');
 async function parseMedia(client: WebdavClient, file: WebdavFile): Promise<Media> {
     const response = await fetchAdapter(client.getFileContents, `/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources/${file.basename}`);
 
@@ -25,12 +26,16 @@ async function parseMedia(client: WebdavClient, file: WebdavFile): Promise<Media
         throw new AppError(code, `${response.status}: ${response.statusText}`)
     }
     const content = await response.arrayBuffer();
-    return {
-        file: file.basename,
-        updatedAt: new Date(file.lastmod),
-        weight: file.size,
-        url: buildUrl(file.filename),
-        content,
+    try {
+        return {
+            file: file.basename,
+            updatedAt: new Date(file.lastmod),
+            weight: file.size,
+            url: buildUrl(file.filename),
+            content,
+        }
+    } catch (e) {
+        throw new AppError(PARSE_MEDIA_FORMAT, (e as object).toString());
     }
 }
 
@@ -64,11 +69,8 @@ export const DELETE_MEDIA_FAIL = declareError('Unable to delete your media. Ther
 export const DELETE_MEDIA_DENY = declareError('You do not have access to this media. Please check your credentials.');
 export async function deleteMedia(client: WebdavClient, media: Media) {
     const response = await fetchAdapter(client.deleteFile, `/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources/${media.file}`);
-    if(!response.ok) {
+    if(!response.ok && response.status !== 404) {
         let code = DELETE_MEDIA_FAIL;
-        // given webdav doc, 404 does not happens and the call returns nothing so 
-        // I assume that if the user request to delete something that does not
-        // exist, we can say it was correctly removed ?
         if(response.status === 401 || response.status === 403) code = DELETE_MEDIA_DENY;
         throw new AppError(code, `${response.status}: ${response.statusText}`)
     }
