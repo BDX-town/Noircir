@@ -13,8 +13,13 @@ export const EDIT_BLOG_DENY = declareError('Unable to edit your blog information
 // the filesystem refused to edit the file, that's not normal since we used overwrite true
 export const EDIT_BLOG_FALSE = declareError('Your blog informations were not edited, please report that issue to the administrator.')
 export async function editBlog(client: WebdavClient, blog: Blog): Promise<void> {
+    let response;
     // since overwrite is true, putFileContents can not return false 
-    const response = await fetchAdapter(client.putFileContents, `/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/${client.username}.json`, JSON.stringify(blog), { overwrite: true });
+    try {
+        response = await fetchAdapter(client.putFileContents, `/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/${client.username}.json`, JSON.stringify(blog), { overwrite: true });
+    } catch (e) {
+        throw new AppError(EDIT_BLOG_FAIL, (e as object).toString());
+    }
     if(!response.ok) {
         let code = EDIT_BLOG_FAIL;
         if(response.status === 401 || response.status === 402) code = EDIT_BLOG_DENY;
@@ -31,7 +36,12 @@ export const FETCH_BLOG_FAIL = declareError(`Unable to retrieve your blog from t
 export const FETCH_BLOG_DENY = declareError(`Unable to access to this blog. Please check your credentials.`);
 export async function fetchBlog(client: WebdavClient): Promise<Blog> {
     const basePath = `/${import.meta.env.VITE_BLOGS_PATH}/${client.username}`;
-    const response = await fetchAdapter(client.getFileContents, `${basePath}/${client.username}.json`, { format: "text" });
+    let response;
+    try {
+        response = await fetchAdapter(client.getFileContents, `${basePath}/${client.username}.json`, { format: "text" });
+    } catch (e) {
+        throw new AppError(FETCH_BLOG_FAIL, (e as object).toString());
+    }
     if(!response.ok) {
         let code = FETCH_BLOG_FAIL;
         if(response.status === 401 || response.status === 403) code = FETCH_BLOG_DENY;

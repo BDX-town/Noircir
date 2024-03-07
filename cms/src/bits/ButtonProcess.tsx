@@ -19,16 +19,16 @@ export const ButtonProcess = ({ className = '', disabled, processing, error, suc
                         error && <IconTimelineEventExclamation className='text-red-500' />
                     }
                     {
-                        success && <IconTimelineEvent className='text-green-500' />
+                        success && <IconTimelineEvent className='text-green-600' />
                     }
                 </>
             }
             <Button {...rest} disabled={processing || disabled}>{ children }</Button>
             {
-                !processing && error && <span className='text-red-500'>{ error.userMessage }</span>
+                !processing && error && <span className='text-red-500 min-w-full text-right'>{ error.userMessage }</span>
             }
             {
-                !processing && success && <span className='text-green-500'>{ success }</span>
+                !processing && success && <span className='text-green-600 min-w-full text-right'>{ success }</span>
             }
         </div>
     );

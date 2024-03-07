@@ -1,5 +1,5 @@
 import React from 'react';
-import { Block, Button, useTranslations, Checkbox } from "@bdxtown/canaille";
+import { Block, Button, useTranslations, Checkbox, createUseStyles } from "@bdxtown/canaille";
 import { IconTrash, IconBook2, IconDownload } from '@tabler/icons-react';
 import { Media as IMedia } from 'types/src/Media';
 import { Modal } from '../bits/Modal';
@@ -13,7 +13,16 @@ import { ButtonProcess } from '../bits/ButtonProcess';
 import { AppError } from '../data/AppError';
 import { DELETE_MEDIA_DENY, DELETE_MEDIA_FAIL } from '../services/media';
 
+const useStyle = createUseStyles({
+    confirmDelete: {
+        "&>button": {
+            background: "rgb(239 68 68 / var(--tw-bg-opacity))",
+        }
+    }
+})
+
 const DeleteModal = ({ onCancel, media, onDelete }: { onCancel: React.MouseEventHandler, onDelete: React.MouseEventHandler, media: IMedia[] }) => {
+    const { confirmDelete } = useStyle();
     const { actions } = useAppContext();
     const { deleteMedia } = actions;
     const { T } = useTranslations('Media', {'fr-FR': fr});
@@ -37,13 +46,13 @@ const DeleteModal = ({ onCancel, media, onDelete }: { onCancel: React.MouseEvent
             setProcessing(false);
         }
         onDelete(e);
-    }, [deleteMedia, media, onDelete]);
+    }, [deleteMedia, error, media, onDelete]);
 
     return (
         <Modal className='bg-additional-primary' onClose={onDelete}>
             <T>shouldDelete</T>
             <div className='mt-3 flex justify-between items-center gap-4'>
-                <ButtonProcess processing={processing} error={error} onClick={onConfirm}>
+                <ButtonProcess className={confirmDelete} size={50} processing={processing} error={error} onClick={onConfirm}>
                     <IconTrash /> <T>confirm</T>
                 </ButtonProcess>
                 <Button size={50} onClick={onCancel}>

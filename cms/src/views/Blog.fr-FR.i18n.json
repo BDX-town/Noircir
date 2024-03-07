@@ -3,7 +3,7 @@
         "title": "Nom du blog",
         "cover": "Choisir un aperçu",
         "publish": "Enregistrer",
-        "success": "Les informations du blog on été mises à jour",
+        "success": "Les informations du blog ont été mises à jour",
         "cover-description": "L'aperçu représente votre blog. Il sera utilisé en guise d'icône pour les onglets et favoris. Il apparaîtra sur la page d'accueil de votre blog."
     }
 }
