@@ -52,7 +52,7 @@ export async function fetchWithRetry(fn: () => Promise<Response>, retries = 0) {
 export async function fetchAdapter(fn: (p?: unknown) => Promise<unknown>, ...rest : unknown[]) {
     try {
         const body = await fn(...rest);
-        return new Response(body as never);
+        return new Response(typeof body === "string" ? body : JSON.stringify(body));
     } catch (e) {
         const error = e as Error;
         const codeMatch = error.message.match(/[0-9]{3}/);
