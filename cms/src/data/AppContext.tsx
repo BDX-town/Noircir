@@ -7,8 +7,8 @@ import { Post } from "types/src/Post";
 import { Media } from "types/src/Media";
 
 import { fetchBlog, editBlog as editBlogService, FETCH_BLOG_DENY } from "../services/blogs";
-import { fetchMedia, deleteMedia as deleteMediaService, putMedia as putMediaService, deserializeMedia } from "../services/media";
-import { fetchPosts, deletePost as deletePostService, editPost as editPostService, deserializePost } from "../services/posts";
+import { fetchMedia, deleteMedia as deleteMediaService, putMedia as putMediaService } from "../services/media";
+import { fetchPosts, deletePost as deletePostService, editPost as editPostService } from "../services/posts";
 import { AppError, declareError } from "./AppError";
 import { WebdavClient } from "../types/webdav";
 import { changePassword as changePasswordService } from "../services/settings";
@@ -35,8 +35,9 @@ interface IAppContext {
 
 function save(context: Partial<IAppContext>) {
     // I know this is not that call to store that in sessionStorage, however given that webdav lib design, I don't know how I can do that in a better way
+    // TODO: use oauth and only store token
     // https://security.stackexchange.com/questions/36958/is-it-safe-to-store-password-in-html5-sessionstorage
-    sessionStorage.setItem("context", JSON.stringify({ ...context, client: context.client ? { username: context.client.username, password: context.client.password  } : undefined, actions: undefined }));
+    sessionStorage.setItem("context", JSON.stringify({ client: context.client ? { username: context.client.username, password: context.client.password  } : undefined, actions: undefined }));
 }
 
 function load(): Partial<IAppContext> {
@@ -46,8 +47,6 @@ function load(): Partial<IAppContext> {
         // we init a new client here, restoring auth state is done via the ServiceWorker
         // it keep in memory the last auth header used
         client: context.client ? Object.assign(webdav.createClient(import.meta.env.VITE_SERVER, { authType: webdav.AuthType.Password, username: context.client.username, password: context.client.password }), { username: context.client.username, password: context.client.password }) : undefined,
-        posts: context.posts?.map(deserializePost),
-        media: context.media?.map(deserializeMedia),
     }
 }
   
@@ -59,26 +58,25 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     const savedData = React.useRef(load());
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [client, setClient] = React.useState<undefined | WebdavClient>(savedData.current.client as any);
+    const [client, setClient] = React.useState<undefined | WebdavClient>(savedData.current.client as WebdavClient);
     const [blog, setBlog] = React.useState<Blog | undefined>(savedData.current.blog);
     const [posts, setPosts] = React.useState<Post[] | undefined>(savedData.current.posts);
     const [media, setMedia] = React.useState<Media[] | undefined>(savedData.current.media);
 
-    // save each time data changes
     React.useEffect(() => {
         const ctx = {
-            client, blog, posts, media
+            client
         };
         save(ctx)
-    }, [client, blog, posts, media]);
+    }, [client]);
+
 
     const loadBlog = React.useCallback(async (fclient: WebdavClient | undefined = undefined) => {
         const blog = await fetchBlog(fclient || client as WebdavClient);
         setBlog(blog);
     }, [client]);
 
-    const loadPost = React.useCallback(async (fclient: WebdavClient | undefined = undefined) => {
+    const loadPosts = React.useCallback(async (fclient: WebdavClient | undefined = undefined) => {
         const posts = await fetchPosts(fclient || client as WebdavClient);
         setPosts(posts);
     }, [client]);
@@ -89,8 +87,8 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }, [client]);
 
     const refresh = React.useCallback((fclient: WebdavClient | undefined = undefined) => {
-        return Promise.all([loadBlog(fclient), loadPost(fclient), loadMedia(fclient)]);
-    }, [loadBlog, loadMedia, loadPost]);
+        return Promise.all([loadBlog(fclient), loadPosts(fclient), loadMedia(fclient)]);
+    }, [loadBlog, loadMedia, loadPosts]);
 
     // login
     const login = React.useCallback(async (username: string, password: string, temp: boolean = false) => {
@@ -152,6 +150,14 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     // settings
     const changePassword = React.useCallback((password: string) => changePasswordService(client as WebdavClient, password), [client]);
+
+    React.useEffect(() => {
+        if(client) {
+            if(!blog) loadBlog();
+            if(!posts) loadPosts();
+            if(!media) loadMedia();
+        }
+    }, [client, blog, posts, media, loadBlog, loadPosts, loadMedia])
 
     const value = React.useMemo(() => ({
         client,
