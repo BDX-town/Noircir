@@ -14,17 +14,17 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>,
 )
 
-// const registerServiceWorker = async () => {
-//   if ("serviceWorker" in navigator) {
-//     try {
-//       await navigator.serviceWorker.register('/sw.js', {
-//         scope: '/'
-//       });
-//     } catch (error) {
-//       console.error(error);
-//     }
-//   }
-// };
+const registerServiceWorker = async () => {
+  if ("serviceWorker" in navigator) {
+    try {
+      await navigator.serviceWorker.register('/sw.js', {
+        scope: '/'
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+};
 
-// registerServiceWorker();
+registerServiceWorker();
 
