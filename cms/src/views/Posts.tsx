@@ -7,7 +7,7 @@ import { weight } from '../helpers/weight';
 import fr from './Posts.fr-FR.i18n.json';
 import { IconExternalLink } from '@tabler/icons-react';
 import { buildLink } from '../services/posts';
-import { WebdavClient } from '../types/webdav';
+import { Webdav } from '../services/webdav';
 
 export const Posts = () => {
     const { T } = useTranslations('Posts', { 'fr-FR': fr });
@@ -23,7 +23,7 @@ export const Posts = () => {
                             <article className='flex flex-col p-3 grow'>
                                 <div className='flex'>
                                     <h3 className='m-0 grow'>{post.title}</h3>
-                                    <a onClick={(e) => e.stopPropagation()} className='align-middle' href={buildLink(import.meta.env.VITE_SERVER, client as WebdavClient, blog, post)} target="_blank"><T>read</T><IconExternalLink className='ml-2 align-middle' size={16} /></a>
+                                    <a onClick={(e) => e.stopPropagation()} className='align-middle' href={buildLink(import.meta.env.VITE_SERVER, client as Webdav, blog, post)} target="_blank"><T>read</T><IconExternalLink className='ml-2 align-middle' size={16} /></a>
                                 </div>
                                 <p className='grow'>{post.description}</p>
                                 <div className='flex justify-between items-center opacity-60'>

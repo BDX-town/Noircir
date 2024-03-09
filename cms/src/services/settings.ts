@@ -1,12 +1,11 @@
-import { WebdavClient } from "../types/webdav";
 import { buildUrl } from "../helpers/buildUrl";
 import { AppError, declareError } from "../data/AppError";
-import { fetchAdapter } from "./fetch";
+import { Webdav } from "./webdav";
 
 export const GENERATE_PASSWORD_FAIL = declareError('Unable to generate a password. There is maybe something wrong on our side, but please check your connection.');
 export const GENERATE_PASSWORD_DENY = declareError('You do not have the right to ask for a password. Please check your credentials.');
 export const GENERATE_PASSWORD_NOTFOUND = declareError('Unable to generate a password. Server\'s configuration is wrong. Please tell your administrator about this issue.');
-async function generatePassword(client: WebdavClient, password: string): Promise<string> {
+async function generatePassword(client: Webdav, password: string): Promise<string> {
     const url = buildUrl(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/password`);
     let response;
     try {
@@ -34,15 +33,14 @@ export const CHANGE_PASSWORD_FAIL = declareError('Unable to change your password
 export const CHANGE_PASSWORD_DENY = declareError('You do not have the right to change password. Please check your credentials.');
 export const CHANGE_PASSWORD_NOTFOUND = declareError('Unable to generate a password. Server\'s configuration is wrong. Please tell your administrator about this issue.');
 export const CHANGE_PASSWORD_FALSE = declareError('Unable to save your new password. There is something wrong with the server\'s configuration. Please tell your adminitrator about that issue.');
-export async function changePassword(client: WebdavClient, password: string): Promise<void> {
+export async function changePassword(client: Webdav, password: string): Promise<void> {
     const hashedPassword = await generatePassword(client, password);
     const source = (`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/.auth.allow`);
     const destination = (`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/.auth.allow.backup`);
     // initial destination header is malformed 
     let response;
-
     try {
-        response = await fetchAdapter(client.deleteFile, destination);
+        response = await client.deleteFile(destination);
     } catch (e) {
         throw new AppError(CHANGE_PASSWORD_FAIL, (e as object).toString());
     }
@@ -53,7 +51,7 @@ export async function changePassword(client: WebdavClient, password: string): Pr
     }
     
     try {
-        response = await fetchAdapter(client.copyFile, source, destination, { headers: { "Destination": destination }});
+        response = await client.copyFile(source, destination);
     } catch (e) {
         throw new AppError(CHANGE_PASSWORD_FAIL, (e as object).toString());
     }
@@ -65,7 +63,7 @@ export async function changePassword(client: WebdavClient, password: string): Pr
     }
 
     try {
-        response = await fetchAdapter(client.putFileContents, source, `${client.username}:${hashedPassword}`, { overwrite: true });
+        response = await client.putFileContents(source, `${client.username}:${hashedPassword}`, { overwrite: true });
     } catch (e) {
         throw new AppError(CHANGE_PASSWORD_FAIL, (e as object).toString());
     }
@@ -73,14 +71,7 @@ export async function changePassword(client: WebdavClient, password: string): Pr
         let code = CHANGE_PASSWORD_FAIL;
         if(response.status === 401 || response.status === 403) code = CHANGE_PASSWORD_DENY;
         else if(response.status === 404) code = CHANGE_PASSWORD_NOTFOUND;
+        else if(response.status === 412) code = CHANGE_PASSWORD_FALSE;
         throw new AppError(code, `${response.status}: ${response.statusText}`);
     }
-
-    let result = false;
-    try {
-        result = await response.json();
-    } catch (e) {
-        throw new AppError(CHANGE_PASSWORD_FAIL, (e as object).toString());
-    }
-    if(!result) throw new AppError(CHANGE_PASSWORD_FALSE, 'putFileContents returned false. This should not happen with overwrite: true')
 }

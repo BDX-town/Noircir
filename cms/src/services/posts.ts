@@ -1,12 +1,12 @@
 import { Post } from 'types/src/Post';
-import { WebdavClient, WebdavFile } from '../types/webdav';
+import { WebdavFile } from '../types/webdav';
 import yaml from 'yaml';
 import { formatPost } from '../helpers/formatPost';
 import { Blog } from 'types/src/Blog';
 import { AppError, declareError } from '../data/AppError';
-import { fetchAdapter } from './fetch';
+import { Webdav } from './webdav';
 
-export function buildLink(server: string, client: WebdavClient, blog: Blog, post: Post) {
+export function buildLink(server: string, client: Webdav, blog: Blog, post: Post) {
     // @ts-expect-error we use the otherwise unused variables to avoid production build to remove them
     return eval('`'+import.meta.env.VITE_POST_LINK_FORMAT+'`', server, client, blog, post);
 }
@@ -49,11 +49,12 @@ function parsePost(meta: WebdavFile, raw: string): Post{
 export const EDIT_POST_FAIL = declareError("Unable to save your post. There is maybe something wrong on our end, but please check your connection.");
 export const EDIT_POST_DENY = declareError("You do not have access to this post. Please check your credentials.");
 export const EDIT_POST_FALSE = declareError("Unable to save your post. There is something wrong on our end, please report this issue to your administrator.");
-export async function editPost(client: WebdavClient, post: Post) {
+export const EDIT_POST_QUEUED = declareError('Since you are offline, your post will be synchronized when you will be back online.');
+export async function editPost(client: Webdav, post: Post) {
     const content = formatPost(post);
     let response;
     try {
-        response = await fetchAdapter(client.putFileContents, `/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/${post.file}`, content, { overwrite: true });
+        response = await client.putFileContents(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/${post.file}`, content, { overwrite: true });
     } catch (e) {
         throw new AppError(EDIT_POST_FAIL, (e as object).toString());
     }
@@ -61,24 +62,19 @@ export async function editPost(client: WebdavClient, post: Post) {
     if(!response.ok) {
         let code = EDIT_POST_FAIL;
         if(response.status === 401 || response.status === 403) code = EDIT_POST_DENY;
+        if(response.status === 412) code = EDIT_POST_FALSE;
         throw new AppError(code, `${response.status}: ${response.statusText}`);
     }
-    
-    let result = false;
-    try {
-        result = await response.json();
-    } catch (e) {
-        throw new AppError(EDIT_POST_FAIL, (e as object).toString());
-    }
-    if(!result) throw new AppError(EDIT_POST_FALSE, 'putFileContents returned false. This should not happen with overwrite: true');
+
+    if(response.status === 202) throw new AppError(EDIT_POST_QUEUED, "offline");
 }
 
 export const DELETE_POST_FAIL = declareError('Unable to delete your post. There is maybe something wrong on our end, but please check your connection.');
 export const DELETE_POST_DENY = declareError('You do not have access to this post. Please check your credentials.'); 
-export async function deletePost(client: WebdavClient, post: Post) {
+export async function deletePost(client: Webdav, post: Post) {
     let response;
     try {
-        response = await fetchAdapter(client.deleteFile, `/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/${post.file}`);
+        response = await client.deleteFile(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/${post.file}`);
     } catch (e) {
         throw new AppError(DELETE_POST_FAIL, (e as object).toString());
     }
@@ -92,10 +88,10 @@ export async function deletePost(client: WebdavClient, post: Post) {
 export const FETCH_POSTS_FAIL = declareError('Unable to retireve your posts. There is maybe something wrong on our end, but please check your connection.');
 export const FETCH_POSTS_DENY = declareError('You do not have access to these posts. Please check your credentials.');
 export const FETCH_POSTS_NOTFOUND = declareError('At least on of these posts does not exsist (anymore ?). Please notice this issue to your administrator.')
-export async function fetchPosts(client: WebdavClient): Promise<Post[]> {
+export async function fetchPosts(client: Webdav): Promise<Post[]> {
     let response;
     try {
-        response = await fetchAdapter(client.getDirectoryContents, `/${import.meta.env.VITE_BLOGS_PATH}/${client.username}`);
+        response = await client.getDirectoryContents(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}`);
     } catch (e) {
         throw new AppError(FETCH_POSTS_FAIL, (e as object).toString());
     }
@@ -120,7 +116,7 @@ export async function fetchPosts(client: WebdavClient): Promise<Post[]> {
     try {
         postsResponses = await Promise.all(
             postsMeta
-                .map((f) => fetchAdapter(client.getFileContents, f.filename, { format: "text" }))
+                .map((f) => client.getFileContents(f.filename))
         );
     } catch (e) {
         throw new AppError(FETCH_POSTS_FAIL, (e as object).toString());
@@ -131,7 +127,7 @@ export async function fetchPosts(client: WebdavClient): Promise<Post[]> {
         return response.ok;
     }).map((response) => response.text());
 
-    let postsData = [];
+    let postsData: string[] = [];
     try {
         postsData = await Promise.all(postsResponses);
     } catch (e) {

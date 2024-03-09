@@ -20,7 +20,7 @@ import { MediaInput } from '../bits/MediaInput';
 import { ButtonProcess } from '../bits/ButtonProcess';
 import { AppError } from '../data/AppError';
 import { DELETE_MEDIA_DENY, DELETE_MEDIA_FAIL } from '../services/media';
-import { EDIT_POST_DENY, EDIT_POST_FAIL, EDIT_POST_FALSE } from '../services/posts';
+import { EDIT_POST_DENY, EDIT_POST_FAIL, EDIT_POST_FALSE, EDIT_POST_QUEUED } from '../services/posts';
 
 
 const useStyle = createUseStyles({
@@ -185,6 +185,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
         } catch (e) {
             const appError = e as AppError;
             if(appError.code === EDIT_POST_DENY || appError.code === EDIT_POST_FAIL || appError.code === EDIT_POST_FALSE) setError(appError);
+            else if(appError.code === EDIT_POST_QUEUED) setSuccess(appError.userMessage);
             else throw e;
         } finally {
             setProcessing(false);

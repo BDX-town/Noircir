@@ -1,5 +1,4 @@
 import React, { createContext, useContext } from "react";
-import * as webdav from "webdav/web";
 
 
 import { Blog } from "types/src/Blog";
@@ -10,18 +9,18 @@ import { fetchBlog, editBlog as editBlogService, FETCH_BLOG_DENY } from "../serv
 import { fetchMedia, deleteMedia as deleteMediaService, putMedia as putMediaService } from "../services/media";
 import { fetchPosts, deletePost as deletePostService, editPost as editPostService } from "../services/posts";
 import { AppError, declareError } from "./AppError";
-import { WebdavClient } from "../types/webdav";
 import { changePassword as changePasswordService } from "../services/settings";
+import { createClient, Webdav } from "../services/webdav";
 
 interface IAppContext {
-    client: WebdavClient | undefined,
+    client: Webdav | undefined,
     blog: Blog;
     posts: Post[];
     media: Media[];
 
     actions: {
-        refresh: (c?: WebdavClient) => Promise<unknown>
-        login: (u: string, p: string, t?: boolean) => Promise<WebdavClient>,
+        refresh: (c?: Webdav) => Promise<unknown>
+        login: (u: string, p: string, t?: boolean) => Promise<Webdav>,
         logout: () => void,
         editBlog: (b: Blog) => Promise<void>,
         editPost: (p: Post) => Promise<void>,
@@ -46,7 +45,7 @@ function load(): Partial<IAppContext> {
         ...context,
         // we init a new client here, restoring auth state is done via the ServiceWorker
         // it keep in memory the last auth header used
-        client: context.client ? Object.assign(webdav.createClient(import.meta.env.VITE_SERVER, { authType: webdav.AuthType.Password, username: context.client.username, password: context.client.password }), { username: context.client.username, password: context.client.password }) : undefined,
+        client: context.client ? createClient(import.meta.env.VITE_SERVER, { username: context.client.username, password: context.client.password }) : undefined,
     }
 }
   
@@ -58,7 +57,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     const savedData = React.useRef(load());
 
-    const [client, setClient] = React.useState<undefined | WebdavClient>(savedData.current.client as WebdavClient);
+    const [client, setClient] = React.useState<undefined | Webdav>(savedData.current.client as Webdav);
     const [blog, setBlog] = React.useState<Blog | undefined>(savedData.current.blog);
     const [posts, setPosts] = React.useState<Post[] | undefined>(savedData.current.posts);
     const [media, setMedia] = React.useState<Media[] | undefined>(savedData.current.media);
@@ -71,35 +70,33 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }, [client]);
 
 
-    const loadBlog = React.useCallback(async (fclient: WebdavClient | undefined = undefined) => {
-        const blog = await fetchBlog(fclient || client as WebdavClient);
+    const loadBlog = React.useCallback(async (fclient: Webdav | undefined = undefined) => {
+        const blog = await fetchBlog(fclient || client as Webdav);
         setBlog(blog);
     }, [client]);
 
-    const loadPosts = React.useCallback(async (fclient: WebdavClient | undefined = undefined) => {
-        const posts = await fetchPosts(fclient || client as WebdavClient);
+    const loadPosts = React.useCallback(async (fclient: Webdav | undefined = undefined) => {
+        const posts = await fetchPosts(fclient || client as Webdav);
         setPosts(posts);
     }, [client]);
 
-    const loadMedia = React.useCallback(async (fclient: WebdavClient | undefined = undefined) => {
-        const media = await fetchMedia(fclient || client as WebdavClient);
+    const loadMedia = React.useCallback(async (fclient: Webdav | undefined = undefined) => {
+        const media = await fetchMedia(fclient || client as Webdav);
         setMedia(media);
     }, [client]);
 
-    const refresh = React.useCallback((fclient: WebdavClient | undefined = undefined) => {
+    const refresh = React.useCallback((fclient: Webdav | undefined = undefined) => {
         return Promise.all([loadBlog(fclient), loadPosts(fclient), loadMedia(fclient)]);
     }, [loadBlog, loadMedia, loadPosts]);
 
     // login
     const login = React.useCallback(async (username: string, password: string, temp: boolean = false) => {
-        const c = webdav.createClient(import.meta.env.VITE_SERVER, {
-            authType: webdav.AuthType.Password,
+        const c = createClient(import.meta.env.VITE_SERVER, {
             username,
             password
         });
-        const a = Object.assign(c, { username, password }) as WebdavClient;
         try {
-            await fetchBlog(a);
+            await fetchBlog(c);
         } catch (e) {
             const error = e as Error;
             if((error as AppError).code == FETCH_BLOG_DENY) {
@@ -107,21 +104,21 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             } 
             else throw e;
         }
-        if(!temp) setClient(a);
-        return a;
+        if(!temp) setClient(c);
+        return c;
     }, []);
 
     const logout = React.useCallback(() => setClient(undefined), []);
 
     // blog 
     const editBlog = React.useCallback(async (blog: Blog) => {
-        await editBlogService(client as WebdavClient, blog);
+        await editBlogService(client as Webdav, blog);
         setBlog(blog);
     }, [client]);
 
     // posts
     const editPost = React.useCallback(async (post: Post) => {
-        await editPostService(client as WebdavClient, post);
+        await editPostService(client as Webdav, post);
         const index = posts?.findIndex((p) => p.file === post.file);
         if(index === -1) {
             setPosts([...(posts as Post[]), post]);
@@ -131,25 +128,25 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     }, [client, posts]);
 
     const deletePost = React.useCallback(async (post: Post) => {
-        const result = await deletePostService(client as WebdavClient, post);
+        const result = await deletePostService(client as Webdav, post);
         setPosts(posts?.map((p) => p.file === post.file ? null : p).filter((p) => !!p) as Post[]);
         return result;
     }, [client, posts]);
 
     // media 
     const putMedia = React.useCallback(async (_media: Media) => {
-        const m = await putMediaService(client as WebdavClient, _media);
+        const m = await putMediaService(client as Webdav, _media);
         setMedia([...(media as Media[]), m]);
         return m;
     }, [client, media]);
 
     const deleteMedia = React.useCallback(async (cmedia: Media) => {
-        await deleteMediaService(client as WebdavClient, cmedia);
+        await deleteMediaService(client as Webdav, cmedia);
         setMedia(media?.map((p) => p.file === cmedia.file ? null : p).filter((p) => !!p) as Media[]);
     }, [client, media]);
 
     // settings
-    const changePassword = React.useCallback((password: string) => changePasswordService(client as WebdavClient, password), [client]);
+    const changePassword = React.useCallback((password: string) => changePasswordService(client as Webdav, password), [client]);
 
     React.useEffect(() => {
         if(client) {

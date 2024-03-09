@@ -1,8 +1,8 @@
 import { Media } from 'types/src/Media';
-import { WebdavClient, WebdavFile } from '../types/webdav';
+import { WebdavFile } from '../types/webdav';
 import { buildUrl } from '../helpers/buildUrl';
-import { fetchAdapter } from './fetch';
 import { AppError, declareError } from '../data/AppError';
+import { Webdav } from './webdav';
 
 export function deserializeMedia(m: Media): Media {
     return {
@@ -14,10 +14,10 @@ export function deserializeMedia(m: Media): Media {
 
 export const PARSE_MEDIA_FAIL = declareError('Unable to retrieve your media. There is maybe something wrong on our end but please check your connection.');
 export const PARSE_MEDIA_DENY = declareError('You do not have access to this media. Please check your credentials.');
-export const PARSE_MEDIA_NOTFOUND = declareError('The requested media does not exsist (anymore ?).')
+export const PARSE_MEDIA_NOTFOUND = declareError('The requested media does not exist (anymore ?).')
 export const PARSE_MEDIA_FORMAT = declareError('The requested media is malformed. Please try to reupload it.');
-async function parseMedia(client: WebdavClient, file: WebdavFile): Promise<Media> {
-    const response = await fetchAdapter(client.getFileContents, `/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources/${file.basename}`);
+async function parseMedia(client: Webdav, file: WebdavFile): Promise<Media> {
+    const response = await client.getFileContents(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources/${file.basename}`);
 
     if(!response.ok) {
         let code = PARSE_MEDIA_FAIL;
@@ -43,22 +43,18 @@ async function parseMedia(client: WebdavClient, file: WebdavFile): Promise<Media
 export const PUT_MEDIA_FAIL = declareError('Unable to save your media. There is maybe something wrong on our end, but please check your connection.');
 export const PUT_MEDIA_DENY = declareError('You do not have access to this media. Please check your credentials.');
 export const PUT_MEDIA_FALSE = declareError('Your media was not saved. Please report this issue to your administrator.');
-export async function putMedia(client: WebdavClient, media: Media) {
-    const response = await fetchAdapter(client.putFileContents, `/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources/${media.file}`, media.content, { overwrite: true, contentLength: media.weight });
+export async function putMedia(client: Webdav, media: Media) {
+    const response = await client.putFileContents(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources/${media.file}`, media.content, { overwrite: true });
     if(!response.ok) {
         let code = PUT_MEDIA_FAIL;
         if(response.status === 401 || response.status === 403) {
             code = PUT_MEDIA_DENY;
         }
+        if(response.status === 412) {
+            code = PUT_MEDIA_FALSE;
+        }
         throw new AppError(code, `${response.status}: ${response.statusText}`)
     }
-    let result = false;
-    try {
-        result = await response.json();
-    } catch (e) {
-        throw new AppError(PUT_MEDIA_FAIL, (e as Error).message || (e as object).toString())
-    }
-    if(!result) throw new AppError(PUT_MEDIA_FALSE, 'There is something wrong with the filesystem, since overwrite is true.');
     return {
         ...media,
         url: buildUrl(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources/${media.file}`),
@@ -67,8 +63,8 @@ export async function putMedia(client: WebdavClient, media: Media) {
 
 export const DELETE_MEDIA_FAIL = declareError('Unable to delete your media. There is maybe something wrong on our end but please check your connection.');
 export const DELETE_MEDIA_DENY = declareError('You do not have access to this media. Please check your credentials.');
-export async function deleteMedia(client: WebdavClient, media: Media) {
-    const response = await fetchAdapter(client.deleteFile, `/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources/${media.file}`);
+export async function deleteMedia(client: Webdav, media: Media) {
+    const response = await client.deleteFile(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources/${media.file}`);
     if(!response.ok && response.status !== 404) {
         let code = DELETE_MEDIA_FAIL;
         if(response.status === 401 || response.status === 403) code = DELETE_MEDIA_DENY;
@@ -78,9 +74,9 @@ export async function deleteMedia(client: WebdavClient, media: Media) {
 
 export const FETCH_MEDIA_FAIL = declareError('Unable to retrieve your media directory. There is maybe something wrong on our end but please check your connection.');
 export const FETCH_MEDIA_DENY = declareError('You do not have access to these media. Please check your credentials.');
-export const FETCH_MEDIA_NOTFOUND = declareError('The requested media directory does not exsist (anymore ?). Please notice this issue to your administrator.')
-export async function fetchMedia(client: WebdavClient): Promise<Media[]> {
-    const response = await fetchAdapter(client.getDirectoryContents, `/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources`);
+export const FETCH_MEDIA_NOTFOUND = declareError('The requested media directory does not exist (anymore ?). Please notice this issue to your administrator.')
+export async function fetchMedia(client: Webdav): Promise<Media[]> {
+    const response = await client.getDirectoryContents(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources`);
 
     if(!response.ok) {
         let code = FETCH_MEDIA_FAIL;
