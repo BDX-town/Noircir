@@ -11,6 +11,7 @@ export const EDIT_BLOG_FAIL = declareError('Unable to update your blog informati
 export const EDIT_BLOG_DENY = declareError('Unable to edit your blog informations, please check your credentials.')
 // the filesystem refused to edit the file, that's not normal since we used overwrite true
 export const EDIT_BLOG_FALSE = declareError('Your blog informations were not edited, please report that issue to the administrator.')
+export const EDIT_BLOG_QUEUED = declareError('Since your are offline, your modifications will be applied when you will be back online.')
 export async function editBlog(client: Webdav, blog: Blog): Promise<void> {
     let response;
     // since overwrite is true, putFileContents can not return false 
@@ -24,7 +25,8 @@ export async function editBlog(client: Webdav, blog: Blog): Promise<void> {
         if(response.status === 401 || response.status === 402) code = EDIT_BLOG_DENY;
         if(response.status === 412) code = EDIT_BLOG_FALSE;
         throw new AppError(code, `${response.status}: ${response.statusText}`);
-    }    
+    }
+    if(response.status === 202) throw new AppError(EDIT_BLOG_QUEUED, "offline")
 }
 
 

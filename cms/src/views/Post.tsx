@@ -105,7 +105,7 @@ const DeleteModal = ({ onCancel, post }: { onCancel: React.MouseEventHandler, po
 export const Post = ({ blank = false }: { blank?: boolean }) => {
     const param = useParams();
     const filename = param.file;
-    const { posts, blog, actions } = useAppContext();
+    const { posts, blog, actions, online } = useAppContext();
     const { editPost } = actions;
     const post = React.useMemo(() => {
         return posts?.find((p) => p.file === filename);
@@ -245,7 +245,7 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
                 <div className='flex justify-between px-5 pb-5'>
                     {
                         !blank ? (
-                            <Button variant='secondary' onClick={() => setShouldDelete(true)}>
+                            <Button disabled={!online} variant='secondary' onClick={() => setShouldDelete(true)}>
                                 <IconTrash /> <T>delete</T>
                             </Button>
                         ) : (

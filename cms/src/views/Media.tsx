@@ -67,7 +67,7 @@ export const Media = () => {
     const { T } = useTranslations('Media', {'fr-FR': fr });
     const [shouldDelete, setShouldDelete] = React.useState<IMedia[] | undefined>(undefined);
 
-    const { media } = useAppContext();
+    const { media, online } = useAppContext();
 
 
     const onDelete: React.MouseEventHandler<HTMLButtonElement> = React.useCallback((e) => {
@@ -102,7 +102,7 @@ export const Media = () => {
                 </div>
                 <div className='grow'></div>
                 <div className='flex justify-between gap-2 items-center sticky bottom-0 py-2 bg-additional-primary'>
-                    <Button className='hover:bg-red-500' size={50} variant="light" onClick={onDelete}><IconTrash /> <T>delete</T></Button>
+                    <Button disabled={!online} className='hover:bg-red-500' size={50} variant="light" onClick={onDelete}><IconTrash /> <T>delete</T></Button>
                     <span className='text-gray-800 text-sm'><T number={media.length}>number</T></span>
                     <ButtonUpload><T>upload</T></ButtonUpload>
                 </div>

@@ -6,17 +6,20 @@ import { Post } from "types/src/Post";
 import { Media } from "types/src/Media";
 
 import { fetchBlog, editBlog as editBlogService, FETCH_BLOG_DENY } from "../services/blogs";
-import { fetchMedia, deleteMedia as deleteMediaService, putMedia as putMediaService } from "../services/media";
+import { fetchMedia, deleteMedia as deleteMediaService, putMedia as putMediaService, PUT_MEDIA_QUEUED } from "../services/media";
 import { fetchPosts, deletePost as deletePostService, editPost as editPostService } from "../services/posts";
 import { AppError, declareError } from "./AppError";
 import { changePassword as changePasswordService } from "../services/settings";
 import { createClient, Webdav } from "../services/webdav";
+import { buildUrl } from "../helpers/buildUrl";
 
 interface IAppContext {
     client: Webdav | undefined,
     blog: Blog;
     posts: Post[];
     media: Media[];
+
+    online: boolean,
 
     actions: {
         refresh: (c?: Webdav) => Promise<unknown>
@@ -55,6 +58,8 @@ export const LOGIN_FAIL = declareError('Unable to log you in with these credenti
 
 export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
+    const [online, setOnline] = React.useState(navigator.onLine);
+
     const savedData = React.useRef(load());
 
     const [client, setClient] = React.useState<undefined | Webdav>(savedData.current.client as Webdav);
@@ -69,6 +74,23 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         save(ctx)
     }, [client]);
 
+    const onOnline = React.useCallback(() => {
+        setOnline(true);
+    }, []);
+
+    const onOffline = React.useCallback(() => {
+        setOnline(false);
+    }, []);
+
+    React.useEffect(() => {
+        window.addEventListener("online", onOnline);
+        window.addEventListener("offline", onOffline);
+
+        return () => {
+            window.removeEventListener("online", onOnline);
+            window.removeEventListener("offline", onOffline);
+        }
+    }, [onOnline, onOffline]);
 
     const loadBlog = React.useCallback(async (fclient: Webdav | undefined = undefined) => {
         const blog = await fetchBlog(fclient || client as Webdav);
@@ -135,7 +157,23 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     // media 
     const putMedia = React.useCallback(async (_media: Media) => {
-        const m = await putMediaService(client as Webdav, _media);
+        try {
+            await putMediaService(client as Webdav, _media);
+        } catch (e) {
+            const appError = e as AppError;
+            if(appError.code === PUT_MEDIA_QUEUED) {
+                const m = {
+                    ..._media,
+                    url: buildUrl(`/${import.meta.env.VITE_BLOGS_PATH}/${(client as Webdav).username}/ressources/${_media.file}`)
+                };
+                setMedia([...(media as Media[]), m]);
+            }
+            throw e;
+        }
+        const m = {
+            ..._media,
+            url: buildUrl(`/${import.meta.env.VITE_BLOGS_PATH}/${(client as Webdav).username}/ressources/${_media.file}`)
+        };
         setMedia([...(media as Media[]), m]);
         return m;
     }, [client, media]);
@@ -161,6 +199,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         blog: blog as Blog,
         posts: posts as Post[],
         media: media as Media[],
+        online,
         actions: {
             refresh,
             login,
@@ -173,7 +212,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
             loadMedia,
             changePassword,
         }
-    }), [client, blog, posts, media, refresh, login, editBlog, editPost, deletePost, putMedia, deleteMedia, logout, loadMedia, changePassword]);
+    }), [client, blog, posts, media, online, refresh, login, editBlog, editPost, deletePost, putMedia, deleteMedia, logout, loadMedia, changePassword]);
 
     return (
         <AppContext.Provider value={value}>

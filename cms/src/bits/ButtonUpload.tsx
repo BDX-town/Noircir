@@ -9,7 +9,7 @@ import { AppError } from '../data/AppError';
 import { ButtonProcess } from './ButtonProcess';
 
 import fr from './ButtonUpload.fr-FR.i18n.json';
-import { PUT_MEDIA_DENY, PUT_MEDIA_FAIL, PUT_MEDIA_FALSE } from '../services/media';
+import { PUT_MEDIA_DENY, PUT_MEDIA_FAIL, PUT_MEDIA_FALSE, PUT_MEDIA_QUEUED } from '../services/media';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useUpload() {
@@ -52,11 +52,12 @@ export const ButtonUpload = ({ children, onUpload, ...rest }: { className?: stri
         } catch (e) {
             const appError = e as AppError;
             if(appError.code === PUT_MEDIA_FAIL || appError.code === PUT_MEDIA_DENY || appError.code === PUT_MEDIA_FALSE) setError(appError);
+            else if(appError.code === PUT_MEDIA_QUEUED) setSuccess(appError.userMessage);
             else throw e;
         } finally {
             setProcessing(false);
         }
-    }, [onUpload, upload]);
+    }, [__, onUpload, upload]);
 
     return (
         <>

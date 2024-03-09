@@ -23,7 +23,7 @@ const ERRORS = [
 export const Settings = () => {
     const form = React.useRef<HTMLFormElement>(null);
     const { T } = useTranslations('Settings', { 'fr-FR': fr });
-    const { actions } = useAppContext();
+    const { actions, online } = useAppContext();
     const { changePassword, logout } = actions;
 
     const [processing, setProcessing] = React.useState(false);
@@ -68,7 +68,7 @@ export const Settings = () => {
 
             </div>
             <div className='sticky text-right p-3'>
-                <ButtonProcess htmlType='submit' size={50} processing={processing} error={error} success={success} ><IconDeviceFloppy /> <T>apply</T></ButtonProcess>
+                <ButtonProcess disabled={!online} htmlType='submit' size={50} processing={processing} error={error} success={success} ><IconDeviceFloppy /> <T>apply</T></ButtonProcess>
             </div>
         </form>
     );
