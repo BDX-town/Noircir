@@ -8,15 +8,25 @@ import fr from './Posts.fr-FR.i18n.json';
 import { IconExternalLink } from '@tabler/icons-react';
 import { buildLink } from '../services/posts';
 import { Webdav } from '../services/webdav';
+import { Loader } from '../bits/Loader';
 
 export const Posts = () => {
     const { T } = useTranslations('Posts', { 'fr-FR': fr });
     const { posts, client, blog } = useAppContext();
 
+    
+    if(!posts) {
+        return (
+            <div className='grow flex items-center justify-center'>
+                <Loader />
+            </div>
+        )
+    }
+
     return (
         <main className='p-5 flex gap-4 flex-wrap justify-center'>
             {
-                posts?.map((post) => (
+                posts.map((post) => (
                     <Link key={post.file} className='grow no-underline text-grey-100' to={PostLocation.path + "/" + post.file}>
                         <Block className='flex flex-col md:flex-row p-0 overflow-hidden bg-additional-primary min-h-[130px]'>
                             <img src={post.cover} className='object-cover w-full md:w-[200px]' />

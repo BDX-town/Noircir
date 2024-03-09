@@ -102,10 +102,10 @@ const DeleteModal = ({ onCancel, post }: { onCancel: React.MouseEventHandler, po
   
 
 
-export const Post = ({ blank = false }: { blank?: boolean }) => {
+const Post = ({ blank = false }: { blank?: boolean }) => {
     const param = useParams();
     const filename = param.file;
-    const { posts, blog, actions, online } = useAppContext();
+    const { posts, blog, actions, online, media } = useAppContext();
     const { editPost } = actions;
     const post = React.useMemo(() => {
         return posts?.find((p) => p.file === filename);
@@ -140,8 +140,8 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
     }, 500), []);
 
     React.useEffect(() => {
-        calculateImageWeight();
-    }, [calculateImageWeight]);
+        if(online) calculateImageWeight();
+    }, [calculateImageWeight, online]);
 
     const onChange: React.KeyboardEventHandler<HTMLFormElement> = React.useCallback((e) => {
         const formData: Partial<IPost> = Array.from(new FormData(e.currentTarget as HTMLFormElement)
@@ -192,11 +192,14 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
         }
     }, [__, blank, blog, editPost, post, weight]);
 
-    if(!post && !blank) return (
-        <div className='grow flex flex-col items-center justify-center'>
-            <Loader />
-        </div>
-    );
+
+    if(!post && !blank || !media) {
+        return (
+            <div className='p-4 grow flex items-center justify-center'>
+                <Loader />
+            </div>
+        )
+    }
 
     return (
         <>
@@ -254,7 +257,9 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
                     }
                     <div className='flex flex-col gap-2'>
                         <div>
-                            <T weight={calculateWeight(weight + imageWeight)}>for-reader</T>
+                            {
+                                online ? <T weight={calculateWeight(weight + imageWeight)}>for-reader</T> : <T weight={calculateWeight(weight)}>for-reader-offline</T>
+                            }
                         </div>    
                         <div className='flex gap-3 items-center'>
                             <Checkbox name="draft" checked={draft} onChange={() => setDraft(!draft)}  ><T>draft</T></Checkbox>
@@ -282,3 +287,5 @@ export const Post = ({ blank = false }: { blank?: boolean }) => {
         </>
     )
 }
+
+export default Post;

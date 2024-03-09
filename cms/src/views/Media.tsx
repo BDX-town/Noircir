@@ -12,6 +12,7 @@ import { weight } from '../helpers/weight';
 import { ButtonProcess } from '../bits/ButtonProcess';
 import { AppError } from '../data/AppError';
 import { DELETE_MEDIA_DENY, DELETE_MEDIA_FAIL } from '../services/media';
+import { Loader } from '../bits/Loader';
 
 const useStyle = createUseStyles({
     confirmDelete: {
@@ -63,7 +64,7 @@ const DeleteModal = ({ onCancel, media, onDelete }: { onCancel: React.MouseEvent
     );
 }
 
-export const Media = () => {
+const Media = () => {
     const { T } = useTranslations('Media', {'fr-FR': fr });
     const [shouldDelete, setShouldDelete] = React.useState<IMedia[] | undefined>(undefined);
 
@@ -76,6 +77,14 @@ export const Media = () => {
         const cmedia = data.map((d) => media.find((m) => m.file === d)).filter((c) => !!c) as IMedia[];
         setShouldDelete(cmedia);
     }, [media]);
+
+    if(!media) {
+        return (
+            <div className='grow flex items-center justify-center'>
+                <Loader />
+            </div>
+        )
+    }
 
     return (
         <>
@@ -115,3 +124,4 @@ export const Media = () => {
     )
 };
 
+export default Media;

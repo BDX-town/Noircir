@@ -11,10 +11,11 @@ import fr from './Blog.fr-FR.i18n.json';
 import { AppError } from '../data/AppError';
 import { EDIT_BLOG_DENY, EDIT_BLOG_FAIL, EDIT_BLOG_QUEUED } from '../services/blogs';
 import { ButtonProcess } from '../bits/ButtonProcess';
+import { Loader } from '../bits/Loader';
 
 
-export const Blog = () => {
-    const { blog, actions} = useAppContext();
+const Blog = () => {
+    const { blog, actions, media } = useAppContext();
     const { editBlog } = actions;
     const { __, T} = useTranslations('Blog', { 'fr-FR': fr });
     const editor = React.useRef<MDXEditorMethods>(null);
@@ -22,7 +23,6 @@ export const Blog = () => {
     const [processing, setProcessing] = React.useState(false);
     const [error, setError] = React.useState<AppError | undefined>(undefined);
     const [success, setSuccess] = React.useState<string | undefined>(undefined)
-
 
     const onSubmit: React.FormEventHandler<HTMLFormElement> = React.useCallback(async (e) => {
         e.preventDefault();
@@ -51,6 +51,14 @@ export const Blog = () => {
             setProcessing(false);
         }
     }, [__, blog, editBlog]);
+
+    if(!blog || !media) {
+        return (
+            <div className='grow flex items-center justify-center'>
+                <Loader />
+            </div>
+        )
+    }
 
     return (
         <form className="grow p-5 flex flex-col gap-4" onSubmit={onSubmit}>
@@ -97,3 +105,5 @@ export const Blog = () => {
         </form>
     )
 }
+
+export default Blog;

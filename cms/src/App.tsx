@@ -1,3 +1,4 @@
+import React from 'react';
 import { AppContextProvider, useAppContext } from './data/AppContext';
 import { ErrorBoundary } from './data/ErrorBoundary';
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
@@ -13,8 +14,16 @@ import { Login } from './views/Login';
 import { Posts } from './views/Posts';
 import { ErrorElement } from './bits/ErrorElement';
 import { BlogLocation, PostsLocation, PostLocation, MediaLocation, SettingsLocation, InviteLocation } from './views/Locations';
-import { Post } from './views/Post';
 import { Invite } from './views/Invite';
+import { Loader as BaseLoader } from './bits/Loader';
+
+
+const Media = React.lazy(() => import('./views/Media'));
+const Post = React.lazy(() => import('./views/Post'));
+const Blog = React.lazy(() => import('./views/Blog'));
+const Settings = React.lazy(() => import('./views/Settings'));
+
+const Loader = ({ children }: { children: React.ReactNode }) => <React.Suspense fallback={<div className='grow flex items-center justify-center p-4'><BaseLoader /></div>}>{ children }</React.Suspense>
 
 
 const baseRouter = createBrowserRouter([
@@ -35,7 +44,7 @@ const loggedRouter = createBrowserRouter([
     children: [
       {
         path: ":file",
-        lazy: async () => { const { Post } = await import('./views/Post'); return { Component: Post } },
+        element: <Loader><Post /></Loader>,
         errorElement: <ErrorElement />
       },
       {
@@ -51,7 +60,7 @@ const loggedRouter = createBrowserRouter([
     children: [
       {
         ...BlogLocation,
-        lazy: async () => { const { Blog } = await import('./views/Blog'); return { Component: Blog } },
+        element: <Loader><Blog /></Loader>,
         errorElement: <ErrorElement />
       },
       {
@@ -62,12 +71,12 @@ const loggedRouter = createBrowserRouter([
 
       {
         ...MediaLocation,
-        lazy: async () => { const { Media } = await import('./views/Media'); return { Component: Media } },
+        element: <Loader><Media /></Loader>,
         errorElement: <ErrorElement />
       },
       {
         ...SettingsLocation,
-        lazy: async() => { const { Settings } = await import('./views/Settings'); return { Component: Settings }},
+        element: <Loader><Settings/></Loader>,
         errorElement: <ErrorElement />
       },
       {

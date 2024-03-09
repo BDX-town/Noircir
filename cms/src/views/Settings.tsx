@@ -20,7 +20,7 @@ const ERRORS = [
     CHANGE_PASSWORD_FALSE,
 ]
 
-export const Settings = () => {
+const Settings = () => {
     const form = React.useRef<HTMLFormElement>(null);
     const { T } = useTranslations('Settings', { 'fr-FR': fr });
     const { actions, online } = useAppContext();
@@ -73,3 +73,5 @@ export const Settings = () => {
         </form>
     );
 }
+
+export default Settings;

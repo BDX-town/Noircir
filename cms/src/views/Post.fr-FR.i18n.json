@@ -10,6 +10,7 @@
         "confirm": "Oui, supprimer le billet",
         "cancel": "Conserver le billet",
         "for-reader": "La page générée pèsera %(weight)s",
+        "for-reader-offline": "La page générée pèsera %(weight)s + le poids des images",
         "draft": "Brouillon",
         "save": "Enregistrer",
         "success": "Le billet a bien été modifié"

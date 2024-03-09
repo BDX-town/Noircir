@@ -6,8 +6,7 @@ import { IconReload } from '@tabler/icons-react';
 
 import fr from './ErrorBoundary.fr-FR.i18n.json';
 
-// eslint-disable-next-line react-refresh/only-export-components
-const Error = ({ error } : { error: AppError}) => {
+export const Error = ({ error } : { error: AppError}) => {
   const { T } = useTranslations('ErrorBoundary', {'fr-FR': fr});
 
   const reload = React.useCallback(() => {
@@ -16,7 +15,7 @@ const Error = ({ error } : { error: AppError}) => {
   }, []);
 
   return (
-    <Modal className='max-w-[400px] text-left' onClose={() => null}>
+    <>
       <h3>
         <T>error</T> { error.userCode && <>#{error.userCode}</> }
       </h3>
@@ -31,7 +30,7 @@ const Error = ({ error } : { error: AppError}) => {
           <IconReload /> <T>reload</T>
         </Button>
       </div>
-    </Modal>
+    </>
   )
 }
 
@@ -73,7 +72,7 @@ export class ErrorBoundary extends React.Component {
     render() {
       return (
         <>
-          { this.state.error && <Error error={this.state.error} />}
+          { this.state.error && <Modal className='max-w-[400px] text-left' onClose={() => null}><Error error={this.state.error} /></Modal>}
           { this.props.children }
         </>
       );

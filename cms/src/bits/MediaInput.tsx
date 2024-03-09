@@ -26,6 +26,8 @@ export const MediaInput = ({ onPick, defaultValue, value, className, children,..
         if(onPick) onPick(media, alt);
     }, [onPick]);
 
+    if(!media) return null;
+
     return (
         <div className='flex flex-col gap-1 rounded-md w-min '>
             <input {...rest} type="hidden" value={currentMedia?.url} />
