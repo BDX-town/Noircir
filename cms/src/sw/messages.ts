@@ -1,0 +1,7 @@
+// must match SW_MESSAGES in public/sw.js
+export enum SW_MESSAGES {
+    ONLINE = "ONLINE",
+    QUEUE_UPDATE = "QUEUE_UPDATE",
+    QUEUED_REQUEST_ERROR = "QUEUED_REQUEST_ERROR"
+
+}

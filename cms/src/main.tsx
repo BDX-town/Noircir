@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './main.css'
 import "@bdxtown/canaille";
+import { registerServiceWorker } from './sw/sw.ts';
 
 // @ts-expect-error we need that to reload in dev mode
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -14,17 +15,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>,
 )
 
-const registerServiceWorker = async () => {
-  if ("serviceWorker" in navigator) {
-    try {
-      await navigator.serviceWorker.register('/sw.js', {
-        scope: '/'
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }
-};
-
 registerServiceWorker();
-

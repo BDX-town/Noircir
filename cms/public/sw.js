@@ -1,3 +1,9 @@
+const SW_MESSAGES = {
+    ONLINE: "ONLINE",
+    QUEUE_UPDATE: "QUEUE_UPDATE",
+    QUEUED_REQUEST_ERROR: "QUEUED_REQUEST_ERROR"
+}
+
 self.addEventListener('install', function(event) {
     event.waitUntil(self.skipWaiting());
   });
@@ -8,20 +14,58 @@ self.addEventListener("activate", (event) => {
 self.addEventListener('message', (event) => {
     const message = event.data;
     switch(message.type) {
+        case SW_MESSAGES.ONLINE: {
+            processQueue();
+            break;
+        }
         default:
             throw new Error(`Unhandled message ${message.value}`)
     }
 });
 
-const queue = [];
+async function postMessage(msg, transfer = undefined) {
+    (await self.clients.matchAll()).forEach((c) => c.postMessage(msg, transfer));
+}
+
+let queue = [];
+
+/**
+ * 
+ * @param {Request} request 
+ */
+function addToQueue(request) {
+    queue.push(request);
+    postMessage({ type: SW_MESSAGES.QUEUE_UPDATE, data: queue.map((r) => r.url) });
+}
+
+/**
+ * 
+ * @param {Request} request 
+ */
+async function processQueuedRequest(request) {
+    const response = await networkFirstThenQueue(request);
+    if(!response.ok) {
+        console.warn('Queued request returned an error', response);
+        postMessage({ type: SW_MESSAGES.QUEUED_REQUEST_ERROR, data: request.url });
+    }
+    postMessage({ type: SW_MESSAGES.QUEUE_UPDATE, data: queue.map((r) => r.url) });
+}
+
+function processQueue() {
+    console.log("processing queued requests...");
+    const oldqueue = queue;
+    queue = [];
+    oldqueue.forEach(processQueuedRequest);
+}
 
 async function networkFirstThenQueue(request) {
+    const clone = request.clone();
     try {
         const networkResponse = await fetch(request);
         return networkResponse;
     } catch (e) {
-        console.warn('Unable to process, it will be added to queue', request);
-        queue.push(request);
+        console.warn('Unable to process, it will be added to queue', e);
+        addToQueue(clone);
         // https://developer.mozilla.org/fr/docs/Web/HTTP/Status/202
         return new Response(null, { status: 202, statusText: 'Added to queue'})
     }
