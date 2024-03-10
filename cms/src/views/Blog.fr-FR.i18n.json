@@ -4,6 +4,7 @@
         "cover": "Choisir un aperçu",
         "publish": "Enregistrer",
         "success": "Les informations du blog ont été mises à jour",
+        "queued": "Vous êtes hors ligne, les informations du blog seront mises à jour sur le serveur lorsque vous serez de retour en ligne.",
         "cover-description": "L'aperçu représente votre blog. Il sera utilisé en guise d'icône pour les onglets et favoris. Il apparaîtra sur la page d'accueil de votre blog."
     }
 }

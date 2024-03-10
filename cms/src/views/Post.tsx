@@ -12,7 +12,6 @@ import { Post as IPost } from 'types/src/Post';
 import { slugify } from './../helpers/slugify';
 import { formatPost } from '../helpers/formatPost';
 import { ImageUploader } from './../bits/ImageUploader';
-import { useUpload } from '../bits/ButtonUpload';
 import debounce from 'debounce';
 import { weight as calculateWeight } from './../helpers/weight'
 
@@ -20,7 +19,7 @@ import { MediaInput } from '../bits/MediaInput';
 import { ButtonProcess } from '../bits/ButtonProcess';
 import { AppError } from '../data/AppError';
 import { DELETE_MEDIA_DENY, DELETE_MEDIA_FAIL } from '../services/media';
-import { EDIT_POST_DENY, EDIT_POST_FAIL, EDIT_POST_FALSE, EDIT_POST_QUEUED } from '../services/posts';
+import { EDIT_POST_DENY, EDIT_POST_FAIL, EDIT_POST_FALSE } from '../services/posts';
 
 
 const useStyle = createUseStyles({
@@ -113,7 +112,6 @@ const Post = ({ blank = false }: { blank?: boolean }) => {
     const { __, T } = useTranslations('Post', {'fr-FR': fr});
     const editor = React.useRef<MDXEditorMethods>(null);
     const [shouldDelete, setShouldDelete] = React.useState(false);
-    const upload = useUpload();
     const editorWrapper = React.useRef<HTMLDivElement>(null);
     const [imageWeight, setImageWeight] = React.useState(0);
     const [draft, setDraft] = React.useState(post?.draft === undefined ? true : post.draft);
@@ -180,12 +178,12 @@ const Post = ({ blank = false }: { blank?: boolean }) => {
         setError(undefined);
         setSuccess(undefined);
         try {
-            await editPost(data);
-            setSuccess(__('success'));
+            const result = await editPost(data);
+            if(result) setSuccess(__('success'));
+            else setSuccess(__('queued'));
         } catch (e) {
             const appError = e as AppError;
             if(appError.code === EDIT_POST_DENY || appError.code === EDIT_POST_FAIL || appError.code === EDIT_POST_FALSE) setError(appError);
-            else if(appError.code === EDIT_POST_QUEUED) setSuccess(appError.userMessage);
             else throw e;
         } finally {
             setProcessing(false);
@@ -228,9 +226,7 @@ const Post = ({ blank = false }: { blank?: boolean }) => {
                             quotePlugin(),
                             markdownShortcutPlugin(),
                             linkDialogPlugin(),
-                            imagePlugin({ 
-                                imageUploadHandler: upload
-                            }),
+                            imagePlugin(),
                             toolbarPlugin({
                                 toolbarContents: () => (
                                     <>

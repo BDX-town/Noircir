@@ -6,7 +6,7 @@ import { Post } from "types/src/Post";
 import { Media } from "types/src/Media";
 
 import { fetchBlog, editBlog as editBlogService, FETCH_BLOG_DENY } from "../services/blogs";
-import { fetchMedia, deleteMedia as deleteMediaService, putMedia as putMediaService, PUT_MEDIA_QUEUED } from "../services/media";
+import { fetchMedia, deleteMedia as deleteMediaService, putMedia as putMediaService } from "../services/media";
 import { fetchPosts, deletePost as deletePostService, editPost as editPostService } from "../services/posts";
 import { AppError, declareError } from "./AppError";
 import { changePassword as changePasswordService } from "../services/settings";
@@ -25,11 +25,11 @@ interface IAppContext {
         refresh: (c?: Webdav) => Promise<unknown>
         login: (u: string, p: string, t?: boolean) => Promise<Webdav>,
         logout: () => void,
-        editBlog: (b: Blog) => Promise<void>,
-        editPost: (p: Post) => Promise<void>,
+        editBlog: (b: Blog) => Promise<boolean>,
+        editPost: (p: Post) => Promise<boolean>,
         deletePost: (p: Post) => Promise<void>,
         deleteMedia: (m: Media) => Promise<void>,
-        putMedia: (m: Media) => Promise<Media>,
+        putMedia: (m: Media) => Promise<boolean>,
         loadMedia: () => Promise<void>
         changePassword: (s: string) => Promise<void>,
     }
@@ -134,19 +134,21 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     // blog 
     const editBlog = React.useCallback(async (blog: Blog) => {
-        await editBlogService(client as Webdav, blog);
+        const result = await editBlogService(client as Webdav, blog);
         setBlog(blog);
+        return result;
     }, [client]);
 
     // posts
     const editPost = React.useCallback(async (post: Post) => {
-        await editPostService(client as Webdav, post);
+        const result = await editPostService(client as Webdav, post);
         const index = posts?.findIndex((p) => p.file === post.file);
         if(index === -1) {
             setPosts([...(posts as Post[]), post]);
         } else {
             setPosts(posts?.map((p) => p.file === post.file ? post : p));
         }
+        return result;
     }, [client, posts]);
 
     const deletePost = React.useCallback(async (post: Post) => {
@@ -157,25 +159,13 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     // media 
     const putMedia = React.useCallback(async (_media: Media) => {
-        try {
-            await putMediaService(client as Webdav, _media);
-        } catch (e) {
-            const appError = e as AppError;
-            if(appError.code === PUT_MEDIA_QUEUED) {
-                const m = {
-                    ..._media,
-                    url: buildUrl(`/${import.meta.env.VITE_BLOGS_PATH}/${(client as Webdav).username}/ressources/${_media.file}`)
-                };
-                setMedia([...(media as Media[]), m]);
-            }
-            throw e;
-        }
+        const result = await putMediaService(client as Webdav, _media);
         const m = {
             ..._media,
             url: buildUrl(`/${import.meta.env.VITE_BLOGS_PATH}/${(client as Webdav).username}/ressources/${_media.file}`)
         };
         setMedia([...(media as Media[]), m]);
-        return m;
+        return result;
     }, [client, media]);
 
     const deleteMedia = React.useCallback(async (cmedia: Media) => {

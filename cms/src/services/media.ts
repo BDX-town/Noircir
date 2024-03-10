@@ -43,8 +43,7 @@ async function parseMedia(client: Webdav, file: WebdavFile): Promise<Media> {
 export const PUT_MEDIA_FAIL = declareError('Unable to save your media. There is maybe something wrong on our end, but please check your connection.');
 export const PUT_MEDIA_DENY = declareError('You do not have access to this media. Please check your credentials.');
 export const PUT_MEDIA_FALSE = declareError('Your media was not saved. Please report this issue to your administrator.');
-export const PUT_MEDIA_QUEUED = declareError('Since you are offline, your media will be sent to server when you will be back online.');
-export async function putMedia(client: Webdav, media: Media) {
+export async function putMedia(client: Webdav, media: Media): Promise<boolean> {
     const response = await client.putFileContents(`/${import.meta.env.VITE_BLOGS_PATH}/${client.username}/ressources/${media.file}`, media.content, { overwrite: true });
     if(!response.ok) {
         let code = PUT_MEDIA_FAIL;
@@ -56,7 +55,7 @@ export async function putMedia(client: Webdav, media: Media) {
         }
         throw new AppError(code, `${response.status}: ${response.statusText}`)
     }
-    if(response.status === 202) throw new AppError(PUT_MEDIA_QUEUED, "offline");
+    return response.status !== 202;
 }
 
 export const DELETE_MEDIA_FAIL = declareError('Unable to delete your media. There is maybe something wrong on our end but please check your connection.');

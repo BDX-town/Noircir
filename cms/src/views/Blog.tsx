@@ -9,7 +9,7 @@ import { MediaInput } from '../bits/MediaInput';
 
 import fr from './Blog.fr-FR.i18n.json';
 import { AppError } from '../data/AppError';
-import { EDIT_BLOG_DENY, EDIT_BLOG_FAIL, EDIT_BLOG_QUEUED } from '../services/blogs';
+import { EDIT_BLOG_DENY, EDIT_BLOG_FAIL } from '../services/blogs';
 import { ButtonProcess } from '../bits/ButtonProcess';
 import { Loader } from '../bits/Loader';
 
@@ -38,14 +38,14 @@ const Blog = () => {
         };
         setProcessing(true);
         try {
-            await editBlog(data);
-            setSuccess(__('success'))
+            const result = await editBlog(data);
+            if(result) setSuccess(__('success'))
+            else setSuccess(__('queued'));
         } catch (e) {
             const appError = e as AppError;
             // we do not handle EDIT_BLOG_FALSE since the case shouldnt appear. 
             // If it's the case, there is an issue with the server configuration or the code base
             if(appError.code === EDIT_BLOG_FAIL || appError.code === EDIT_BLOG_DENY) setError(appError);
-            else if(appError.code === EDIT_BLOG_QUEUED) setSuccess(appError.userMessage);
             else throw e;
         } finally {
             setProcessing(false);

@@ -9,7 +9,7 @@ import { AppError } from '../data/AppError';
 import { ButtonProcess } from './ButtonProcess';
 
 import fr from './ButtonUpload.fr-FR.i18n.json';
-import { PUT_MEDIA_DENY, PUT_MEDIA_FAIL, PUT_MEDIA_FALSE, PUT_MEDIA_QUEUED } from '../services/media';
+import { PUT_MEDIA_DENY, PUT_MEDIA_FAIL, PUT_MEDIA_FALSE } from '../services/media';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useUpload() {
@@ -19,12 +19,11 @@ export function useUpload() {
     return React.useCallback(async (file: File) => {
         const webpBlob = await arrayBufferToWebP(await file.arrayBuffer(), { quality: parseFloat(import.meta.env.VITE_WEBP_QUALITY) })
 
-        const media = await putMedia({
+        return putMedia({
             file: `${file.name}.webp`,
             content: await webpBlob.arrayBuffer(),
             weight: webpBlob.size,
         } as unknown as Media);
-        return media.url
     }, [putMedia]);
 }
 
@@ -46,13 +45,13 @@ export const ButtonUpload = ({ children, onUpload, ...rest }: { className?: stri
         setSuccess(undefined);
         setError(undefined);
         try {
-            await upload(file);
-            setSuccess(__('success'));
+            const result = await upload(file);
+            if(result) setSuccess(__('success'));
+            else setSuccess(__('queued'));
             if(onUpload) onUpload(file);
         } catch (e) {
             const appError = e as AppError;
             if(appError.code === PUT_MEDIA_FAIL || appError.code === PUT_MEDIA_DENY || appError.code === PUT_MEDIA_FALSE) setError(appError);
-            else if(appError.code === PUT_MEDIA_QUEUED) setSuccess(appError.userMessage);
             else throw e;
         } finally {
             setProcessing(false);

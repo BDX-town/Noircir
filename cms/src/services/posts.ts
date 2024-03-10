@@ -49,8 +49,7 @@ function parsePost(meta: WebdavFile, raw: string): Post{
 export const EDIT_POST_FAIL = declareError("Unable to save your post. There is maybe something wrong on our end, but please check your connection.");
 export const EDIT_POST_DENY = declareError("You do not have access to this post. Please check your credentials.");
 export const EDIT_POST_FALSE = declareError("Unable to save your post. There is something wrong on our end, please report this issue to your administrator.");
-export const EDIT_POST_QUEUED = declareError('Since you are offline, your post will be synchronized when you will be back online.');
-export async function editPost(client: Webdav, post: Post) {
+export async function editPost(client: Webdav, post: Post): Promise<boolean> {
     const content = formatPost(post);
     let response;
     try {
@@ -65,8 +64,7 @@ export async function editPost(client: Webdav, post: Post) {
         if(response.status === 412) code = EDIT_POST_FALSE;
         throw new AppError(code, `${response.status}: ${response.statusText}`);
     }
-
-    if(response.status === 202) throw new AppError(EDIT_POST_QUEUED, "offline");
+    return response.status !== 202;
 }
 
 export const DELETE_POST_FAIL = declareError('Unable to delete your post. There is maybe something wrong on our end, but please check your connection.');

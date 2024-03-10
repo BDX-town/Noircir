@@ -13,6 +13,7 @@
         "for-reader-offline": "La page générée pèsera %(weight)s + le poids des images",
         "draft": "Brouillon",
         "save": "Enregistrer",
-        "success": "Le billet a bien été modifié"
+        "success": "Le billet a bien été modifié",
+        "queued": "Vous êtes hors-ligne, votre billet sera publié lorsque vous serez de retour en ligne."
     }
 }
