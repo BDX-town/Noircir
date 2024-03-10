@@ -4,6 +4,8 @@ import { Button, useTranslations } from '@bdxtown/canaille';
 import { BlogLocation, PostsLocation, MediaLocation, SettingsLocation } from '../views/Locations';
 import { IconHome, IconPhoto, IconSettings2, IconSettings } from '@tabler/icons-react';
 
+import { Sync } from './Sync';
+
 import fr from './Nav.fr-FR.i18n.json';
 
 export const Nav = () => {
@@ -12,7 +14,10 @@ export const Nav = () => {
     const navigate = useNavigate();
 
     return (
-        <nav className='flex items-center justify-end gap-4 text-lg'>
+        <nav className='flex items-center justify-between gap-4 text-lg'>
+            <div className='grow'>
+                <Sync />
+            </div>
             <label className='flex gap-2 items-center'>
                 <Button variant={pathname !== PostsLocation.path ? 'secondary' : undefined} size={50} onClick={() => navigate(PostsLocation.path)}>
                     <IconHome size={20} />

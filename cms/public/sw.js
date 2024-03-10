@@ -46,7 +46,7 @@ async function processQueuedRequest(request) {
     const response = await networkFirstThenQueue(request);
     if(!response.ok) {
         console.warn('Queued request returned an error', response);
-        postMessage({ type: SW_MESSAGES.QUEUED_REQUEST_ERROR, data: request.url });
+        postMessage({ type: SW_MESSAGES.QUEUED_REQUEST_ERROR, data: { url: request.url, method: request.method, status: response.status, statusText: response.statusText } });
     }
     postMessage({ type: SW_MESSAGES.QUEUE_UPDATE, data: queue.map((r) => r.url) });
 }

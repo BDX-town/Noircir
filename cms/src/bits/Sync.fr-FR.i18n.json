@@ -1,0 +1,5 @@
+{
+    "Sync": {
+        "queued-operation": "%(number)s opération(s) en attente de réseau"
+    }
+}

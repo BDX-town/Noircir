@@ -78,6 +78,7 @@ export class Webdav
         if(!opts.overwrite) {
             headers["If-None-Match"] = "*";
         }       
+        headers["If-Unmodified-Since"] = new Date(1970, 0, 0).toUTCString();
         return this.request("PUT", uri, headers, data);
     }
 
