@@ -43,10 +43,56 @@ function addToQueue(request) {
  * @param {Request} request 
  */
 async function processQueuedRequest(request) {
-    const response = await networkFirstThenQueue(request);
-    if(!response.ok) {
-        console.warn('Queued request returned an error', response);
-        postMessage({ type: SW_MESSAGES.QUEUED_REQUEST_ERROR, data: { url: request.url, method: request.method, status: response.status, statusText: response.statusText } });
+    const unmodified = request.headers.get('If-Unmodified-Since');
+    const noneMatch = request.headers.get('If-None-Match');
+    let ok = true;
+    if(request.method === "PUT" && (unmodified || noneMatch)) {
+        // nginx webdav does not seem to correctly use if- request headers, so we need to do the job ourselves
+        const head = await fetch(request.url, {
+            method: "HEAD",
+            headers: {
+                "Authorization": request.headers.get('Authorization'),
+                "If-Unmodified-Since": request.headers.get('If-Unmodified-Since'),
+                "If-None-Match": request.headers.get('If-None-Match'),
+            }
+        });
+        if(!head.ok && head.status !== 404) {
+            console.warn('Queued request returned an error during head', head);
+            postMessage({ type: SW_MESSAGES.QUEUED_REQUEST_ERROR, data: { url: request.url, method: "HEAD", status: head.status, statusText: head.statusText } });
+            ok = false;
+        } else {
+            // check If-Unmodified-Since
+            const unmodifiedDate = new Date(unmodified);
+            const lastModifiedDate = new Date(head.headers.get("Last-Modified"));
+            if(
+                !Number.isNaN(unmodifiedDate.getTime()) && !Number.isNaN(lastModifiedDate.getTime())
+                && lastModifiedDate.getTime() >= unmodifiedDate.getTime()
+            ) {
+                console.warn('Queued request is outdated', head);
+                // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Unmodified-Since
+                postMessage({ type: SW_MESSAGES.QUEUED_REQUEST_ERROR, data: { url: request.url, method: request.method, status: 412, statusText: "Precondition failed (If-Unmodified-Since)" } });
+                ok = false;
+            }
+
+            // check If-None-Match <etag>
+            const etag = request.headers.get('Etag');
+            console.log(noneMatch);
+            console.log(etag);
+            if(noneMatch === "*" || (!!noneMatch && noneMatch === etag)) {
+                console.warn('Queued request is alreay on the server', head);
+                // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match
+                postMessage({ type: SW_MESSAGES.QUEUED_REQUEST_ERROR, data: { url: request.url, method: request.method, status: 412, statusText: "Precondition failed (If-None-Match)" } });
+                ok = false; 
+            }
+        }
+    }
+
+    if(ok) {
+        const response = await networkFirstThenQueue(request);
+        if(!response.ok) {
+            console.warn('Queued request returned an error', response);
+            postMessage({ type: SW_MESSAGES.QUEUED_REQUEST_ERROR, data: { url: request.url, method: request.method, status: response.status, statusText: response.statusText } });
+        }
     }
     postMessage({ type: SW_MESSAGES.QUEUE_UPDATE, data: queue.map((r) => r.url) });
 }

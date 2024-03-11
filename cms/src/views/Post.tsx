@@ -126,7 +126,7 @@ const Post = ({ blank = false }: { blank?: boolean }) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const calculateImageWeight = React.useCallback(debounce(async () => {
-        if(!editorWrapper.current) return;
+        if(!editorWrapper.current || !online) return;
         const sources = [
             post?.cover,
             ...(Array.from(editorWrapper.current.querySelectorAll('img')) as HTMLImageElement[]).map((r) => r.currentSrc)
@@ -135,11 +135,11 @@ const Post = ({ blank = false }: { blank?: boolean }) => {
             .map((r) => fetch(r).then((f) => f.text()));
         const imgSizes = await Promise.all(imgRequest);
         setImageWeight(imgSizes.reduce((acc, curr) => acc += curr.length, 0));
-    }, 500), []);
+    }, 500), [online]);
 
     React.useEffect(() => {
-        if(online) calculateImageWeight();
-    }, [calculateImageWeight, online]);
+        calculateImageWeight();
+    }, [calculateImageWeight]);
 
     const onChange: React.KeyboardEventHandler<HTMLFormElement> = React.useCallback((e) => {
         const formData: Partial<IPost> = Array.from(new FormData(e.currentTarget as HTMLFormElement)

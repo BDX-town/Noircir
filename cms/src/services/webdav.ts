@@ -53,14 +53,14 @@ export class Webdav
         const xml = this.parser.parse(data);
         const items = xml["D:multistatus"]["D:response"]
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            .map((item: any) => ({
+            ?.map((item: any) => ({
                 basename: item["D:propstat"]["D:prop"]["D:displayname"],
                 file: '',
                 filename: item["D:href"],
                 lastmod: item["D:propstat"]["D:prop"]["D:getlastmodified"],
                 size: item["D:propstat"]["D:prop"]["D:getcontentlength"],
             } as WebdavFile))
-            .filter((item: WebdavFile) => item.filename !== uri);
+            ?.filter((item: WebdavFile) => item.filename !== uri) || [];
         return new Response(JSON.stringify(items));
     }
 
@@ -78,7 +78,7 @@ export class Webdav
         if(!opts.overwrite) {
             headers["If-None-Match"] = "*";
         }       
-        headers["If-Unmodified-Since"] = new Date(1970, 0, 0).toUTCString();
+        headers["If-Unmodified-Since"] = new Date().toUTCString();
         return this.request("PUT", uri, headers, data);
     }
 
