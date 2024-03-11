@@ -48,13 +48,18 @@ async function processQueuedRequest(request) {
     let ok = true;
     if(request.method === "PUT" && (unmodified || noneMatch)) {
         // nginx webdav does not seem to correctly use if- request headers, so we need to do the job ourselves
+        const headers = {
+            "Authorization": request.headers.get('Authorization')
+        };
+        if(unmodified) {
+            headers["If-Unmodified-Since"] = unmodified;
+        }
+        if(noneMatch) {
+            headers["If-None-Match"] = noneMatch;
+        }
         const head = await fetch(request.url, {
             method: "HEAD",
-            headers: {
-                "Authorization": request.headers.get('Authorization'),
-                "If-Unmodified-Since": request.headers.get('If-Unmodified-Since'),
-                "If-None-Match": request.headers.get('If-None-Match'),
-            }
+            headers
         });
         if(!head.ok && head.status !== 404) {
             console.warn('Queued request returned an error during head', head);
