@@ -1,5 +1,7 @@
 {
     "Sync": {
-        "queued-operation": "%(number)s opération(s) en attente de réseau"
+        "in-sync": "Synchronisé",
+        "queued-operation": "%(number)s édition(s) en attente",
+        "offline": "Hors ligne, le contenu sera synchronisé dès votre retour en ligne."
     }
 }
