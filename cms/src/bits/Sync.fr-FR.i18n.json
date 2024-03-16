@@ -2,6 +2,8 @@
     "Sync": {
         "in-sync": "Synchronisé",
         "queued-operation": "%(number)s édition(s) en attente",
-        "offline": "Hors ligne, le contenu sera synchronisé dès votre retour en ligne."
+        "offline": "Hors ligne, le contenu sera synchronisé dès votre retour en ligne.",
+        "error": "Erreur",
+        "no-errors": "Aucune erreur de synchronisation ne s'est produite !"
     }
 }

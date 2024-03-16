@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@bdxtown/canaille": "^1.0.0-rc5",
-    "@floating-ui/react": "^0.26.6",
+    "@floating-ui/react": "^0.26.9",
     "@mdxeditor/editor": "^2.3.4",
     "@mdxeditor/gurx": "^1.1.1",
     "@tabler/icons-react": "^2.46.0",
