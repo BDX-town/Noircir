@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM node:20.14.0-alpine
 
 # noircir folder: where you saved noircir files
 ENV NOIRCIR_FOLDER="/noircir"
@@ -13,22 +13,18 @@ ENV WWW_USER=noircir
 # must match nginx group
 ENV WWW_GROUP=www-data
 
-RUN apt-get update -yq\
-    && apt-get -y install curl gnupg
+RUN apk add curl gnupg
 
 # add gum source
 RUN mkdir -p /etc/apt/keyrings \
     && curl -fsSL https://repo.charm.sh/apt/gpg.key | gpg --dearmor -o /etc/apt/keyrings/charm.gpg \
     && echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | tee /etc/apt/sources.list.d/charm.list
 
-# add node source 
-RUN curl -fsSL https://deb.nodesource.com/setup_21.x | bash -
+
 
 # install deps
-RUN apt-get update -yq \
-    && apt-get install -y nodejs gettext gum nginx nginx-core libnginx-mod-http-lua libnginx-mod-http-dav-ext libnginx-mod-http-auth-pam openssl \
-    && corepack enable \
-    && apt-get clean -y
+RUN apk add gettext gum nginx nginx-mod-http-lua nginx-mod-http-dav-ext openssl \
+    && corepack enable
 
 # install noircir 
 COPY . $NOIRCIR_FOLDER 

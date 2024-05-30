@@ -2261,7 +2261,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/react@npm:^0.26.6":
+"@floating-ui/react@npm:^0.26.9":
   version: 0.26.9
   resolution: "@floating-ui/react@npm:0.26.9"
   dependencies:
@@ -6012,7 +6012,7 @@ __metadata:
   resolution: "cms@workspace:cms"
   dependencies:
     "@bdxtown/canaille": "npm:^1.0.0-rc5"
-    "@floating-ui/react": "npm:^0.26.6"
+    "@floating-ui/react": "npm:^0.26.9"
     "@mdxeditor/editor": "npm:^2.3.4"
     "@mdxeditor/gurx": "npm:^1.1.1"
     "@tabler/icons-react": "npm:^2.46.0"
