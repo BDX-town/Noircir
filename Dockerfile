@@ -3,7 +3,7 @@ FROM node:20.14.0-alpine
 # noircir folder: where you saved noircir files
 ENV NOIRCIR_FOLDER="/noircir"
 # nginx root: all noircir data will be saved there, blogs and generated content
-ENV NGINX_FOLDER=/var/www/html
+ENV NGINX_FOLDER=/usr/share/nginx/html
 # 11ty base path: all blogs data will be saved there. Will be under NGINX_FOLDER
 ENV BLOGS_FOLDER=blogs
 # blog's ressources: each blog has it's own ressources folder, where all media will be uploaded. Will be under NGINX_FOLDER/BLOGS_FOLDER/username
