@@ -20,6 +20,8 @@ RUN apk add gettext gum nginx nginx-mod-http-lua nginx-mod-http-dav-ext openssl 
     && corepack enable
 
 
+RUN mkdir -p $NGINX_FOLDER
+
 CMD /bin/sh
 
 # install noircir 
