@@ -19,13 +19,15 @@ RUN apk add curl gnupg
 RUN apk add gettext gum nginx nginx-mod-http-lua nginx-mod-http-dav-ext openssl \
     && corepack enable
 
-# install noircir 
-COPY . $NOIRCIR_FOLDER 
-RUN mkdir -p /tools && cp $NOIRCIR_FOLDER/tools/* /tools
-RUN cd $NOIRCIR_FOLDER && npx yarn && npx yarn run build && cd /
-RUN cp -r $NOIRCIR_FOLDER/cms/dist/* $NGINX_FOLDER
 
 CMD /bin/sh
+
+# install noircir 
+# COPY . $NOIRCIR_FOLDER 
+# RUN mkdir -p /tools && cp $NOIRCIR_FOLDER/tools/* /tools
+# RUN cd $NOIRCIR_FOLDER && npx yarn && npx yarn run build && cd /
+# RUN cp -r $NOIRCIR_FOLDER/cms/dist/* $NGINX_FOLDER
+
 
 # RUN useradd -u 1001 --shell /bin/bash -d /home/$WWW_USER $WWW_USER && usermod -a -G $WWW_GROUP $WWW_USER \
 #     && mkdir -p $NGINX_FOLDER/$BLOGS_FOLDER \
