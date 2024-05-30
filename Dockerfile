@@ -15,13 +15,6 @@ ENV WWW_GROUP=www-data
 
 RUN apk add curl gnupg
 
-# add gum source
-RUN mkdir -p /etc/apt/keyrings \
-    && curl -fsSL https://repo.charm.sh/apt/gpg.key | gpg --dearmor -o /etc/apt/keyrings/charm.gpg \
-    && echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | tee /etc/apt/sources.list.d/charm.list
-
-
-
 # install deps
 RUN apk add gettext gum nginx nginx-mod-http-lua nginx-mod-http-dav-ext openssl \
     && corepack enable
