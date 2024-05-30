@@ -39,4 +39,4 @@ EXPOSE 8080
 
 STOPSIGNAL SIGQUIT
 
-CMD /etc/init.d/nginx start && /tools/startup.sh
+CMD /tools/startup.sh

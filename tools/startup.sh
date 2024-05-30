@@ -5,6 +5,7 @@
 : "${WWW_USER:=noircir}"
 : "${WWW_GROUP:=www-data}"
 
+nginx
 su $WWW_USER
 echo '{"layout": "article.11ty.js" }' > $NGINX_FOLDER/$BLOGS_FOLDER/blogs.json
 cd $NOIRCIR_FOLDER
