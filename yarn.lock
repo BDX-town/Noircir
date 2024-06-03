@@ -1563,9 +1563,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bdxtown/canaille@npm:^1.0.0-rc5":
-  version: 1.0.0-rc5
-  resolution: "@bdxtown/canaille@npm:1.0.0-rc5"
+"@bdxtown/canaille@portal:/Users/clovisportron/Documents/Dev/Canaille::locator=noircir%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "@bdxtown/canaille@portal:/Users/clovisportron/Documents/Dev/Canaille::locator=noircir%40workspace%3A."
   dependencies:
     "@babel/core": "npm:^7.23.6"
     "@babel/preset-env": "npm:^7.23.6"
@@ -1596,9 +1596,8 @@ __metadata:
     typescript: "npm:^5.3.3"
     webpack: "npm:^5.89.0"
     webpack-cli: "npm:^5.1.4"
-  checksum: 8bfbc69bfb223cf22824f46f2ffda6d257086c1329e922583ad7948fd28ea53d135057b2f3614469fd72c5aab2c6fae6bbfc56e3b397b9b9299158d8fb88de66
   languageName: node
-  linkType: hard
+  linkType: soft
 
 "@bundled-es-modules/cookie@npm:^2.0.0":
   version: 2.0.0
@@ -6011,7 +6010,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "cms@workspace:cms"
   dependencies:
-    "@bdxtown/canaille": "npm:^1.0.0-rc5"
+    "@bdxtown/canaille": "npm:^1.0.0-rc6"
     "@floating-ui/react": "npm:^0.26.9"
     "@mdxeditor/editor": "npm:^2.3.4"
     "@mdxeditor/gurx": "npm:^1.1.1"
