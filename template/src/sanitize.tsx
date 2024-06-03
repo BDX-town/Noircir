@@ -1,12 +1,23 @@
 import xss from 'xss';
 
+const allowed = ["class"];
+
+// @ts-expect-error no types
+const whiteList = Object.keys(xss.whiteList).reduce((acc, key) => {
+    // @ts-expect-error no types
+    const value = [...xss.whiteList[key], ...allowed];
+    return {
+        ...acc,
+        [key]: value,
+    }
+}, {});
+
 const options = {
     whiteList: {
-        // @ts-expect-error no types
-        ...xss.whiteList,
-        main: [],
-        svg: [],
-        time: [],
+        ...whiteList,
+        main: allowed,
+        svg: allowed,
+        time: allowed,
     }
 }
 
