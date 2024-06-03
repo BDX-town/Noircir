@@ -241,10 +241,10 @@ const Post = ({ blank = false }: { blank?: boolean }) => {
                         ]} 
                     />
                 </div>
-                <div className='flex justify-between px-5 pb-5'>
+                <div className='flex justify-between items-end px-5 pb-5'>
                     {
                         !blank ? (
-                            <Button disabled={!online} variant='secondary' onClick={() => setShouldDelete(true)}>
+                            <Button disabled={!online} className='hover:bg-red-500' size={50} variant="light" onClick={() => setShouldDelete(true)}>
                                 <IconTrash /> <T>delete</T>
                             </Button>
                         ) : (

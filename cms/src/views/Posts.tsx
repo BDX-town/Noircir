@@ -24,12 +24,18 @@ export const Posts = () => {
     }
 
     return (
-        <main className='p-5 flex gap-4 flex-wrap justify-center'>
+        <main className='p-5 flex flex-col gap-4 justify-center'>
             {
                 posts.map((post) => (
-                    <Link key={post.file} className='grow no-underline text-grey-100' to={PostLocation.path + "/" + post.file}>
-                        <Block className='flex flex-col md:flex-row p-0 overflow-hidden bg-additional-primary min-h-[130px]'>
-                            <img src={post.cover} className='object-cover w-full md:w-[200px]' />
+                    <Link key={post.file} className='no-underline text-grey-100' to={PostLocation.path + "/" + post.file}>
+                        <Block variant='interactive' className='flex flex-col md:flex-row p-0 overflow-hidden bg-additional-primary min-h-[130px]'>
+                            {
+                                post.cover ? (
+                                    <img className='w-full h-[150px] md:h-auto md:w-[130px] shrink-0 object-cover' src={post.cover} />
+                                ) : (
+                                    <div className='w-full h-[150px] md:h-auto md:w-[130px] shrink-0 object-cover bg-brand-primary' />
+                                )
+                            }
                             <article className='flex flex-col p-3 grow'>
                                 <div className='flex'>
                                     <h3 className='m-0 grow'>{post.title}</h3>
