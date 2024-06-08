@@ -17,8 +17,5 @@
   "packageManager": "yarn@4.0.2",
   "dependencies": {
     "error-stack-parser": "^2.1.4"
-  },
-  "resolutions": {
-    "@bdxtown/canaille": "portal:/Users/clovisportron/Documents/Dev/Canaille"
   }
 }
