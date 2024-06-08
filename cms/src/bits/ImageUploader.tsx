@@ -17,7 +17,7 @@ export const ImageUploader = ({ onPick }: { onPick?: (m: Media) => void }) => {
     const onInternalPick = React.useCallback((media: Media, alt: string) => {
       editor?.update(() => {
         const node = $createImageNode({ src: media.url, altText: alt});
-        $insertNodes([node]);
+        $insertNodes([node as never]);
       })
       setModal(false);
       if(onPick) onPick(media);
