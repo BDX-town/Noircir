@@ -72,7 +72,7 @@ export const Posts = () => {
                             <article className='flex flex-col p-3 grow'>
                                 <div className='flex'>
                                     <h3 className='m-0 grow'>{post.title}</h3>
-                                    <a onClick={(e) => e.stopPropagation()} className='align-middle' href={buildLink(import.meta.env.VITE_SERVER, client as Webdav, blog, post)} target="_blank"><T>read</T><IconExternalLink className='ml-2 align-middle' size={16} /></a>
+                                    <a onClick={(e) => e.stopPropagation()} className='align-middle text-brand-primary-dark' href={buildLink(import.meta.env.VITE_SERVER, client as Webdav, blog, post)} target="_blank"><T>read</T><IconExternalLink className='ml-2 align-middle' size={16} /></a>
                                 </div>
                                 <p className='grow'>{post.description}</p>
                                 <div className='flex justify-between items-center opacity-60'>
