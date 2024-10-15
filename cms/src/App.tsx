@@ -3,7 +3,6 @@ import { AppContextProvider, useAppContext } from './data/AppContext';
 import { ErrorBoundary } from './data/ErrorBoundary';
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import { Base } from './layout/Base';
-import { Write } from './layout/Write';
 import { TranslationContext } from '@bdxtown/canaille';
 import '@mdxeditor/editor/style.css';
 // import '@bdxtown/canaille/src/scss/google-fonts.scss';
@@ -39,19 +38,15 @@ const baseRouter = createBrowserRouter([
 
 const loggedRouter = createBrowserRouter([
   {
-    path: PostLocation.path + "/*",
-    element: <Write />,
+    path: PostsLocation.path,
+    element: <Base write />,
     children: [
       {
-        path: ":file",
-        element: <Loader><Post /></Loader>,
+        ...PostsLocation,
+        index: true,
+        element: <Posts />,
         errorElement: <ErrorElement />
       },
-      {
-        index: true,
-        element: <Post blank />,
-        errorElement: <ErrorElement />
-      }
     ]
   },
   {
@@ -59,16 +54,21 @@ const loggedRouter = createBrowserRouter([
     element: <Base />,
     children: [
       {
+
+        path: PostLocation.path + "/:file",
+        element: <Loader><Post /></Loader>,
+        errorElement: <ErrorElement />
+      },
+      {
+        ...PostLocation,
+        element: <Post blank />,
+        errorElement: <ErrorElement />
+      },
+      {
         ...BlogLocation,
         element: <Loader><Blog /></Loader>,
         errorElement: <ErrorElement />
       },
-      {
-        ...PostsLocation,
-        element: <Posts />,
-        errorElement: <ErrorElement />
-      },
-
       {
         ...MediaLocation,
         element: <Loader><Media /></Loader>,

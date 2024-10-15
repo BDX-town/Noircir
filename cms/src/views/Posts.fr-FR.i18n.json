@@ -1,6 +1,9 @@
 {
     "Posts": {
         "on-disk": "%(weight)s sur le disque",
-        "read": "Lire"
+        "weight": "Ce blog pèse",
+        "read": "Lire",
+        "posts": "billet(s)",
+        "media": "media"
     }
 }
