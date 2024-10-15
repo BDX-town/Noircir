@@ -20,7 +20,7 @@ COPY . $NOIRCIR_FOLDER
 RUN apk add gettext gum nginx nginx-mod-http-lua nginx-mod-http-dav-ext openssl nodejs-current npm \
     && corepack enable \
     && mkdir -p $NGINX_FOLDER \
-    && mkdir -p /tools && cp $NOIRCIR_FOLDER/tools/* /tools \
+    && mkdir -p /tools && cp $NOIRCIR_FOLDER/tools/* /tools
 RUN cd $NOIRCIR_FOLDER && yarn workspaces focus cms template
 RUN yarn run build 
 RUN rm -rf */node_modules/* && rm -rf node_modules/*
