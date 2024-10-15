@@ -1563,9 +1563,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bdxtown/canaille@portal:/Users/clovisportron/Documents/Dev/Canaille::locator=noircir%40workspace%3A.":
-  version: 0.0.0-use.local
-  resolution: "@bdxtown/canaille@portal:/Users/clovisportron/Documents/Dev/Canaille::locator=noircir%40workspace%3A."
+"@bdxtown/canaille@npm:^1.0.0-rc5, @bdxtown/canaille@npm:^1.0.0-rc6":
+  version: 1.0.0-rc8
+  resolution: "@bdxtown/canaille@npm:1.0.0-rc8"
   dependencies:
     "@babel/core": "npm:^7.23.6"
     "@babel/preset-env": "npm:^7.23.6"
@@ -1596,8 +1596,9 @@ __metadata:
     typescript: "npm:^5.3.3"
     webpack: "npm:^5.89.0"
     webpack-cli: "npm:^5.1.4"
+  checksum: cbd92642852fe4abf0f91e3f6ddbf596fd2e757fe4ab62c56df963cebb7f0ee393b6bfdb03a4dc406346f13ea776e1d47eeae5068aeb21e8ddadacfab93cc5b8
   languageName: node
-  linkType: soft
+  linkType: hard
 
 "@bundled-es-modules/cookie@npm:^2.0.0":
   version: 2.0.0
