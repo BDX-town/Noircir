@@ -1,0 +1,30 @@
+{
+  "useValidation": {
+    "type": {
+      "number": "number",
+      "date": "date",
+      "datetime-local": "date",
+      "email": "email address",
+      "month": "month",
+      "password": "password",
+      "tel": "phone number",
+      "time": "time",
+      "url": "url address",
+      "week": "week",
+      "datetime": "date",
+      "radio": "radio",
+      "text": "text"
+    },
+    "error": {
+      "badInput": "Invalid value.",
+      "patternMismatch": "Please match the pattern.",
+      "rangeOverflow": "The value is greater than %(max)s.",
+      "rangeUnderflow": "The value is lower than %(min)s.",
+      "stepMismatch": "Invalid value.",
+      "tooLong": "The value must be less than %(maxLength)s characters.",
+      "tooShort": "The value must be greater than %(minLength)s characters.",
+      "typeMismatch": "Please input a %(type)s.",
+      "valueMissing": "This field is required."
+    }
+  }
+}

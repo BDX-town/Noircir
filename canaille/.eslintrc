@@ -1,0 +1,29 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "airbnb",
+    "airbnb-typescript"
+  ],
+  "rules": {
+    "import/prefer-default-export": 0,
+    // turn on errors for missing imports
+    "import/no-unresolved": "error",
+    "@typescript-eslint/dot-notation": 0,
+    "react/require-default-props": 0,
+    "react/jsx-props-no-spreading": 0,
+    "@typescript-eslint/naming-convention": 0,
+    "no-underscore-dangle": 0,
+    "default-case-last": 0,
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    }
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "project": ["./tsconfig.json"]
+  }
+}
