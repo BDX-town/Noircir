@@ -29,7 +29,7 @@ export const Base = ({ write = false }: { write?: boolean }) => {
             <Outlet />
             {
                 write && (
-                    <Link className='fixed right-[32px] bottom-[32px]' to={PostLocation.path.replace(':file', '')}>
+                    <Link className='fixed right-[20px] bottom-[32px]' to={PostLocation.path.replace(':file', '')}>
                         <Button className='text-2xl'><IconFeather /><T>write</T></Button>
                     </Link>
                 )

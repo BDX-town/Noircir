@@ -27,7 +27,7 @@ export const Posts = () => {
 
     if(!posts) {
         return (
-            <div className='grow flex items-center justify-center'>
+            <div className='grow flex items-center justify-center py-4'>
                 <Loader />
             </div>
         )
@@ -59,7 +59,7 @@ export const Posts = () => {
                 </div>
             </div>
             {
-                posts.map((post) => (
+                posts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()).map((post) => (
                     <Link key={post.file} className='no-underline text-grey-100' to={PostLocation.path + "/" + post.file}>
                         <Block variant='interactive' className='flex flex-col md:flex-row p-0 overflow-hidden bg-additional-primary min-h-[130px]'>
                             {

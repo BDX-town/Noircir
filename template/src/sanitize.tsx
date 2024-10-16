@@ -15,6 +15,7 @@ const whiteList = Object.keys(xss.whiteList).reduce((acc, key) => {
 const options = {
     whiteList: {
         ...whiteList,
+        iframe: ["src", "style", "width", "height", "frameBorder", "border"],
         main: allowed,
         svg: allowed,
         time: allowed,
