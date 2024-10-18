@@ -1,5 +1,7 @@
 FROM alpine:3.20
 
+# noircir repo: where to fetch updates
+ENV NOIRCIR_RELEASE=https://github.com/BDX-town/Noircir/releases/latest/download/noircir.zip
 # noircir folder: where you saved noircir files
 ENV NOIRCIR_FOLDER="/noircir"
 # nginx root: all noircir data will be saved there, blogs and generated content
