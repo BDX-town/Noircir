@@ -12,7 +12,7 @@
     "canaille"
   ],
   "scripts": {
-    "build": "yarn workspaces foreach -Rpt --from '{canaille, cms,template}' run build",
+    "build": "yarn workspaces foreach -Rpt --from '{@bdxtown/canaille, cms,template}' run build",
     "start": "cd generator && yarn start"
   },
   "packageManager": "yarn@4.0.2",
