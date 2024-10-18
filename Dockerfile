@@ -23,8 +23,7 @@ RUN apk add gettext gum nginx nginx-mod-http-lua nginx-mod-http-dav-ext openssl 
     && corepack enable \
     && mkdir -p $NGINX_FOLDER \
     && mkdir -p /tools && cp $NOIRCIR_FOLDER/tools/* /tools
-RUN cd $NOIRCIR_FOLDER && yarn workspaces focus cms template
-RUN cd $NOIRCIR_FOLDER && yarn run build 
+RUN cd $NOIRCIR_FOLDER && yarn workspaces focus cms template && yarn run build 
 RUN cd $NOIRCIR_FOLDER && rm -rf */node_modules/* && rm -rf node_modules/*
 RUN cd $NOIRCIR_FOLDER && yarn workspaces focus generator 
 RUN cp -r $NOIRCIR_FOLDER/cms/dist/* $NGINX_FOLDER
