@@ -19,8 +19,9 @@ export const Base = ({ write = false }: { write?: boolean }) => {
     return (
 
         <main className='min-h-screen bg-additional-primary'>
-            <div className='flex py-3 pl-3 items-center'>
+            <div className='flex py-3 pl-3 gap-3 items-center'>
                 <img src={blog?.blogCover} className='w-[45px] h-[45px] object-contain rounded-full' />
+                <span className='text-xl font-bold'>{ blog?.blogName }</span>
                 <div className='grow px-5 align-self-center'>
                     <Nav />
                 </div>

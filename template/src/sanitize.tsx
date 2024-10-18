@@ -12,6 +12,7 @@ const whiteList = Object.keys(xss.whiteList).reduce((acc, key) => {
     }
 }, {});
 
+
 const options = {
     whiteList: {
         ...whiteList,
@@ -19,6 +20,13 @@ const options = {
         main: allowed,
         svg: allowed,
         time: allowed,
+    },
+    onTag: (tag: string, html: string, options: any) => {
+        // some tags are self closing, we do not want them to stay that way as they can trap content in them (iframes for instance)
+        if(options.isClosing == false && html.endsWith('/>')) {
+            return `${html}</${tag}>`
+        }
+        return undefined;
     }
 }
 
