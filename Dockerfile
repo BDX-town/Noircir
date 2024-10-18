@@ -22,9 +22,11 @@ COPY . $NOIRCIR_FOLDER
 RUN apk add gettext gum nginx nginx-mod-http-lua nginx-mod-http-dav-ext openssl nodejs-current npm \
     && corepack enable \
     && mkdir -p $NGINX_FOLDER \
-    && mkdir -p /tools && cp $NOIRCIR_FOLDER/tools/* /tools \
-    && cd $NOIRCIR_FOLDER && yarn workspaces focus cms template &&  yarn run build && rm -rf */node_modules/* && rm -rf node_modules/* &&  yarn workspaces focus generator && cd / \
-    && cp -r $NOIRCIR_FOLDER/cms/dist/* $NGINX_FOLDER
+    && mkdir -p /tools && cp $NOIRCIR_FOLDER/tools/* /tools
+RUN cd $NOIRCIR_FOLDER && yarn workspaces focus cms template && yarn run build 
+RUN cd $NOIRCIR_FOLDER && rm -rf */node_modules/* && rm -rf node_modules/*
+RUN cd $NOIRCIR_FOLDER && yarn workspaces focus generator 
+RUN cp -r $NOIRCIR_FOLDER/cms/dist/* $NGINX_FOLDER
 
 
 RUN adduser -D -u 1001 -h /home/$WWW_USER -G $WWW_GROUP $WWW_USER\

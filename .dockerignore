@@ -1,5 +1,5 @@
 Dockerfile
 node_modules
-.vsc
-ode
+.vscode
 dist
+.git
