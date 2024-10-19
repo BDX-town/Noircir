@@ -1,5 +1,8 @@
 FROM alpine:3.20
 
+# Please set this var env at startup as it is mandatory
+ENV SERVER localhost
+
 # noircir repo: where to fetch updates
 ENV NOIRCIR_RELEASE=https://api.github.com/repos/BDX-town/Noircir/tags
 # noircir folder: where you saved noircir files

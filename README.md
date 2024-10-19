@@ -30,6 +30,8 @@ Users can:
 You can set or change these values in your environement in order to change some parameters: 
 
 ```bash
+# Please set this var env at startup as it is mandatory
+ENV SERVER localhost
 # noircir folder: where you saved noircir files
 ENV NOIRCIR_FOLDER="/noircir"
 # nginx root: all noircir data will be saved there, blogs and generated content
@@ -43,6 +45,14 @@ ENV WWW_USER=noircir
 # must match nginx group
 ENV WWW_GROUP=www-data
 ```
+
+We are providing a docker image via Github release for ease of use.
+
+```
+# Any of the var env specified earlier can be set with the -e arg
+docker run -p <external-port>:8080 -e "SERVER=<your server address>" noircir
+```
+
 
 ## Roadmap
 
