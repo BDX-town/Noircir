@@ -6236,7 +6236,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^4.6.0"
     eslint-plugin-react-refresh: "npm:^0.4.5"
     fast-xml-parser: "npm:^4.3.5"
-    lexical: "npm:^0.12.6"
+    lexical: "npm:^0.14.5"
     postcss: "npm:^8.4.33"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
@@ -10208,10 +10208,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lexical@npm:^0.12.4, lexical@npm:^0.12.6":
+"lexical@npm:^0.12.4":
   version: 0.12.6
   resolution: "lexical@npm:0.12.6"
   checksum: bda556b99777c32b91338e875675449b13f6c3d595b872a61fa76d4da66c846da6525f854adff5382a0cd168b2445fc659072c24c3537dfd6721738b938a1904
+  languageName: node
+  linkType: hard
+
+"lexical@npm:^0.14.5":
+  version: 0.14.5
+  resolution: "lexical@npm:0.14.5"
+  checksum: 4477194246fd7f57589eb2285476ba2ead5ee827df0c53c1edfcb261757a359b287d9c670754874b7a58629b852ab63a51e0277b3edab486d4942c6a5c3495dc
   languageName: node
   linkType: hard
 
