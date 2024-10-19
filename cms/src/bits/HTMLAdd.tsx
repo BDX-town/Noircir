@@ -34,7 +34,7 @@ export const HTMLAdd = () => {
 
       editor?.update(() => {
         const vnode = $createGenericHTMLNode(node.tagName.toLowerCase() as never, "mdxJsxFlowElement", Array.from(node.attributes).map((a) => ({ name: a.name, value: a.value, type: "mdxJsxAttribute" })));
-        $insertNodes([vnode]);
+        $insertNodes([vnode as never]);
       })
       setShowModal(false);
     }, [editor]);
