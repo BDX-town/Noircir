@@ -21,9 +21,5 @@
     "import/parsers": {
       "@typescript-eslint/parser": [".ts", ".tsx"]
     }
-  },
-  "parserOptions": {
-    "sourceType": "module",
-    "project": ["./tsconfig.json"]
   }
 }

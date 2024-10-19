@@ -5,16 +5,17 @@ import analyze from "rollup-plugin-analyzer";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // @ts-expect-error no types
   plugins: [react(), nodePolyfills(), analyze()],
   define:{
     global:JSON.stringify({})
   },
   optimizeDeps: {
-    include: ['@bdxtown/canaille', '**/node_modules/**'],
+    include: ['@bdxtown/canaille', '**/node_modules/**', '../canaille/dist/*'],
   },
   build: {
     commonjsOptions: {
-      include: [/@bdxtown\/canaille/, /node_modules/],
+      include: [/@bdxtown\/canaille/, /node_modules/,/..\/canaille\/dist/ ],
     },
   },
   resolve: {
