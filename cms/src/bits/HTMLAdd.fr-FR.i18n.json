@@ -1,0 +1,8 @@
+{
+    "HTMLAdd": {
+        "title": "Ajouter du code HTML",
+        "description": "Saissez ci-dessous le code HTML que vous souhaitez ajouter à la page. Seules des balises et attributs sans-risque seront présentées aux lecteurs.",
+        "insert": "Insérer",
+        "cancel": "Annuler"
+    }
+}

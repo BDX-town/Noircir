@@ -1,5 +1,7 @@
 FROM alpine:3.20
 
+# noircir repo: where to fetch updates
+ENV NOIRCIR_RELEASE=https://api.github.com/repos/BDX-town/Noircir/tags
 # noircir folder: where you saved noircir files
 ENV NOIRCIR_FOLDER="/noircir"
 # nginx root: all noircir data will be saved there, blogs and generated content
@@ -17,12 +19,14 @@ ENV WWW_GROUP=www-data
 COPY . $NOIRCIR_FOLDER 
 
 # install deps
-RUN apk add gettext gum nginx nginx-mod-http-lua nginx-mod-http-dav-ext openssl nodejs-current npm \
+RUN apk add gettext gum nginx nginx-mod-http-lua nginx-mod-http-dav-ext openssl nodejs-current npm jq curl \
     && corepack enable \
     && mkdir -p $NGINX_FOLDER \
-    && mkdir -p /tools && cp $NOIRCIR_FOLDER/tools/* /tools \
-    && cd $NOIRCIR_FOLDER && yarn workspaces focus cms template &&  yarn run build && rm -rf */node_modules/* && rm -rf node_modules/* &&  yarn workspaces focus generator && cd / \
-    && cp -r $NOIRCIR_FOLDER/cms/dist/* $NGINX_FOLDER
+    && mkdir -p /tools && cp $NOIRCIR_FOLDER/tools/* /tools
+RUN cd $NOIRCIR_FOLDER && yarn workspaces focus @bdxtown/canaille cms template && yarn run build 
+RUN cd $NOIRCIR_FOLDER && rm -rf */node_modules/* && rm -rf node_modules/*
+RUN cd $NOIRCIR_FOLDER && yarn workspaces focus generator 
+RUN cp -r $NOIRCIR_FOLDER/cms/dist/* $NGINX_FOLDER
 
 
 RUN adduser -D -u 1001 -h /home/$WWW_USER -G $WWW_GROUP $WWW_USER\

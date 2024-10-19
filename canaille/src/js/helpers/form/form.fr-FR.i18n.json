@@ -1,0 +1,30 @@
+{
+  "useValidation": {
+    "type": {
+      "number": "nombre",
+      "date": "date",
+      "datetime-local": "date",
+      "email": "adresse email",
+      "month": "mois",
+      "password": "mot de passe",
+      "tel": "numéro de téléphone",
+      "time": "horraire",
+      "url": "adresse url",
+      "week": "semaine",
+      "datetime": "date",
+      "radio": "radio",
+      "text": "texte"
+    },
+    "error": {
+      "badInput": "La valeur n'est pas valide.",
+      "patternMismatch": "Veuillez respecter le format demandé.",
+      "rangeOverflow": "La valeur saisie est supérieure à %(max)s.",
+      "rangeUnderflow": "La valeur saisie est inférieure à %(min)s.",
+      "stepMismatch": "Veuillez saisir une valeur valide.",
+      "tooLong": "La valeur doit faire moins de %(maxLength)s caractères.",
+      "tooShort": "La valeur doit faire plus de %(minLength)s caractères.",
+      "typeMismatch": "Veuillez saisir un(e) %(type)s.",
+      "valueMissing": "Ce champ est requis."
+    }
+  }
+}

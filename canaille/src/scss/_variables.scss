@@ -1,0 +1,346 @@
+// Liste de toutes les couleurs de marque disponibles
+// Documentation: Colors/Palet/Brand
+$color-brand-primary: #6ddbb4;
+$color-brand-primary-light: #e2edda;
+$color-brand-primary-medium: #6ddbb4;
+$color-brand-primary-dark: #31b285;
+$brand-colors: (
+  "brand-primary": $color-brand-primary,
+  "brand-primary-light": $color-brand-primary-light,
+  "brand-primary-medium": $color-brand-primary-medium,
+  "brand-primary-dark": $color-brand-primary-dark,
+);
+
+// Liste de toutes les couleurs Additionelles
+// Documentation: Colors/Palet/Additional
+$color-additional-primary: #fff1e3;
+$color-additional-primary-light: #faf4f0;
+$color-additional-primary-medium: #fff1e3;
+$color-additional-primary-dark: #ccae91;
+$color-additional-secondary: #070727;
+$color-additional-secondary-light: #0c0c46;
+$color-additional-secondary-medium: #070727;
+$color-additional-secondary-dark: #010029;
+$additional-colors: (
+  "additional-primary": $color-additional-primary,
+  "additional-primary-light": $color-additional-primary-light,
+  "additional-primary-medium": $color-additional-primary-medium,
+  "additional-primary-dark": $color-additional-primary-dark,
+  "additional-secondary": $color-additional-primary,
+  "additional-secondary-light": $color-additional-primary-light,
+  "additional-secondary-medium": $color-additional-primary-medium,
+  "additional-secondary-dark": $color-additional-primary-dark,
+);
+
+// Liste de toutes les couleurs d'alerte disponibles
+// Documentation: Colors/Palet/Alert
+$color-alert-0: unset;
+$color-alert-0-light: unset;
+$color-alert-0-medium: unset;
+$color-alert-0-dark: unset;
+$color-alert-25: unset;
+$color-alert-25-light: unset;
+$color-alert-25-medium: unset;
+$color-alert-25-dark: unset;
+$color-alert-50: unset;
+$color-alert-50-light: unset;
+$color-alert-50-medium: unset;
+$color-alert-50-dark: unset;
+$color-alert-75: unset;
+$color-alert-75-light: unset;
+$color-alert-75-medium: unset;
+$color-alert-75-dark: unset;
+$color-alert-100: unset;
+$color-alert-100-light: unset;
+$color-alert-100-medium: unset;
+$color-alert-100-dark: unset;
+$color-alert-125: unset;
+$color-alert-125-light: unset;
+$color-alert-125-medium: unset;
+$color-alert-125-dark: unset;
+$alert-colors: [];
+
+// Liste de toutes les gris disponibles
+// Documentation: Colors/Palet/Greys
+$white: white;
+$grey-0: #c7c7f2;
+$grey-25: #9595bf;
+$grey-50: #51518c;
+$grey-75: #222259;
+$grey-100: #070727;
+$grey-colors: (
+  "white": $white,
+  "grey-0": $grey-0,
+  "grey-25": $grey-25,
+  "grey-50": $grey-50,
+  "grey-75": $grey-75,
+  "grey-100": $grey-100,
+);
+
+// Liste de toutes les couleurs disponibles
+$colors: map-merge($additional-colors, $brand-colors);
+$colors: map-merge($colors, $grey-colors);
+
+// listes des polices disponibles
+// Documentation: Typography/Families
+$font-family-primary: "Atkinson Hyperlegible";
+$font-family-secondary: unset;
+$font-family-tertiary: unset;
+$font-families: (
+  "font-family-primary": $font-family-primary,
+);
+
+// Liste de toutes les tailles de police disponibles
+// Documentation: Typography/Size
+$text-25: unset;
+$text-50: 0.75rem; // 12px
+$text-75: unset;
+$text-100: 1rem; // 16px
+$text-125: 1.25rem; // 20px
+$text-150: 2rem; // 32px
+$text-175: 2.5rem; // 40px
+$text-200: 5rem; // 80px
+$text-sizes: (
+  "text-50": $text-50,
+  "text-100": $text-100,
+  "text-125": $text-125,
+  "text-150": $text-150,
+  "text-175": $text-175,
+  "text-200": $text-200,
+);
+
+$weight-bold: 700;
+$weight-semibold: 600;
+$weight-medium: 500;
+$weight-regular: 400;
+$weight-normal: 400;
+$weight-light: 300;
+$font-weights: (
+  "weight-bold": $weight-bold,
+  "weight-semibold": $weight-semibold,
+  "weight-medium": $weight-medium,
+  "weight-regular": $weight-regular,
+  "weight-normal": $weight-normal,
+  "weight-light": $weight-light,
+);
+
+// Liste de toutes les familles de titre disponibles
+// Documentation: Typography/Titles
+$h1-family: unset;
+$h2-family: unset;
+$h3-family: unset;
+$h4-family: unset;
+$h5-family: unset;
+$h6-family: unset;
+$h-families: [];
+
+// Liste de toutes les transformations de titre disponibles
+// Documentation: Typography/Titles
+$h1-transform: unset;
+$h2-transform: unset;
+$h3-transform: unset;
+$h4-transform: unset;
+$h5-transform: unset;
+$h6-transform: unset;
+$h-transforms: [];
+
+// Liste de toutes les tailles de titre disponibles
+// Documentation: Typography/Titles
+$h1-size: $text-200;
+$h2-size: $text-175;
+$h3-size: $text-150;
+$h4-size: $text-125;
+$h5-size: unset;
+$h6-size: unset;
+$h-sizes: (
+  "h1-size": $h1-size,
+  "h2-size": $h2-size,
+  "h3-size": $h3-size,
+  "h4-size": $h4-size,
+);
+
+// Liste de toutes les graisses de titre disponibles
+// Documentation: Typography/Titles
+$h1-weight: $weight-bold;
+$h2-weight: $weight-bold;
+$h3-weight: $weight-bold;
+$h4-weight: $weight-bold;
+$h5-weight: unset;
+$h6-weight: unset;
+$h-weights: (
+  "h1-weight": $h1-weight,
+  "h2-weight": $h2-weight,
+  "h3-weight": $h3-weight,
+  "h4-weight": $h4-weight,
+);
+
+// Liste de toutes les line-heights disponibles
+// Documentation: Typography/Titles
+$h1-line-height: unset;
+$h2-line-height: unset;
+$h3-line-height: unset;
+$h4-line-height: unset;
+$h5-line-height: unset;
+$h6-line-height: unset;
+$h-line-heights: [];
+
+// Liste de tous les radius disponibles
+// Documentation: Utilities/Borders
+$rounded-0: 0;
+$rounded-25: 4px;
+$rounded-50: 8px;
+$rounded-75: unset;
+$rounded-100: 16px;
+$rounded-125: unset;
+$rounded-150: unset;
+$rounded-200: 32px;
+$rounded-sizes: (
+  "rounded-0": $rounded-0,
+  "rounded-25": $rounded-25,
+  "rounded-50": $rounded-50,
+  "rounded-100": $rounded-100,
+  "rounded-200": $rounded-200,
+);
+
+// Liste de toutes les ombres disponibles
+// Documentation: Utilities/Shadows
+$dp-0: none;
+$dp-25: -1px 2px 0px 0px $grey-100;
+$dp-50: unset;
+$dp-75: -2px 4px 0px 0px $grey-100;
+$dp-100: -4px 8px 0px 0px $grey-100;
+$dp-sizes: (
+  "dp-0": $dp-0,
+  "dp-25": $dp-25,
+  "dp-75": $dp-75,
+  "dp-100": $dp-100,
+);
+
+// ==========================================
+
+// liste opacités disponibles
+// Documentation: Utilities/Visibility
+$opacity-0: 0;
+$opacity-25: 0.25;
+$opacity-50: 0.5;
+$opacity-75: 0.75;
+$opacity-100: 1;
+$opacity-sizes: (
+  "opacity-0": $opacity-0,
+  "opacity-25": $opacity-25,
+  "opacity-50": $opacity-50,
+  "opacity-75": $opacity-75,
+  "opacity-100": $opacity-100,
+);
+
+// liste espacements disponibles
+// Documentation: Spacings/Margin et Spacings/Padding
+$spacing-0: 0px;
+$spacing-1: 4px;
+$spacing-2: 8px;
+$spacing-3: 16px;
+$spacing-4: 24px;
+$spacing-5: 32px;
+$spacing-sizes: (
+  "spacing-0": $spacing-0,
+  "spacing-1": $spacing-1,
+  "spacing-2": $spacing-2,
+  "spacing-3": $spacing-3,
+  "spacing-4": $spacing-4,
+  "spacing-5": $spacing-5,
+);
+
+// Liste de toutes les z-values disponibles
+// Documentation: TODO
+$z-0: 0;
+$z-1: 1;
+$z-2: 5;
+$z-3: 10;
+$z-cheating: 100;
+$z-values: (
+  "z-0": $z-0,
+  "z-1": $z-1,
+  "z-2": $z-2,
+  "z-3": $z-3,
+  "z-cheating": $z-cheating,
+);
+
+// Variables secondaires
+$border-width: 2px;
+$border-color: $grey-100;
+$borders: (
+  "border-width": $border-width,
+  "border-color": $border-color,
+);
+
+$variables: map-merge(
+  $map1: $font-families,
+  $map2: $text-sizes,
+);
+$variables: map-merge(
+  $map1: $variables,
+  $map2: $h-families,
+);
+$variables: map-merge(
+  $map1: $variables,
+  $map2: $h-transforms,
+);
+$variables: map-merge(
+  $map1: $variables,
+  $map2: $h-sizes,
+);
+$variables: map-merge(
+  $map1: $variables,
+  $map2: $h-weights,
+);
+$variables: map-merge(
+  $map1: $variables,
+  $map2: $h-line-heights,
+);
+$variables: map-merge(
+  $map1: $variables,
+  $map2: $opacity-sizes,
+);
+$variables: map-merge(
+  $map1: $variables,
+  $map2: $spacing-sizes,
+);
+$variables: map-merge(
+  $map1: $variables,
+  $map2: $rounded-sizes,
+);
+$variables: map-merge(
+  $map1: $variables,
+  $map2: $dp-sizes,
+);
+$variables: map-merge(
+  $map1: $variables,
+  $map2: $colors,
+);
+$variables: map-merge(
+  $map1: $variables,
+  $map2: $borders,
+);
+$variables: map-merge(
+  $map1: $variables,
+  $map2: $z-values,
+);
+$variables: map-merge(
+  $map1: $variables,
+  $map2: $font-weights,
+);
+
+// on définit une mixin pour permettre de restaurer les variables à tout niveau
+@mixin variables {
+  @each $variable, $value in $variables {
+    --#{$variable}: #{$value};
+    @if (type-of($value) == color) {
+      $hue: hue($value);
+      $saturation: saturation($value);
+      $lightness: lightness($value);
+      --#{$variable}-h: #{$hue};
+      --#{$variable}-s: #{$saturation};
+      --#{$variable}-l: #{$lightness};
+    }
+  }
+}

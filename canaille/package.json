@@ -1,0 +1,82 @@
+{
+  "name": "@bdxtown/canaille",
+  "version": "1.0.0",
+  "description": "bdx.town design system",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/types/src/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/types/src/index.d.ts"
+    },
+    "./src/scss/index.scss": {
+      "import": "./src/scss/index.scss",
+      "require": "./src/scss/index.scss"
+    }
+  },
+  "layers": {
+    "components": "components",
+    "utils": "utils"
+  },
+  "files": [
+    "./dist/**",
+    "./src/scss/**"
+  ],
+  "scripts": {
+    "build": "npx webpack -c webpack.dev.mjs",
+    "build-prod": "npx webpack -c webpack.prod.mjs",
+    "dev": "npx webpack --config webpack.dev.mjs --watch",
+    "stats": "npx webpack --profile --json=stats.json -c webpack.prod.mjs && npx webpack-bundle-analyzer stats.json",
+    "test": "npx jest",
+    "lint": "npx eslint --fix .",
+    "laddle": "npx ladle serve",
+    "laddle-build": "npx ladle build --base $BASE_URL",
+    "story": "node toolchain/create-story.mjs",
+    "publish-package": "npx yarn build-prod && npm publish"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.23.6",
+    "@babel/preset-env": "^7.23.6",
+    "@babel/preset-react": "^7.23.3",
+    "@babel/preset-typescript": "^7.23.3",
+    "@react-docgen/cli": "^2.0.1",
+    "@tabler/icons-react": "^2.44.0",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "babel-loader": "^9.1.3",
+    "css-loader": "^6.9.0",
+    "debounce": "^2.0.0",
+    "deepmerge": "^4.3.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "file-loader": "^6.2.0",
+    "ladlescoop": "^1.0.8",
+    "react": "^18.2.0",
+    "react-docgen": "^7.0.1",
+    "react-dom": "^18.2.0",
+    "sass": "^1.69.5",
+    "sass-loader": "^13.3.2",
+    "style-loader": "^3.3.3",
+    "typescript": "^5.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "devDependencies": {
+    "@ladle/react": "^4.0.2",
+    "@types/webpack-bundle-analyzer": "^4",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb-typescript": "^17.1.0",
+    "webpack-bundle-analyzer": "^4.10.1"
+  },
+  "packageManager": "yarn@4.0.2"
+}

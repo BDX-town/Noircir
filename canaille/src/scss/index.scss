@@ -1,0 +1,8 @@
+// liste de toutes les variables disponibles
+@use "./variables" as vars;
+
+:root,
+.laddle-main {
+  @include vars.variables();
+  font-family: var(--font-family-primary);
+}
