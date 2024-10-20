@@ -27,7 +27,7 @@
     }
   },
   "dependencies": {
-    "@bdxtown/canaille": "^1.0.0-rc5",
+    "@bdxtown/canaille": "^1.0.0-rc7",
     "@ladle/react": "^4.0.2",
     "clean-css": "^5.3.3",
     "counterpart": "^0.18.6",

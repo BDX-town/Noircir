@@ -53,7 +53,6 @@ We are providing a docker image via Github release for ease of use.
 docker run -p <external-port>:8080 -e "SERVER=<your server address>" noircir
 ```
 
-
 ## Roadmap
 
 - use Oauth instead of basic Auth

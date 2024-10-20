@@ -10,11 +10,11 @@ export default defineConfig({
     global:JSON.stringify({})
   },
   optimizeDeps: {
-    include: ['@bdxtown/canaille'],
+    include: ['@bdxtown/canaille', '**/node_modules/**', '../canaille/dist/*'],
   },
   build: {
     commonjsOptions: {
-      include: [/@bdxtown\/canaille/, /node_modules/],
+      include: [/@bdxtown\/canaille/, /node_modules/,/..\/canaille\/dist/ ],
     },
     lib: {
         entry: path.resolve(__dirname, 'src/index.ts'),
