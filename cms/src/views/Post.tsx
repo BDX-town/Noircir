@@ -143,7 +143,7 @@ const Post = ({ blank = false }: { blank?: boolean }) => {
     }, [calculateImageWeight]);
 
     const onChange: React.KeyboardEventHandler<HTMLFormElement> = React.useCallback((e) => {
-        const formData: Partial<IPost> = Array.from(new FormData(e.currentTarget as HTMLFormElement)
+        const formData: Partial<IPost & { "cover-weight": string}> = Array.from(new FormData(e.currentTarget as HTMLFormElement)
             .entries())
             .reduce((acc, curr) => ({...acc, [curr[0]]: curr[1]}), {});
         const data: IPost = {
@@ -153,8 +153,10 @@ const Post = ({ blank = false }: { blank?: boolean }) => {
             content: editor.current?.getMarkdown()
         } as IPost
 
+        console.log(formData)
+
         const weight = new TextEncoder().encode(formatPost(data)).length;
-        setWeight(weight);
+        setWeight(weight + parseInt(formData["cover-weight"] as string, 10));
         calculateImageWeight();
     }, [calculateImageWeight, post]);
 
@@ -202,7 +204,7 @@ const Post = ({ blank = false }: { blank?: boolean }) => {
 
     return (
         <>
-            <form className="grow mt-5 flex flex-col gap-4" onSubmit={onSubmit} onKeyUp={onChange}>
+            <form className="grow mt-5 flex flex-col gap-4" onSubmit={onSubmit} onChange={onChange} onKeyUp={onChange}>
                 <div className='px-5 flex flex-col gap-4'>
                     <div className='flex gap-3 items-center'>
                         <div className='grow flex flex-col justify-between gap-5'>
@@ -243,7 +245,7 @@ const Post = ({ blank = false }: { blank?: boolean }) => {
                         ]} 
                     />
                 </div>
-                <div className='flex justify-between items-end px-5 pb-5'>
+                <div className='flex justify-between items-center px-5 pb-5'>
                     {
                         !blank ? (
                             <Button disabled={!online} className='hover:bg-red-500' size={50} variant="light" onClick={() => setShouldDelete(true)}>
@@ -259,9 +261,12 @@ const Post = ({ blank = false }: { blank?: boolean }) => {
                                 online ? <T weight={calculateWeight(weight + imageWeight)}>for-reader</T> : <T weight={calculateWeight(weight)}>for-reader-offline</T>
                             }
                         </div>    
-                        <div className='flex gap-3 items-center'>
-                            <Checkbox name="draft" checked={draft} onChange={() => setDraft(!draft)}  ><T>draft</T></Checkbox>
-                            <ButtonProcess size={50} htmlType='submit' processing={processing} error={error} success={success}>
+                        <div className='flex gap-3 items-start'>
+                            <div className='flex items-center'>
+                                <Button disabled className='w-0 invisible' size={50}><IconBook2 /> Publier</Button>
+                                <Checkbox name="draft" checked={draft} onChange={() => setDraft(!draft)}  ><T>draft</T></Checkbox>
+                            </div>
+                            <ButtonProcess className='w-[200px]' size={50} htmlType='submit' processing={processing} error={error} success={success}>
                                 {
                                     draft ? (
                                         <>

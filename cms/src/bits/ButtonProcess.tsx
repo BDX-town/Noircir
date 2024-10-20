@@ -11,19 +11,21 @@ export const ButtonProcess = ({ className = '', disabled, processing, error, suc
     }, [error, success])
 
     return (
-        <div className={`${className} flex gap-2 items-center justify-end flex-wrap`}>
-            {
-                processing ? <IconLoader3 className='animate-spin' />
-                : <>
-                    {
-                        error && <IconTimelineEventExclamation className='text-red-500' />
-                    }
-                    {
-                        success && <IconTimelineEvent className='text-green-600' />
-                    }
-                </>
-            }
-            <Button {...rest} disabled={processing || disabled}>{ children }</Button>
+        <div className={`${className}`}>
+            <div className={`flex gap-2 items-center justify-end mb-2`}>
+                {
+                    processing ? <IconLoader3 className='animate-spin' />
+                    : <>
+                        {
+                            error && <IconTimelineEventExclamation className='text-red-500' />
+                        }
+                        {
+                            success && <IconTimelineEvent className='text-green-600' />
+                        }
+                    </>
+                }
+                <Button {...rest} disabled={processing || disabled}>{ children }</Button>
+            </div>
             {
                 !processing && error && <span className='text-red-500 min-w-full text-right'>{ error.userMessage }</span>
             }

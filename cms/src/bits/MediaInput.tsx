@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Button } from '@bdxtown/canaille';
 
 import { MediaSelectionModal } from './MediaSelectionModal';
@@ -9,7 +9,8 @@ import { useAppContext } from '../data/AppContext';
 import { weight } from '../helpers/weight';
 
 
-export const MediaInput = ({ onPick, defaultValue, value, className, children,...rest }: { children: React.ReactNode, className?: string, label?: React.ReactNode, onPick?: (m: Media, alt: string) => void, defaultValue?: string, value?: string, [x: string]: unknown } ) => {
+export const MediaInput = ({ onPick, name, defaultValue, value, className, children,...rest }: { name?: string, children: React.ReactNode, className?: string, label?: React.ReactNode, onPick?: (m: Media, alt: string) => void, defaultValue?: string, value?: string, [x: string]: unknown } ) => {
+    const input = useRef<HTMLInputElement>(null);
     const [modal, setModal] = React.useState(false);
     const { media } = useAppContext();
     const [currentMedia, setCurrentMedia] = React.useState<Media | undefined>(media.find((m) => m.url === value || m.url === defaultValue));
@@ -30,7 +31,8 @@ export const MediaInput = ({ onPick, defaultValue, value, className, children,..
 
     return (
         <div className='flex flex-col gap-1 rounded-md w-min '>
-            <input {...rest} type="hidden" value={currentMedia?.url} />
+            <input {...rest} ref={input} name={name} type="hidden" value={currentMedia?.url} />
+            <input name={`${name || new Date().getTime()}-weight`} type="hidden" value={currentMedia?.weight} />
             <div className={`flex flex-col rounded-lg border-2 border-solid border-grey-100 bg-additional-primary-light p-2 ${className}`}>
                 {
                     currentMedia && <img className='rounded-lg w-full max-h-full object-contain basis-0 min-h-0 grow' src={currentMedia?.url} />
@@ -45,7 +47,7 @@ export const MediaInput = ({ onPick, defaultValue, value, className, children,..
                 <Button variant='light' size={50} className='text-nowrap whitespace-nowrap' onClick={() => setModal(true)}>{ children } <IconColorPicker size={16} /></Button>
             </div>
             {
-                    modal && <MediaSelectionModal onPick={onInternalPick} onCancel={() => setModal(false)}/>
+                modal && <MediaSelectionModal onPick={onInternalPick} onCancel={() => setModal(false)}/>
             }
         </div>
     );
