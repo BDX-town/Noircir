@@ -45,12 +45,15 @@ export const MediaSelectionModal = ({ onPick, onCancel }: { onPick: (m: Media, a
 
   return (
     <Modal className='h-[90%] max-w-[90%] w-full' onClose={onCancel as () => void}>
-      <form onSubmit={onSubmit} onChange={onChange} className='flex h-full'>
-        <div className='shrink-0 w-[260px] flex flex-col h-full'>
-          <div className='grow shrink w-full flex flex-col justify-center items-center basis-0 min-h-0'>
+      <form onSubmit={onSubmit} onChange={onChange} className='flex h-full relative z-0'>
+        <div className='absolute left-0 bottom-0 z-10'>
+            <ButtonUpload><T>not-found</T></ButtonUpload>
+        </div>
+        <Block className='w-[340px] h-[400px] p-0 flex flex-col absolute bottom-0 right-0 z-10 bg-additional-primary overflow-hidden'>
+          <div className='grow shrink-0 w-full flex flex-col justify-center items-center basis-0 min-h-0 bg-brand-primary-light border-solid border-b-2 border-t-0 border-l-0 border-grey-600'>
             {
               selectedMedia ? (
-                <img className='w-full max-h-full object-contain' src={selectedMedia.url} alt={selectedMedia.file} />
+                <img className='w-full max-h-full object-contain  ' src={selectedMedia.url} alt={selectedMedia.file} />
               ) : (
                 <>
                   <IconPhotoHexagon className='text-gray-400 mb-3' size={50} />
@@ -59,27 +62,28 @@ export const MediaSelectionModal = ({ onPick, onCancel }: { onPick: (m: Media, a
               )
             }
           </div>
-          <div className='text-right'>
-            <div className='mb-4'>
-              {
-                selectedMedia && (
-                  <>
-                    <div className='font-semibold text-sm'><T>file-weight</T></div>
-                    {weight(selectedMedia.weight)}
-                  </>
-                )
-              }
+          <div className='p-2'>
+            <div className='text-right'>
+              <div className='my-2'>
+                {
+                  selectedMedia && (
+                    <>
+                      {weight(selectedMedia.weight)}
+                    </>
+                  )
+                }
 
+              </div>
+              <TextInput name="alt" label={__('alt')} className='mt-3' required />
             </div>
-            <TextInput name="alt" label={__('alt')} className='mt-3' required />
+            <div className='flex justify-between items-center mt-3'>
+              <Button size={50} variant="secondary" onClick={onCancel}><IconArrowBack /> <T>cancel</T></Button>
+              <Button size={50} htmlType='submit'><IconPhoto /> <T>pick</T></Button>
+            </div>
           </div>
-          <div className='flex justify-between items-center mt-3'>
-            <Button size={50} variant="secondary" onClick={onCancel}><IconArrowBack /> <T>cancel</T></Button>
-            <Button size={50} htmlType='submit'><IconPhoto /> <T>pick</T></Button>
-          </div>
-        </div>
+        </Block>
         <div className='flex flex-col grow'>
-          <Radio name="media" className={`${mediaList} shrink flex flex-wrap gap-2 overflow-y-scroll`}>
+          <Radio name="media" className={`${mediaList} shrink flex flex-wrap gap-2 pb-[400px] overflow-y-scroll`}>
             {
               media.map((m) => (
                 <label key={m.url}>
@@ -91,10 +95,6 @@ export const MediaSelectionModal = ({ onPick, onCancel }: { onPick: (m: Media, a
               ))
             }
           </Radio>
-          <div className='grow'></div>
-          <div className='text-left opacity-80'>
-            <ButtonUpload><T>not-found</T></ButtonUpload>
-          </div>
         </div>
 
       </form>
