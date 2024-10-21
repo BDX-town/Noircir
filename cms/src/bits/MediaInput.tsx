@@ -30,10 +30,10 @@ export const MediaInput = ({ onPick, name, defaultValue, value, className, child
     if(!media) return null;
 
     return (
-        <div className='flex flex-col gap-1 rounded-md w-min '>
+        <div className={`flex flex-col gap-1 rounded-md ${className} `}>
             <input {...rest} ref={input} name={name} type="hidden" value={currentMedia?.url} />
             <input name={`${name || new Date().getTime()}-weight`} type="hidden" value={currentMedia?.weight} />
-            <div className={`flex flex-col rounded-lg border-2 border-solid border-grey-100 bg-additional-primary-light p-2 ${className}`}>
+            <div className={`flex flex-col rounded-lg border-2 border-solid border-grey-100 bg-additional-primary-light p-2 grow`}>
                 {
                     currentMedia && <img className='rounded-lg w-full max-h-full object-contain basis-0 min-h-0 grow' src={currentMedia?.url} />
                 }

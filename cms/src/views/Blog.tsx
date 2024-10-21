@@ -61,46 +61,45 @@ const Blog = () => {
     }
 
     return (
-        <form className="grow p-5 flex flex-col gap-4" onSubmit={onSubmit}>
-            <div className='flex gap-3 items-start'>
-                <div className='flex flex-col w-full'>
-                    <TextInput className='grow' name="blogName" label={__('title')} defaultValue={blog.blogName} required />
+        <form className="p-5" onSubmit={onSubmit}>
+            <div className='flex gap-4'>
+                <div className='flex flex-col gap-3 w-[300px]'>
+                    <div className='flex flex-col w-full'>
+                        <TextInput className='grow' name="blogName" label={__('title')} defaultValue={blog.blogName} required />
+                    </div>
+                    <MediaInput className='h-[200px] w-full' label={__('cover')} name="blogCover" required defaultValue={blog.blogCover}>
+                        <T>cover</T>
+                    </MediaInput>
                 </div>
-                <MediaInput className='h-[100px]' label={__('cover')} name="blogCover" required defaultValue={blog.blogCover}>
-                    <T>cover</T>
-                </MediaInput>
+                <MDXEditor 
+                    className='grow border-solid border-2 border-grey-100 rounded-2xl overflow-hidden bg-white' 
+                    markdown={blog.blogDescription} 
+                    ref={editor}
+                    plugins={[
+                        listsPlugin(),
+                        linkPlugin(),
+                        quotePlugin(),
+                        markdownShortcutPlugin(),
+                        linkDialogPlugin(),
+                        toolbarPlugin({
+                            toolbarContents: () => (
+                            <>
+                                {' '}
+                                <UndoRedo />
+                                <BlockTypeSelect />
+                                <BoldItalicUnderlineToggles />
+                                <CreateLink />
+                            </>
+                            )
+                        }),
+                        markdownShortcutPlugin()
+                    ]} 
+                />
             </div>
-            <MDXEditor 
-                className='grow border-solid border-2 border-grey-100 rounded-2xl overflow-hidden bg-white' 
-                markdown={blog.blogDescription} 
-                ref={editor}
-                plugins={[
-                    listsPlugin(),
-                    linkPlugin(),
-                    quotePlugin(),
-                    markdownShortcutPlugin(),
-                    linkDialogPlugin(),
-                    toolbarPlugin({
-                        toolbarContents: () => (
-                        <>
-                            {' '}
-                            <UndoRedo />
-                            <BlockTypeSelect />
-                            <BoldItalicUnderlineToggles />
-                            <CreateLink />
-                        </>
-                        )
-                    }),
-                    markdownShortcutPlugin()
-                ]} 
-            />
-            <div className='flex justify-end'>
-                <div className='flex gap-3 items-center'>
-                    <ButtonProcess processing={processing} success={success} error={error} size={50} htmlType="submit">
-                        <IconDeviceFloppy /> <T>publish</T>
-                    </ButtonProcess>
-                </div>
-
+            <div className='flex justify-end gap-3 items-center mt-3'>
+                <ButtonProcess processing={processing} success={success} error={error} size={50} htmlType="submit">
+                    <IconDeviceFloppy /> <T>publish</T>
+                </ButtonProcess>
             </div>
         </form>
     )

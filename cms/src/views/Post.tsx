@@ -206,12 +206,12 @@ const Post = ({ blank = false }: { blank?: boolean }) => {
         <>
             <form className="grow mt-5 flex flex-col gap-4" onSubmit={onSubmit} onChange={onChange} onKeyUp={onChange}>
                 <div className='px-5 flex flex-col gap-4'>
-                    <div className='flex gap-3 items-center'>
+                    <div className='flex gap-3'>
                         <div className='grow flex flex-col justify-between gap-5'>
                             <TextInput required name="title" label={__('title')} defaultValue={post?.title} />
                             <TextInput required name="description" label={__('description')} defaultValue={post?.description} />
                         </div>
-                        <MediaInput className='h-[110px]' name="cover" label={__('cover')} defaultValue={post?.cover}>
+                        <MediaInput className='w-min' name="cover" label={__('cover')} defaultValue={post?.cover}>
                             <T>cover</T>
                         </MediaInput>
                     </div>

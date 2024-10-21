@@ -49,7 +49,7 @@ export const MediaSelectionModal = ({ onPick, onCancel }: { onPick: (m: Media, a
         <div className='absolute left-0 bottom-0 z-10'>
             <ButtonUpload><T>not-found</T></ButtonUpload>
         </div>
-        <Block className='w-[340px] h-[400px] p-0 flex flex-col absolute bottom-0 right-0 z-10 bg-additional-primary overflow-hidden'>
+        <Block className='w-[340px] h-[400px] p-0 flex flex-col absolute bottom-0 right-10 z-10 bg-additional-primary overflow-hidden'>
           <div className='grow shrink-0 w-full flex flex-col justify-center items-center basis-0 min-h-0 bg-brand-primary-light border-solid border-b-2 border-t-0 border-l-0 border-grey-600'>
             {
               selectedMedia ? (
