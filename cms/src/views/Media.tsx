@@ -25,7 +25,7 @@ const useStyle = createUseStyles({
 const DeleteModal = ({ onCancel, media, onDelete }: { onCancel: React.MouseEventHandler, onDelete: React.MouseEventHandler, media: IMedia[] }) => {
     const { confirmDelete } = useStyle();
     const { actions } = useAppContext();
-    const { deleteMedia } = actions;
+    const { deleteMedia, loadMedia } = actions;
     const { T } = useTranslations('Media', {'fr-FR': fr});
 
     const [processing, setProcessing] = React.useState(false);
@@ -35,6 +35,8 @@ const DeleteModal = ({ onCancel, media, onDelete }: { onCancel: React.MouseEvent
         setProcessing(true);
         try {
             await Promise.all(media.map((m) => deleteMedia(m)));
+            await loadMedia();
+
         } catch (e) {
             const appError = e as AppError;
             if(appError.code === DELETE_MEDIA_FAIL || appError.code === DELETE_MEDIA_DENY) {
@@ -42,19 +44,20 @@ const DeleteModal = ({ onCancel, media, onDelete }: { onCancel: React.MouseEvent
             } else {
                 throw e;
             }
-
         } finally {
             setProcessing(false);
         }
         onDelete(e);
-    }, [deleteMedia, error, media, onDelete]);
+    }, [deleteMedia, error, loadMedia, media, onDelete]);
 
     return (
         <Modal className='bg-additional-primary' onClose={onDelete}>
             <T>shouldDelete</T>
             <div className='mt-3 flex justify-between items-center gap-4'>
-                <ButtonProcess className={confirmDelete} size={50} processing={processing} error={error} onClick={onConfirm}>
-                    <IconTrash /> <T>confirm</T>
+                <ButtonProcess className={confirmDelete} size={50} processing={processing} error={error}>
+                    <ButtonProcess.Button size={50} variant='light' className='hover:bg-red-500' onClick={onConfirm}>
+                        <IconTrash /> <T>confirm</T>
+                    </ButtonProcess.Button>
                 </ButtonProcess>
                 <Button size={50} onClick={onCancel}>
                     <IconBook2 /> <T>cancel</T>

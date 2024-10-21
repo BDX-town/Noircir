@@ -170,8 +170,7 @@ export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     const deleteMedia = React.useCallback(async (cmedia: Media) => {
         await deleteMediaService(client as Webdav, cmedia);
-        setMedia(media?.map((p) => p.file === cmedia.file ? null : p).filter((p) => !!p) as Media[]);
-    }, [client, media]);
+    }, [client]);
 
     // settings
     const changePassword = React.useCallback((password: string) => changePasswordService(client as Webdav, password), [client]);
