@@ -48,6 +48,11 @@ const useStyle = createUseStyles({
                 left: "50%",
                 zIndex: 0,
             },
+        },
+        '&>.mdxeditor-root-contenteditable': {
+            '& img': {
+                width: "100%"
+            }
         }
     } as React.CSSProperties,
     confirmDelete: {
@@ -99,9 +104,6 @@ const DeleteModal = ({ onCancel, post }: { onCancel: React.MouseEventHandler, po
 }
 
 
-  
-
-
 const Post = ({ blank = false }: { blank?: boolean }) => {
     const param = useParams();
     const filename = param.file;
@@ -143,6 +145,7 @@ const Post = ({ blank = false }: { blank?: boolean }) => {
     }, [calculateImageWeight]);
 
     const onChange: React.KeyboardEventHandler<HTMLFormElement> = React.useCallback((e) => {
+        if(!e.currentTarget) return;
         const formData: Partial<IPost & { "cover-weight": string}> = Array.from(new FormData(e.currentTarget as HTMLFormElement)
             .entries())
             .reduce((acc, curr) => ({...acc, [curr[0]]: curr[1]}), {});
@@ -152,8 +155,6 @@ const Post = ({ blank = false }: { blank?: boolean }) => {
             file: post?.file || `${slugify(formData.title as string)}-${new Date().getTime()}.md`,
             content: editor.current?.getMarkdown()
         } as IPost
-
-        console.log(formData)
 
         const weight = new TextEncoder().encode(formatPost(data)).length;
         setWeight(weight + parseInt(formData["cover-weight"] as string, 10));
@@ -204,7 +205,7 @@ const Post = ({ blank = false }: { blank?: boolean }) => {
 
     return (
         <>
-            <form className="grow mt-5 flex flex-col gap-4" onSubmit={onSubmit} onChange={onChange} onKeyUp={onChange}>
+            <form ref={(e) => onChange({ currentTarget: e } as never)} className="grow mt-5 flex flex-col gap-4" onSubmit={onSubmit} onChange={onChange} onKeyUp={onChange}>
                 <div className='px-5 flex flex-col gap-4'>
                     <div className='flex gap-3'>
                         <div className='grow flex flex-col justify-between gap-5'>

@@ -67,34 +67,41 @@ const Blog = () => {
                     <div className='flex flex-col w-full'>
                         <TextInput className='grow' name="blogName" label={__('title')} defaultValue={blog.blogName} required />
                     </div>
-                    <MediaInput className='h-[200px] w-full' label={__('cover')} name="blogCover" required defaultValue={blog.blogCover}>
-                        <T>cover</T>
-                    </MediaInput>
+                    <div className='h-full flex flex-col items-start'>
+                        <label className='[box-shadow:-1px_2px_0px_0px_#070727] bg-brand-primary py-1 px-2 mb-2 rounded-lg border-solid border-grey-100 border-[1px] text-[0.75rem]'><T>cover-label</T></label>
+                        <MediaInput className='h-[200px] grow' label={__('cover')} name="blogCover" required defaultValue={blog.blogCover}>
+                            <T>cover</T>
+                        </MediaInput>
+                    </div>
+    
                 </div>
-                <MDXEditor 
-                    className='grow border-solid border-2 border-grey-100 rounded-2xl overflow-hidden bg-white' 
-                    markdown={blog.blogDescription} 
-                    ref={editor}
-                    plugins={[
-                        listsPlugin(),
-                        linkPlugin(),
-                        quotePlugin(),
-                        markdownShortcutPlugin(),
-                        linkDialogPlugin(),
-                        toolbarPlugin({
-                            toolbarContents: () => (
-                            <>
-                                {' '}
-                                <UndoRedo />
-                                <BlockTypeSelect />
-                                <BoldItalicUnderlineToggles />
-                                <CreateLink />
-                            </>
-                            )
-                        }),
-                        markdownShortcutPlugin()
-                    ]} 
-                />
+                <div className='grow flex flex-col items-start gap-2'>
+                    <label className='[box-shadow:-1px_2px_0px_0px_#070727] z-10 bg-brand-primary py-1 px-2 rounded-lg border-solid border-grey-100 border-[1px] text-[0.75rem]'><T>description</T></label>
+                    <MDXEditor 
+                        className='w-full h-full border-solid border-2 border-grey-100 rounded-2xl overflow-hidden bg-white' 
+                        markdown={blog.blogDescription} 
+                        ref={editor}
+                        plugins={[
+                            listsPlugin(),
+                            linkPlugin(),
+                            quotePlugin(),
+                            markdownShortcutPlugin(),
+                            linkDialogPlugin(),
+                            toolbarPlugin({
+                                toolbarContents: () => (
+                                <>
+                                    {' '}
+                                    <UndoRedo />
+                                    <BlockTypeSelect />
+                                    <BoldItalicUnderlineToggles />
+                                    <CreateLink />
+                                </>
+                                )
+                            }),
+                            markdownShortcutPlugin()
+                        ]} 
+                    />
+                </div>
             </div>
             <div className='flex justify-end gap-3 items-center mt-3'>
                 <ButtonProcess processing={processing} success={success} error={error} size={50} htmlType="submit">
