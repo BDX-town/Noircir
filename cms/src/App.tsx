@@ -9,14 +9,14 @@ import '@mdxeditor/editor/style.css';
 import translate from 'counterpart';
 
 
-import { Login } from './views/Login';
 import { Posts } from './views/Posts';
 import { ErrorElement } from './bits/ErrorElement';
 import { BlogLocation, PostsLocation, PostLocation, MediaLocation, SettingsLocation, InviteLocation } from './views/Locations';
-import { Invite } from './views/Invite';
 import { Loader as BaseLoader } from './bits/Loader';
 
 
+const Login = React.lazy(() => import('./views/Login'));
+const Invite = React.lazy(() => import('./views/Invite'));
 const Media = React.lazy(() => import('./views/Media'));
 const Post = React.lazy(() => import('./views/Post'));
 const Blog = React.lazy(() => import('./views/Blog'));
@@ -28,11 +28,11 @@ const Loader = ({ children }: { children: React.ReactNode }) => <React.Suspense 
 const baseRouter = createBrowserRouter([
   { 
     path: InviteLocation.path + '/' + InviteLocation.param,
-    element: <Invite />
+    element: <Loader><Invite /></Loader>
   },
   {
     path: '*',
-    element: <Login />
+    element: <Loader><Login /></Loader>
   }
 ]);
 

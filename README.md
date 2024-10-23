@@ -1,6 +1,7 @@
 # Noircir - Blog Generator for bdx.town
 
-Noircir is a blog generator developed for bdx.town, aiming to address issues with the current Plume platform. Due to concerns about its reliability and a commitment to eco-responsibility, the transition to a static file-based solution became necessary.
+Noircir is a static blog generator built for the bdx.town community, providing an eco-friendly and reliable alternative to the Plume platform. Designed with sustainability in mind, it prioritizes minimal server reliance by generating static files while delivering an intuitive experience for users.
+
 
 ## Project Focus
 
@@ -15,15 +16,12 @@ Noircir is a blog generator developed for bdx.town, aiming to address issues wit
 - **Automation Scripts:** Scripts trigger 11ty when files are created, edited, or deleted.
 - **11ty:** Serves as the core static site generator for effective blog management.
 
-## CMS Features
+## Project structure 
 
-Users can:
-- View blog posts
-- Create new blog posts
-- Edit existing blog posts
-- Add media to blog posts
-- Delete blog posts
-- Remove media
+* **cms**: Contains the React-based CMS that allows users to interact with the WebDAV server seamlessly, without needing to use their own WebDAV client.
+* **template**: Holds the code for a sample blog rendering template. Refer to its dedicated README for more details on customization and usage.
+* **generator**: Includes the 11ty configuration for generating blogs, leveraging the template project for rendering blog content.
+* **tools**: A collection of shell scripts for maintenance tasks, such as starting the service, updating, and adding/deleting users.
 
 ## Configuration
 
@@ -53,14 +51,14 @@ We are providing a docker image via Github release for ease of use.
 docker run -p <external-port>:8080 -e "SERVER=<your server address>" noircir
 ```
 
+
+
 ## Roadmap
 
 - use Oauth instead of basic Auth
-- Offline operation
 - prevent ressources folder to be erased 
 - Ensure meta.json format after edition
 - Prevent files that are not media / markdown to be uploaded via webdav
-- use alpine instead of debian for container
 
 
 ## Mockups

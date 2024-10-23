@@ -11,6 +11,7 @@ import { withI18n } from './withI18n';
 import sanitizeHTML from './sanitize'
 
 import fr from './Article.fr-FR.i18n.json';
+import { Footer } from './Footer';
 
 const useStyle = createUseStyles({
     shadow: {
@@ -62,6 +63,7 @@ const Article: React.FC<Post & Blog> = ({ title, blogName, lang, content, blogCo
                     </section>
                 </article>
             </main>
+            <Footer />
         </div>
     )
 }

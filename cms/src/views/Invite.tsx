@@ -9,7 +9,7 @@ import { IconPassword } from '@tabler/icons-react';
 import { useAppContext } from '../data/AppContext';
 import { changePassword } from '../services/settings';
 
-export const Invite = () => {
+const Invite = () => {
     const { T, __ } = useTranslations('Invite', { "fr-FR": fr });
     const params = useParams();
     const navigate = useNavigate();
@@ -19,16 +19,21 @@ export const Invite = () => {
     const { login, refresh } = actions;
 
     const credentials = React.useMemo(() => {
-        if(!params.token) return null;
-        const token = atob(params.token);
-        const match = token.match(/(.+):(.+)/);
-        if(!match) return null;
-        const username = match[1];
-        const password = match[2];
+        try {
+            if(!params.token) return null;
+            const token = atob(params.token);
+            const match = token.match(/(.+):(.+)/);
+            if(!match) return null;
+            const username = match[1];
+            const password = match[2];
 
-        return {
-            username,
-            password
+            return {
+                username,
+                password
+            }
+        } catch(e) {
+            console.error(e);
+            return null
         }
     }, [params]);
 
@@ -94,3 +99,5 @@ export const Invite = () => {
     )
 
 };
+
+export default Invite;

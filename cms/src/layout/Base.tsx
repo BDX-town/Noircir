@@ -27,7 +27,9 @@ export const Base = ({ write = false }: { write?: boolean }) => {
                 </div>
             </div>
             <Line />
-            <Outlet />
+            <div className='max-w-[1300px] mx-auto overflow-x-hidden'>
+                <Outlet />
+            </div>
             {
                 write && (
                     <Link className='fixed right-[20px] bottom-[32px]' to={PostLocation.path.replace(':file', '')}>

@@ -2,13 +2,11 @@ import { Post } from 'types/src/Post';
 import { WebdavFile } from '../types/webdav';
 import yaml from 'yaml';
 import { formatPost } from '../helpers/formatPost';
-import { Blog } from 'types/src/Blog';
 import { AppError, declareError } from '../data/AppError';
 import { Webdav } from './webdav';
 
-export function buildLink(server: string, client: Webdav, blog: Blog, post: Post) {
-    // @ts-expect-error we use the otherwise unused variables to avoid production build to remove them
-    return eval('`'+import.meta.env.VITE_POST_LINK_FORMAT+'`', server, client, blog, post);
+export function buildLink(server: string, client: Webdav, post: Post) {
+    return new URL(`${client.username}/${post.file.replace(/\..+$/, '')}/index.html`, server).toString()
 }
 
 export function deserializePost(p: Post): Post {

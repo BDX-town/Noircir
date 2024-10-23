@@ -1,5 +1,7 @@
 {
     "Blog": {
+        "cover-label": "Couverture",
+        "description": "Description",
         "title": "Nom du blog",
         "cover": "Choisir un aperçu",
         "publish": "Enregistrer",
