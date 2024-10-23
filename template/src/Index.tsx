@@ -3,8 +3,9 @@ import React from 'react';
 import { Line, Block } from '@bdxtown/canaille';
 import { Blog } from 'types/src/Blog';
 import { Post } from 'types/src/Post';
-
+import { Footer } from './Footer'
 import sanitizeHTML from './sanitize';
+
 
 
 interface Collection {
@@ -18,6 +19,7 @@ interface Collection {
         }
     }>
 }
+
 
 const Index: React.FC<Blog & Collection> = ({ blogName, blogDescription, blogCover, pages, lang }) => {
     return (
@@ -58,6 +60,7 @@ const Index: React.FC<Blog & Collection> = ({ blogName, blogDescription, blogCov
                     ))  
                 }
             </main>
+            <Footer />
         </div>
     );
 }
