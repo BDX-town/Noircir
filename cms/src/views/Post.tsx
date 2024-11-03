@@ -157,7 +157,7 @@ const Post = ({ blank = false }: { blank?: boolean }) => {
         } as IPost
 
         const weight = new TextEncoder().encode(formatPost(data)).length;
-        setWeight(weight + parseInt(formData["cover-weight"] as string, 10));
+        setWeight(weight + (formData["cover-weight"] ? parseInt(formData["cover-weight"] as string, 10) : 0));
         calculateImageWeight();
     }, [calculateImageWeight, post]);
 
