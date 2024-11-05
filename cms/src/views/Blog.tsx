@@ -63,9 +63,17 @@ const Blog = () => {
     return (
         <form className="p-5" onSubmit={onSubmit}>
             <div className='flex gap-4'>
-                <div className='flex flex-col gap-3 w-[300px]'>
-                    <div className='flex flex-col w-full'>
-                        <TextInput className='grow' name="blogName" label={__('title')} defaultValue={blog.blogName} required />
+                <div className='flex flex-col gap-1 w-[300px]'>
+                    <div className='flex flex-col w-full gap-4'>
+                        <div>
+                            <TextInput className='grow' name="blogName" label={__('title')} defaultValue={blog.blogName} required />
+                        </div>
+                        <div>
+                            <TextInput className='grow' name="fediverse" label={__('fediverse')} pattern='@\w+@\w+\.\w+' placeholder={__('fediverse-placeholder')} defaultValue={blog.fediverse} />
+                            <div className='text-right'>
+                                <a className='text-xs' href="https://blog.joinmastodon.org/2024/07/highlighting-journalism-on-mastodon/" target='_blank'><T>placeholder-more</T></a>
+                            </div>
+                        </div>
                     </div>
                     <div className='h-full flex flex-col items-start'>
                         <label className='[box-shadow:-1px_2px_0px_0px_#070727] bg-brand-primary py-1 px-2 mb-2 rounded-lg border-solid border-grey-100 border-[1px] text-[0.75rem]'><T>cover-label</T></label>

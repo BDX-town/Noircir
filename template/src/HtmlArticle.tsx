@@ -13,7 +13,7 @@ import sanitize from './sanitize';
 const clean = new CleanCSS({ level: 2 });
 
 
-const HTML: React.FC<Blog & Post & Wrapper> = ({ title, blogName, blogCover, lang, content, style, page, cover, description }) => {
+const HTML: React.FC<Blog & Post & Wrapper> = ({ title, fediverse, blogName, blogCover, lang, content, style, page, cover, description }) => {
     return (
         <html lang={lang.split('-')[0]}>
             <head>
@@ -28,6 +28,7 @@ const HTML: React.FC<Blog & Post & Wrapper> = ({ title, blogName, blogCover, lan
                 <meta property="og:url" content={page.url}/>
                 { cover && <meta property="og:image" content={cover}/>}
                 <meta property="og:description" content={description}/>
+                <meta name="fediverse:creator" content={fediverse} />
             </head>
             <body className='bg-additional-primary' dangerouslySetInnerHTML={{ __html: sanitize(content) }}>
             </body>

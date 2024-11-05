@@ -28,7 +28,7 @@ const useStyle = createUseStyles({
 })
 
 
-const Index: React.FC<Blog & Collection> = ({ blogName, blogDescription, blogCover, pages, lang }) => {
+const Index: React.FC<Blog & Collection> = ({ blogName, fediverse, blogDescription, blogCover, pages, lang }) => {
     const { title } = useStyle();
     return (
         <div className='mx-auto max-w-[800px]'>
@@ -68,7 +68,7 @@ const Index: React.FC<Blog & Collection> = ({ blogName, blogDescription, blogCov
                     ))  
                 }
             </main>
-            <Footer />
+            <Footer fediverse={fediverse} />
         </div>
     );
 }
