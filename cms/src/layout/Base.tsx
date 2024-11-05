@@ -27,7 +27,7 @@ export const Base = ({ write = false }: { write?: boolean }) => {
                 </div>
             </div>
             <Line />
-            <div className='max-w-[1300px] mx-auto overflow-x-hidden'>
+            <div className='max-w-[1300px] mx-auto'>
                 <Outlet />
             </div>
             {

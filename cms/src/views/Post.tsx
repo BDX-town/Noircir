@@ -25,6 +25,11 @@ import { HTMLAdd } from '../bits/HTMLAdd';
 
 const useStyle = createUseStyles({
     editorCSS: {
+        borderLeft: "1px solid var(--grey-25)",
+        borderRight: "1px solid var(--grey-25)",
+        borderTop: "2px solid var(--grey-100)",
+        borderBottom: "2px solid var(--grey-100)",
+
         "&>.mdxeditor-toolbar": {
             maxWidth: "800px",
             marginLeft: "auto",
@@ -37,12 +42,14 @@ const useStyle = createUseStyles({
             },
 
             "&::before": {
+                borderBottom: "2px solid var(--grey-100)",
                 content: "''",
                 position: "absolute",
-                width: "1vw",
-                height: "1%",
+                width: "100vw",
+                maxWidth: "1300px",
+                height: "100%",
                 transformOrigin: "0 0",
-                transform: "scale(100, 100) translateX(-50%)",
+                transform: "translateX(-50%)",
                 backgroundColor: "inherit",
                 top: 0,
                 left: "50%",
@@ -219,7 +226,7 @@ const Post = ({ blank = false }: { blank?: boolean }) => {
                 </div>
                 <div ref={editorWrapper}>
                     <MDXEditor 
-                        className={`${editorCSS} grow border-solid border-0 border-t-2 border-b-2  border-grey-100 bg-white text-[22px] leading-[135%] px-5`}
+                        className={`${editorCSS} grow bg-white text-[22px] leading-[135%] px-5`}
                         contentEditableClassName='min-h-[450px] max-w-[800px] mx-auto'
                         markdown={post?.content as string || ""} 
                         ref={editor}
