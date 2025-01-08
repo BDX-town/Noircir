@@ -49,7 +49,7 @@ const Article: React.FC<Post & Blog> = ({ title, blogName, fediverse, lang, cont
                         cover && <img className={`w-full max-h-[300px] object-cover ${shadow} rounded-lg`} src={cover} />
                     }
                     <section className='flex flex-col gap-3'>
-                        <h1 className='text-center leading-5'>{ title }</h1>
+                        <h1 className='text-center leading-8'>{ title }</h1>
                         <div className='text-center text-sm'>
                             <T date={new Date(updatedAt).toLocaleDateString(lang)}>date</T>
                         </div>

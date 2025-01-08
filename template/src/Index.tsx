@@ -53,7 +53,7 @@ const Index: React.FC<Blog & Collection> = ({ blogName, fediverse, blogDescripti
                                         page.data.cover && <img className='w-full h-[100px] object-cover' src={page.data.cover} />
                                     }
                                     <div className='p-3'>
-                                        <h2 className={`leading-5 m-0 mb-3 ${title}`}>
+                                        <h2 className={`leading-7 m-0 mb-3 ${title}`}>
                                             { page.data.title }
                                         </h2>
                                         <p className='m-0'>
