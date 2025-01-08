@@ -23,8 +23,8 @@ interface Collection {
 
 const Index: React.FC<Blog & Collection> = ({ blogName, blogDescription, blogCover, pages, lang }) => {
     return (
-        <div className='mx-auto max-w-[800px]'>
-            <header className='p-3'>
+        <div className='mx-auto max-w-[800px] min-h-screen p-4 flex flex-col gap-5'>
+            <header className='flex gap-3 flex-col'>
                 <div className='flex items-center gap-3'>
                     <img className='rounded-full w-[50px] h-[50px]' src={blogCover} />
                     <h1>
@@ -32,9 +32,9 @@ const Index: React.FC<Blog & Collection> = ({ blogName, blogDescription, blogCov
                     </h1>
                 </div>
                 <Line />
-                <p className='px-3' dangerouslySetInnerHTML={{ __html: sanitizeHTML(blogDescription) }} />
+                <p dangerouslySetInnerHTML={{ __html: sanitizeHTML(blogDescription) }} />
             </header>
-            <main className='p-3 flex flex-col gap-4'>
+            <main className='flex flex-col gap-4 grow'>
                 {
                     pages.map((page) => (
                         <a href={page.page.url} key={page.page.url} className="no-underline">

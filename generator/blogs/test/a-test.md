@@ -1,7 +1,7 @@
 ---
-title: "Découvertes n°1"
+title: "Découvertes n°1 - Les robots rêvent-ils de guitares éléctriques ?"
 description: "Les robots rêvent-ils de guitares éléctriques ?"
-cover: ""
+cover: "https://noircir.bdx.town/blogs/clovis/ressources/1000007217.png.webp"
 createdAt: "2024-04-11T17:34:03.811Z"
 updatedAt: "2024-10-18T23:14:52.131Z"
 draft: true

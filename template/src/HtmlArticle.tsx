@@ -3,7 +3,7 @@ import React from 'react';
 import { Post } from 'types/src/Post';
 import { Blog } from 'types/src/Blog';
 import { Wrapper } from './types';
-import { StyleMeta } from '@bdxtown/canaille';
+import { createUseStyles, StyleMeta } from '@bdxtown/canaille';
 
 
 // @ts-expect-error no type
@@ -12,8 +12,16 @@ import sanitize from './sanitize';
 
 const clean = new CleanCSS({ level: 2 });
 
+const useStyle = createUseStyles({
+    body: {
+        '& h1, & h2, & h3, & h4, & h5, & h6, & p': {
+            margin: 0,
+        },
+    }
+})
 
 const HTML: React.FC<Blog & Post & Wrapper> = ({ title, blogName, blogCover, lang, content, style, page, cover, description }) => {
+    const { body } = useStyle();
     return (
         <html lang={lang.split('-')[0]}>
             <head>
@@ -29,7 +37,7 @@ const HTML: React.FC<Blog & Post & Wrapper> = ({ title, blogName, blogCover, lan
                 { cover && <meta property="og:image" content={cover}/>}
                 <meta property="og:description" content={description}/>
             </head>
-            <body className='bg-additional-primary' dangerouslySetInnerHTML={{ __html: sanitize(content) }}>
+            <body className={`${body} bg-additional-primary`} dangerouslySetInnerHTML={{ __html: sanitize(content) }}>
             </body>
         </html>
     )

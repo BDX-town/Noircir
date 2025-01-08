@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Wrapper } from './types';
-import { StyleMeta } from '@bdxtown/canaille';
+import { createUseStyles, StyleMeta } from '@bdxtown/canaille';
 
 // @ts-expect-error no type
 import CleanCSS from 'clean-css';
@@ -10,7 +10,16 @@ import sanitize from './sanitize';
 
 const clean = new CleanCSS({ level: 2 });
 
+const useStyle = createUseStyles({
+    body: {
+        '& h1, & h2, & h3, & h4, & h5, & h6, & p': {
+            margin: 0,
+        }
+    }
+})
+
 const HTML: React.FC<Wrapper & Blog> = ({ blogName, blogCover, lang, content, style, page, blogDescription }) => {
+    const { body } = useStyle();
     return (
         <html lang={lang.split('-')[0]}>
             <head>
@@ -26,7 +35,7 @@ const HTML: React.FC<Wrapper & Blog> = ({ blogName, blogCover, lang, content, st
                 <meta property="og:image" content={blogCover}/>
                 <meta property="og:description" content={blogDescription}/>
             </head>
-            <body className='bg-additional-primary' dangerouslySetInnerHTML={{ __html: sanitize(content) }}>
+            <body className={`${body} bg-additional-primary`} dangerouslySetInnerHTML={{ __html: sanitize(content) }}>
             </body>
         </html>
     )
