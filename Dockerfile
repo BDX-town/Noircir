@@ -22,7 +22,7 @@ ENV WWW_GROUP=www-data
 COPY . $NOIRCIR_FOLDER 
 
 # install deps
-RUN apk add gettext gum nginx nginx-mod-http-lua nginx-mod-http-dav-ext openssl nodejs-current npm jq curl \
+RUN apk add gettext gum nginx nginx-mod-http-lua nginx-mod-http-dav-ext openssl nodejs-current npm jq curl icu-libs icu-data-full \
     && corepack enable \
     && mkdir -p $NGINX_FOLDER \
     && mkdir -p /tools && cp $NOIRCIR_FOLDER/tools/* /tools

@@ -1,10 +1,12 @@
 import React from 'react';
 
-import { Line, Block } from '@bdxtown/canaille';
+import { Line, Block, createUseStyles } from '@bdxtown/canaille';
 import { Blog } from 'types/src/Blog';
 import { Post } from 'types/src/Post';
 import { Footer } from './Footer'
 import sanitizeHTML from './sanitize';
+import { withI18n } from './withI18n';
+
 
 
 
@@ -20,8 +22,15 @@ interface Collection {
     }>
 }
 
+const useStyle = createUseStyles({
+    title: {
+        lineHeight: 1.20,
+    }
+})
 
-const Index: React.FC<Blog & Collection> = ({ blogName, blogDescription, blogCover, pages, lang }) => {
+
+const Index: React.FC<Blog & Collection> = ({ blogName, fediverse, blogDescription, blogCover, pages, lang }) => {
+    const { title } = useStyle();
     return (
         <div className='mx-auto max-w-[800px] min-h-screen p-4 flex flex-col gap-5'>
             <header className='flex gap-3 flex-col'>
@@ -44,7 +53,7 @@ const Index: React.FC<Blog & Collection> = ({ blogName, blogDescription, blogCov
                                         page.data.cover && <img className='w-full h-[100px] object-cover' src={page.data.cover} />
                                     }
                                     <div className='p-3'>
-                                        <h2 className='m-0 mb-3'>
+                                        <h2 className={`m-0 mb-3 ${title}`}>
                                             { page.data.title }
                                         </h2>
                                         <p className='m-0'>
@@ -60,9 +69,9 @@ const Index: React.FC<Blog & Collection> = ({ blogName, blogDescription, blogCov
                     ))  
                 }
             </main>
-            <Footer />
+            <Footer fediverse={fediverse} />
         </div>
     );
 }
 
-export default (Index);
+export default withI18n(Index);

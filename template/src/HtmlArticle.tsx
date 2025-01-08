@@ -20,7 +20,7 @@ const useStyle = createUseStyles({
     }
 })
 
-const HTML: React.FC<Blog & Post & Wrapper> = ({ title, blogName, blogCover, lang, content, style, page, cover, description }) => {
+const HTML: React.FC<Blog & Post & Wrapper> = ({ title, fediverse, blogName, blogCover, lang, content, style, page, cover, description }) => {
     const { body } = useStyle();
     return (
         <html lang={lang.split('-')[0]}>
@@ -36,6 +36,7 @@ const HTML: React.FC<Blog & Post & Wrapper> = ({ title, blogName, blogCover, lan
                 <meta property="og:url" content={page.url}/>
                 { cover && <meta property="og:image" content={cover}/>}
                 <meta property="og:description" content={description}/>
+                <meta name="fediverse:creator" content={fediverse} />
             </head>
             <body className={`${body} bg-additional-primary`} dangerouslySetInnerHTML={{ __html: sanitize(content) }}>
             </body>

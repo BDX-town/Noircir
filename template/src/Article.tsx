@@ -28,7 +28,7 @@ const useStyle = createUseStyles({
     }
 })
 
-const Article: React.FC<Post & Blog> = ({ title, blogName, lang, content, blogCover, cover, description, updatedAt }) => {
+const Article: React.FC<Post & Blog> = ({ title, blogName, fediverse, lang, content, blogCover, cover, description, updatedAt }) => {
     const { T } = useTranslations('Article', { 'fr-FR': fr });
     const { shadow, article } = useStyle();
     return (
@@ -63,7 +63,7 @@ const Article: React.FC<Post & Blog> = ({ title, blogName, lang, content, blogCo
                     </section>
                 </article>
             </main>
-            <Footer />
+            <Footer fediverse={fediverse} />
         </div>
     )
 }

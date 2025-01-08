@@ -61,7 +61,7 @@ const loggedRouter = createBrowserRouter([
       },
       {
         ...PostLocation,
-        element: <Post blank />,
+        element: <Loader><Post blank /></Loader>,
         errorElement: <ErrorElement />
       },
       {
@@ -102,7 +102,7 @@ function App() {
     >
         <AppContextProvider>
           <ErrorBoundary>
-              <Routing />
+            <Routing />
           </ErrorBoundary>
         </AppContextProvider>
     </TranslationContext>
