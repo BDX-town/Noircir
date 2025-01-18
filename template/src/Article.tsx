@@ -34,7 +34,7 @@ const Article: React.FC<Post & Blog> = ({ title, blogName, fediverse, lang, cont
             <header className='max-w-[800px] mx-auto flex flex-col gap-2'>
                 <div className='flex flex-col gap-4'>
                     <div className='flex items-center justify-between gap-2'>
-                        <h1 className='text-md font-bold my-0'>
+                        <h1 className='text-base font-bold my-0'>
                             <a href="./.." className='no-underline text-grey-100'>
 
                                 {blogName}
@@ -44,7 +44,7 @@ const Article: React.FC<Post & Blog> = ({ title, blogName, fediverse, lang, cont
 
                         <img className='rounded-full w-[50px] h-[50px]' src={blogCover} />
                     </div>
-                    <h2 className='my-0 text-md font-normal leading-7'>
+                    <h2 className='my-0 text-base font-normal leading-7'>
                         {title}
                     </h2>
                 </div>

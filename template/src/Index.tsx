@@ -1,14 +1,9 @@
 import React from 'react';
 
-import { Line, Block, createUseStyles } from '@bdxtown/canaille';
 import { Blog } from 'types/src/Blog';
 import { Post } from 'types/src/Post';
 import { Footer } from './Footer'
-import sanitizeHTML from './sanitize';
 import { withI18n } from './withI18n';
-
-
-
 
 interface Collection {
     /**
@@ -22,51 +17,52 @@ interface Collection {
     }>
 }
 
-const useStyle = createUseStyles({
-    title: {
-        lineHeight: 1.20,
-    }
-})
-
-
 const Index: React.FC<Blog & Collection> = ({ blogName, fediverse, blogDescription, blogCover, pages, lang }) => {
-    const { title } = useStyle();
     return (
-        <div className='mx-auto max-w-[800px] min-h-screen p-4 flex flex-col gap-5'>
-            <header className='flex gap-3 flex-col'>
-                <div className='flex items-center gap-3'>
-                    <img className='rounded-full w-[50px] h-[50px]' src={blogCover} />
-                    <h1>
-                        { blogName }
+        <div className='flex flex-col gap-7 py-4'>
+            <header className='w-full max-w-[800px] mx-auto flex flex-col gap-1'>
+                <div className='flex items-center justify-between gap-2'>
+                    <h1 className='text-base font-bold my-0'>
+                        <a href="./.." className='no-underline text-grey-100'>
+
+                            {blogName}
+                        </a>
+
                     </h1>
+
+                    <img className='rounded-full w-[50px] h-[50px]' src={blogCover} />
                 </div>
-                <Line />
-                <p dangerouslySetInnerHTML={{ __html: sanitizeHTML(blogDescription) }} />
+                <h2 className='my-0 text-base font-normal leading-7'>
+                    Lorem Ipsum dolor sin amet
+                    {blogDescription}
+                </h2>
             </header>
-            <main className='flex flex-col gap-4 grow'>
+            <div className='pb-11'>
+                <hr className='my-0 border-b-0' />
+            </div>
+            <main className='flex flex-col gap-20 grow'>
                 {
                     pages.map((page) => (
                         <a href={page.page.url} key={page.page.url} className="no-underline">
-                            <Block className='bg-additional-primary text-grey-100 overflow-hidden p-0'>
+                            <div className='text-grey-100 overflow-hidden p-0'>
                                 <article>
                                     {
-                                        page.data.cover && <img className='w-full h-[100px] object-cover' src={page.data.cover} />
+                                        page.data.cover && <img className='w-full h-[100px] object-cover rounded-t' src={page.data.cover} />
                                     }
-                                    <div className='p-3'>
-                                        <h2 className={`leading-7 m-0 mb-3 ${title}`}>
-                                            { page.data.title }
-                                        </h2>
-                                        <p className='m-0'>
-                                            { page.data.description }
-                                        </p>
-                                        <div className='text-right'>
-                                            <time dateTime={new Date(page.data.createdAt).toISOString()}>{new Date(page.data.createdAt).toLocaleDateString(lang)}</time>
-                                        </div>
+                                    <div className='font-bold'>
+                                        {page.data.title}
                                     </div>
+                                    <div className='text-sm mt-2'>
+                                        <time dateTime={new Date(page.data.createdAt).toISOString()}>
+                                            {new Date(page.data.createdAt).toLocaleDateString(lang, { dateStyle: 'full' })}
+                                        </time>
+
+                                    </div>
+
                                 </article>
-                            </Block>
+                            </div>
                         </a>
-                    ))  
+                    ))
                 }
             </main>
             <Footer fediverse={fediverse} />
