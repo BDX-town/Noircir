@@ -12,7 +12,7 @@ module.exports = {
         "brand-primary-medium": "6ddbb4",
         "brand-primary-dark": "#31b285",
 
-        "additional-primary": "#fff1e3",
+        "additional-primary": "#fefefe",
         "additional-primary-light": "faf4f0",
         "additional-primary-medium": "fff1e3",
         "additional-primary-dark": "#ccae91",
@@ -26,7 +26,7 @@ module.exports = {
         "grey-25": "#9595bf",
         "grey-50": "#51518c",
         "grey-75": "#222259",
-        "grey-100": "#070727",
+        "grey-100": "#231f20",
       },
       spacing: {
         0: "0px",

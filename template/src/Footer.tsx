@@ -8,7 +8,7 @@ const tr = {
     "fr-FR": fr
 }
 
-export const Footer = ({ fediverse }: { fediverse?: string}) => {
+export const Footer = ({ fediverse, className, ...props }: { fediverse?: string } & Partial<HTMLElement>) => {
     const { T } = useTranslations('Footer', tr)
 
     const fediverseUrl = useMemo(() => { 
@@ -18,7 +18,7 @@ export const Footer = ({ fediverse }: { fediverse?: string}) => {
     }, [fediverse])
 
     return (
-        <footer className='flex flex-col items-center gap-2 text-center text-xs text-gray-700'>
+        <footer {...props as any} className={`flex flex-col items-center gap-2 text-center text-sm text-white ${className}`}>
             {
                 fediverse && fediverseUrl && (
                     <div>
@@ -27,7 +27,9 @@ export const Footer = ({ fediverse }: { fediverse?: string}) => {
                 )
             }
             <T>about</T>
-            <a className='block' target='_blank' href="https://github.com/BDX-town/Noircir">Github</a>
+            <div>
+                🖥️ <a target='_blank' href="https://github.com/BDX-town/Noircir">Github</a>
+            </div>
         </footer>
     )
 }

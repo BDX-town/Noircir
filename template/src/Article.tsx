@@ -3,17 +3,18 @@ import React from 'react';
 import { Post } from 'types/src/Post';
 import { Blog } from 'types/src/Blog';
 
-import { useTranslations, createUseStyles } from '@bdxtown/canaille';
+import { createUseStyles } from '@bdxtown/canaille';
 import { withI18n } from './withI18n';
 
 import sanitizeHTML from './sanitize'
 
-import fr from './Article.fr-FR.i18n.json';
 import { Footer } from './Footer';
 
 const useStyle = createUseStyles({
-    shadow: {
-        boxShadow: "var(--dp-100)"
+    page: {
+        maxWidth: '900px',
+        margin: "auto",
+        borderRadius: "var(--rounded-100)",
     },
     article: {
         "& img": {
@@ -26,51 +27,35 @@ const useStyle = createUseStyles({
     }
 })
 
-const Article: React.FC<Post & Blog> = ({ title, blogName, fediverse, lang, content, blogCover, cover, description, updatedAt }) => {
-    const { T } = useTranslations('Article', { 'fr-FR': fr });
-    const { shadow, article } = useStyle();
+const Article: React.FC<Post & Blog> = ({ title, blogName, fediverse, lang, content, cover, description, updatedAt }) => {
+    const { page, article } = useStyle();
+
     return (
-        <div className='flex flex-col gap-7 py-4'>
-            <header className='max-w-[800px] mx-auto flex flex-col gap-2'>
-                <div className='flex flex-col gap-4'>
-                    <div className='flex items-center justify-between gap-2'>
-                        <h1 className='text-base font-bold my-0'>
-                            <a href="./.." className='no-underline text-grey-100'>
+        <div className={`${page} bg-grey-100 p-4`}>
+            <header>
+                <section className='flex gap-6 items-end'>
+                    <h1 className='text-white relative bottom-[-1.2rem]'>{ blogName }</h1>
+                    <h2 className='text-white'>{ title }</h2>
+                </section>
+                { cover && <img className={`my-5 w-full max-h-[300px] object-cover rounded-lg`} src={cover} />}
+                <section className='text-white '>
+                    <h3>
+                        { description }
+                    </h3>
+                    <time className='block text-sm text-right my-2'>
+                        { new Date(updatedAt).toLocaleDateString(lang) }
+                    </time>
 
-                                {blogName}
-                            </a>
-
-                        </h1>
-
-                        <img className='rounded-full w-[50px] h-[50px]' src={blogCover} />
-                    </div>
-                    <h2 className='my-0 text-base font-normal leading-7'>
-                        {title}
-                    </h2>
-                </div>
-                <div className='text-sm text-right'>
-                    <T date={new Date(updatedAt).toLocaleDateString(lang)}>date</T>
-                </div>
+                </section>
             </header>
-            <div className='pb-11'>
-                <hr className='my-0 border-b-0' />
-            </div>
-            <main className='max-w-[800px] mx-auto'>
-                <article className='flex flex-col gap-4'>
-                    {
-                        cover && <img className={`w-full max-h-[300px] object-cover ${shadow} rounded-lg`} src={cover} />
-                    }
-                    <section className='flex flex-col gap-3 font-bold'>
-                        {description}
-                    </section>
-                    <section id="article_content" className={`break-words ${article}`}>
-                        <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(content) }} />
-                    </section>
+            <main className='my-3 bg-white text-grey-100 p-3 rounded-md'>
+                <article className={`break-words ${article}`}>
+                    <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(content) }} />
                 </article>
             </main>
-            <Footer fediverse={fediverse} />
+            <Footer className='mt-3 text-sm' fediverse={fediverse} />
         </div>
-    )
+    );
 }
 
 export default withI18n(Article);

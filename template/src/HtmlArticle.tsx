@@ -50,7 +50,7 @@ const HTML: React.FC<Blog & Post & Wrapper> = ({ title, fediverse, blogName, blo
                 <meta property="og:description" content={description}/>
                 <meta name="fediverse:creator" content={fediverse} />
             </head>
-            <body className={`${body}`} dangerouslySetInnerHTML={{ __html: sanitize(content) }}>
+            <body className={`${body} bg-additional-primary`} dangerouslySetInnerHTML={{ __html: sanitize(content) }}>
             </body>
         </html>
     )
