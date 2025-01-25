@@ -21,12 +21,12 @@ module.exports = {
         "additional-secondary-medium": "070727",
         "additional-secondary-dark": "010029",
 
-        "white": "white",
+        "white": "#e8d0c0",
         "grey-0": "#c7c7f2",
         "grey-25": "#9595bf",
         "grey-50": "#51518c",
         "grey-75": "#222259",
-        "grey-100": "#231f20",
+        "grey-100": "#0b2230",
       },
       spacing: {
         0: "0px",

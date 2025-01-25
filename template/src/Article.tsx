@@ -34,25 +34,42 @@ const Article: React.FC<Post & Blog> = ({ title, blogName, fediverse, lang, cont
         <div className={`${page} bg-grey-100 p-4`}>
             <header>
                 <section className='flex gap-6 items-end'>
-                    <h1 className='text-white relative bottom-[-1.2rem]'>{ blogName }</h1>
-                    <h2 className='text-white'>{ title }</h2>
+                    <h1 className='text-white relative bottom-[-1.2rem]'>{blogName}</h1>
+                    <h2 className='text-white'>{title}</h2>
                 </section>
-                { cover && <img className={`my-5 w-full max-h-[300px] object-cover rounded-lg`} src={cover} />}
-                <section className='text-white '>
+                <section className='my-5'>
+                    {cover && (
+                        <div className='relative'>
+                            <div className='h-[8px] w-full bg-grey-100 absolute top-[35px]'></div>
+                            <div className='h-[16px] w-full bg-grey-100 absolute top-[10px]'></div>
+                            <img className={`w-full max-h-[300px] object-cover rounded-lg`} src={cover} />
+                            <div className='h-[4px] w-full bg-grey-100 absolute bottom-[55px]'></div>
+                            <div className='h-[8px] w-full bg-grey-100 absolute bottom-[35px]'></div>
+                            <div className='h-[16px] w-full bg-grey-100 absolute bottom-[10px]'></div>
+                        </div>
+                    )}
+                </section>
+                <section className='text-white mb-3'>
                     <h3>
-                        { description }
+                        {description}
                     </h3>
-                    <time className='block text-sm text-right my-2'>
-                        { new Date(updatedAt).toLocaleDateString(lang) }
-                    </time>
-
                 </section>
             </header>
-            <main className='my-3 bg-white text-grey-100 p-3 rounded-md'>
-                <article className={`break-words ${article}`}>
-                    <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(content) }} />
-                </article>
-            </main>
+            <div className='flex bg-white text-grey-100'>
+                <main className=''>
+                    <article className={`break-words ${article} p-3`}>
+                        <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(content) }} />
+                    </article>
+                </main>
+                <div className=' w-[2rem] shrink-0 '>
+                    <time className='block relative right-2 text-[2rem] rotate-90'>
+                        {new Date().toLocaleDateString(lang)}
+                    </time>
+                    <div className='relative bg-brand-primary'>
+                        <div className='h-full w-[8px] bg-grey-100 absolute right-[6px]'></div>
+                    </div>
+                </div>
+            </div>
             <Footer className='mt-3 text-sm' fediverse={fediverse} />
         </div>
     );
