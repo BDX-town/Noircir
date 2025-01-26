@@ -55,7 +55,7 @@ const Article: React.FC<Post & Blog> = ({ title, blogName, fediverse, lang, cont
                 </header>
                 <div className='flex bg-white text-grey-100 grow'>
                     <main className='grow min-w-[0px]'>
-                        <article className={`break-all ${article} p-3`}>
+                        <article className={`break-words ${article} p-3`}>
                             <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(content) }} />
                         </article>
                     </main>
