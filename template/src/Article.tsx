@@ -26,8 +26,8 @@ const Article: React.FC<Post & Blog> = ({ title, blogName, fediverse, lang, cont
     const { article } = useStyle();
 
     return (
-        <div className='flex flex-col min-h-screen min-[900px]:py-4'>
-            <div className={`max-w-[900px] w-full grow mx-auto min-[900px]:rounded-[16px] bg-grey-100 p-4 flex flex-col`}>
+        <div className='flex flex-col min-h-screen min-[900px]:py-4 max-w-[900px] w-full mx-auto'>
+            <div className={`grow min-[900px]:rounded-[16px] bg-grey-100 p-4 flex flex-col`}>
                 <header>
                     <section className='flex gap-6 items-end max-[900px]:flex-wrap'>
                         <a href='./..' className='no-underline'>
