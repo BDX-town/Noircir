@@ -17,7 +17,7 @@ interface Collection {
     }>
 }
 
-const Index: React.FC<Blog & Collection> = ({ blogName, fediverse, blogDescription, blogCover, pages, lang }) => {
+const Index: React.FC<Blog & Collection> = ({ blogName, fediverse, blogDescription, pages, lang }) => {
     return (
         <div className='max-w-[900px] mx-auto min-h-screen flex flex-col text-grey-100 bg-white'>
             <header className='inline-flex gap-6 items-end px-3'>
