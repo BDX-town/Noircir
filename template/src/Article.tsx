@@ -27,8 +27,8 @@ const Article: React.FC<Post & Blog> = ({ title, blogName, fediverse, lang, cont
 
     return (
         <div className='flex flex-col min-h-screen min-[900px]:py-4 max-w-[900px] w-full mx-auto'>
-            <div className={`grow min-[900px]:rounded-[16px] bg-grey-100 p-4 flex flex-col`}>
-                <header>
+            <div className={`grow min-[900px]:rounded-[16px] bg-grey-100 flex flex-col`}>
+                <header className='pt-4 px-4'>
                     <section className='flex gap-6 items-end max-[900px]:flex-wrap'>
                         <a href='./..' className='no-underline'>
                             <h1 className='text-white relative top-[0.25em]'>{blogName}</h1>
@@ -53,7 +53,7 @@ const Article: React.FC<Post & Blog> = ({ title, blogName, fediverse, lang, cont
                         </h3>
                     </section>
                 </header>
-                <div className='flex bg-white text-grey-100 grow'>
+                <div className='min-[700px]:mx-4 flex bg-white text-grey-100 grow'>
                     <main className='grow min-w-[0px]'>
                         <article className={`break-words ${article} p-3`}>
                             <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(content) }} />
@@ -68,7 +68,7 @@ const Article: React.FC<Post & Blog> = ({ title, blogName, fediverse, lang, cont
                         </div>
                     </div>
                 </div>
-                <Footer className='mt-3 text-sm text-white' fediverse={fediverse} />
+                <Footer className='pb-4 px-4 mt-3 text-sm text-white' fediverse={fediverse} />
             </div>
         </div>
     );
