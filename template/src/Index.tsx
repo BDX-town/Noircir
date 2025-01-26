@@ -20,7 +20,7 @@ interface Collection {
 const Index: React.FC<Blog & Collection> = ({ blogName, fediverse, blogDescription, pages, lang }) => {
     return (
         <div className='max-w-[900px] mx-auto min-h-screen flex flex-col text-grey-100 bg-white'>
-            <header className='inline-flex gap-6 items-end px-3'>
+            <header className='inline-flex gap-6 items-end max-[900px]:flex-wrap px-3'>
                 <h1 className='relative top-[0.25em]'>
                     {blogName}
                 </h1>
@@ -36,9 +36,9 @@ const Index: React.FC<Blog & Collection> = ({ blogName, fediverse, blogDescripti
                         <a href={page.page.url} key={page.page.url} className=" w-[350px] flex flex-col bg-white no-underline p-3">
                             {
                                 page.data.cover ? (
-                                    <img className='w-full grow object-cover' src={page.data.cover} />
+                                    <img className='w-full grow min-h-[250px] object-cover' src={page.data.cover} />
                                 ) : (
-                                    <div className='w-full grow object-cover relative'>
+                                    <div className='w-full grow min-h-[250px] object-cover relative'>
                                         <div className='h-[8px] w-full bg-grey-100 absolute top-[35px]'></div>
                                         <div className='h-[16px] w-full bg-grey-100 absolute top-[10px]'></div>
                                         <div className='h-[4px] w-full bg-grey-100 absolute bottom-[55px]'></div>
@@ -50,7 +50,7 @@ const Index: React.FC<Blog & Collection> = ({ blogName, fediverse, blogDescripti
                             <div className='font-[CooperHewitt-Bold] text-2xl text-right mt-2'>
                                 {new Date(page.data.createdAt).toLocaleDateString(lang)}
                             </div>
-                            <div className='mt-3 font-bold text-sm'>
+                            <div className='mt-3 font-bold text-sm max-h-[2.5rem] overflow-hidden'>
                                 {page.data.title}
                             </div>
                         </a>

@@ -64,8 +64,7 @@ const page = {
 
 IndexStory.args = {
     ...page,
-    pages: []
-    // pages: [{ data: page, page: page.page}, { data: { ...page, cover: null }, page: page.page}, { data: page, page: page.page}, { data: page, page: page.page}]
+    pages: [{ data: page, page: page.page}, { data: { ...page, cover: null }, page: page.page}, { data: page, page: page.page}, { data: page, page: page.page}]
 }
 
 IndexStory.argTypes = {}
