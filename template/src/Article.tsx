@@ -11,11 +11,6 @@ import sanitizeHTML from './sanitize'
 import { Footer } from './Footer';
 
 const useStyle = createUseStyles({
-    page: {
-        maxWidth: '900px',
-        margin: "auto",
-        borderRadius: "var(--rounded-100)",
-    },
     article: {
         "& img": {
             marginLeft: "auto",
@@ -28,13 +23,15 @@ const useStyle = createUseStyles({
 })
 
 const Article: React.FC<Post & Blog> = ({ title, blogName, fediverse, lang, content, cover, description, updatedAt }) => {
-    const { page, article } = useStyle();
+    const { article } = useStyle();
 
     return (
-        <div className={`${page} bg-grey-100 p-4`}>
+        <div className={`max-w-[900px] mx-auto rounded-[16px] bg-grey-100 p-4`}>
             <header>
                 <section className='flex gap-6 items-end'>
-                    <h1 className='text-white relative bottom-[-1.2rem]'>{blogName}</h1>
+                    <a href='./..' className='no-underline'>
+                        <h1 className='text-white relative top-[0.25em]'>{blogName}</h1>
+                    </a>
                     <h2 className='text-white'>{title}</h2>
                 </section>
                 <section className='my-5'>
@@ -56,21 +53,21 @@ const Article: React.FC<Post & Blog> = ({ title, blogName, fediverse, lang, cont
                 </section>
             </header>
             <div className='flex bg-white text-grey-100'>
-                <main className=''>
+                <main>
                     <article className={`break-words ${article} p-3`}>
                         <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(content) }} />
                     </article>
                 </main>
-                <div className=' w-[2rem] shrink-0 '>
+                <div className='w-[2rem] shrink-0 '>
                     <time className='block relative right-2 text-[2rem] rotate-90'>
-                        {new Date().toLocaleDateString(lang)}
+                        {new Date(updatedAt).toLocaleDateString(lang)}
                     </time>
                     <div className='relative bg-brand-primary'>
                         <div className='h-full w-[8px] bg-grey-100 absolute right-[6px]'></div>
                     </div>
                 </div>
             </div>
-            <Footer className='mt-3 text-sm' fediverse={fediverse} />
+            <Footer className='mt-3 text-sm text-white' fediverse={fediverse} />
         </div>
     );
 }

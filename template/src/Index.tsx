@@ -19,53 +19,48 @@ interface Collection {
 
 const Index: React.FC<Blog & Collection> = ({ blogName, fediverse, blogDescription, blogCover, pages, lang }) => {
     return (
-        <div className='flex flex-col gap-7 py-4'>
-            <header className='w-full max-w-[800px] mx-auto flex flex-col gap-1'>
-                <div className='flex items-center justify-between gap-2'>
-                    <h1 className='text-base font-bold my-0'>
-                        <a href="./.." className='no-underline text-grey-100'>
-
-                            {blogName}
-                        </a>
-
-                    </h1>
-
-                    <img className='rounded-full w-[50px] h-[50px]' src={blogCover} />
-                </div>
-                <h2 className='my-0 text-base font-normal leading-7'>
-                    Lorem Ipsum dolor sin amet
+        <div className='max-w-[900px] mx-auto min-h-screen flex flex-col text-grey-100 bg-white'>
+            <header className='inline-flex gap-6 items-end px-3'>
+                <h1 className='relative top-[0.25em]'>
+                    {blogName}
+                </h1>
+                <h2>
                     {blogDescription}
                 </h2>
             </header>
-            <div className='pb-11'>
-                <hr className='my-0 border-b-0' />
-            </div>
-            <main className='flex flex-col gap-20 grow'>
+            <div className='h-[8px] w-full bg-grey-100 mt-2'></div>
+            <div className='h-[16px] w-full bg-grey-100 my-2'></div>
+            <main className='bg-grey-100 grow flex gap-4 flex-wrap justify-center p-4'>
                 {
                     pages.map((page) => (
-                        <a href={page.page.url} key={page.page.url} className="no-underline">
-                            <div className='text-grey-100 overflow-hidden p-0'>
-                                <article>
-                                    {
-                                        page.data.cover && <img className='w-full h-[100px] object-cover rounded-t' src={page.data.cover} />
-                                    }
-                                    <div className='font-bold'>
-                                        {page.data.title}
+                        <a href={page.page.url} key={page.page.url} className=" w-[350px] flex flex-col bg-white no-underline p-3">
+                            {
+                                page.data.cover ? (
+                                    <img className='w-full grow object-cover' src={page.data.cover} />
+                                ) : (
+                                    <div className='w-full grow object-cover relative'>
+                                        <div className='h-[8px] w-full bg-grey-100 absolute top-[35px]'></div>
+                                        <div className='h-[16px] w-full bg-grey-100 absolute top-[10px]'></div>
+                                        <div className='h-[4px] w-full bg-grey-100 absolute bottom-[55px]'></div>
+                                        <div className='h-[8px] w-full bg-grey-100 absolute bottom-[35px]'></div>
+                                        <div className='h-[16px] w-full bg-grey-100 absolute bottom-[10px]'></div>
                                     </div>
-                                    <div className='text-sm mt-2'>
-                                        <time dateTime={new Date(page.data.createdAt).toISOString()}>
-                                            {new Date(page.data.createdAt).toLocaleDateString(lang, { dateStyle: 'full' })}
-                                        </time>
-
-                                    </div>
-
-                                </article>
+                                )
+                            }
+                            <div className='font-[CooperHewitt-Bold] text-2xl text-right mt-2'>
+                                {new Date(page.data.createdAt).toLocaleDateString(lang)}
+                            </div>
+                            <div className='mt-3 font-bold text-sm'>
+                                {page.data.title}
                             </div>
                         </a>
                     ))
                 }
             </main>
-            <Footer fediverse={fediverse} />
+            <div className='h-[16px] w-full bg-grey-100 mt-2'></div>
+            <div className='h-[8px] w-full bg-grey-100 mt-2'></div>
+            <div className='h-[4px] w-full bg-grey-100 mt-2'></div>
+            <Footer className='text-grey-100 bg-white py-3 text-sm' fediverse={fediverse} />
         </div>
     );
 }

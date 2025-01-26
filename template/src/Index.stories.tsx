@@ -10,6 +10,7 @@ const page = {
     title: 'Découvertes n°1 - Les robots rêvent-ils de guitares éléctriques ?',
     fediverse: undefined,
     blogName: 'Boxon',
+    blogDescription: "Lorem Ipsum dolor sin amet",
     blogCover: 'https://noircir.bdx.town//blogs/clovis/ressources/T5FUKQQQJ-UJF1UUP2R-6d3621e91c4f-512.jpg.webp',
     lang: 'fr-FR',
     content: '<p>#blues #variété #glam #français #rock</p>\n' +
@@ -63,7 +64,7 @@ const page = {
 
 IndexStory.args = {
     ...page,
-    pages: [{ data: page, page: page.page}, { data: page, page: page.page}, { data: page, page: page.page}, { data: page, page: page.page}]
+    pages: [{ data: page, page: page.page}, { data: { ...page, cover: null }, page: page.page}, { data: page, page: page.page}, { data: page, page: page.page}]
 }
 
 IndexStory.argTypes = {}

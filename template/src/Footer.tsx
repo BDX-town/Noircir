@@ -18,7 +18,7 @@ export const Footer = ({ fediverse, className, ...props }: { fediverse?: string 
     }, [fediverse])
 
     return (
-        <footer {...props as any} className={`flex flex-col items-center gap-2 text-center text-sm text-white ${className}`}>
+        <footer {...props as any} className={`flex flex-col items-center gap-2 text-center ${className}`}>
             {
                 fediverse && fediverseUrl && (
                     <div>

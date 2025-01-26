@@ -50,7 +50,8 @@ a {
     color: inherit;
 }
 
-header h1, header h2, header h3 {
+header h1, header h2, header h3 
+{
     font-family: 'CooperHewitt-Bold';
     line-height: 1.25;
     letter-spacing: 0.25;

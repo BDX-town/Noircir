@@ -6,6 +6,7 @@ export const ArticleStory: Story = (props) => <Article {...props}></Article>
 ArticleStory.storyName = "Article"
 
 ArticleStory.args = {
+    updatedAt: new Date(),
     title: 'Découvertes n°1 - Les robots rêvent-ils de guitares éléctriques ?',
     fediverse: undefined,
     blogName: 'Boxon',
