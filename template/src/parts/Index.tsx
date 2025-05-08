@@ -19,7 +19,7 @@ interface Collection {
 
 const Index: React.FC<Blog & Collection> = ({ blogName, fediverse, blogDescription, blogCover, pages, lang }) => {
     return (
-        <>
+        <main className='index'>
             <header>
                 <div>
                     <h1>
@@ -30,31 +30,35 @@ const Index: React.FC<Blog & Collection> = ({ blogName, fediverse, blogDescripti
                     <img  src={blogCover} />
                 </div>
                 <h2>
-                    Lorem Ipsum dolor sin amet
                     {blogDescription}
                 </h2>
             </header>
-            <main >
+            <section>
                 {
                     pages.map((page) => (
                         <a href={page.page.url} key={page.page.url}>
                             <article>
                                 {
-                                    page.data.cover && <img src={page.data.cover} />
+                                    page.data.cover && <figure><img src={page.data.cover} /></figure>
                                 }
-                                <h3>
-                                    {page.data.title}
-                                </h3>
-                                <time dateTime={new Date(page.data.createdAt).toISOString()}>
-                                    {new Date(page.data.createdAt).toLocaleDateString(lang, { dateStyle: 'full' })}
-                                </time>
+                                <div>
+                                    <h3>
+                                        {page.data.title}
+                                    </h3>
+                                    <p>
+                                        {page.data.description}
+                                    </p>
+                                    <time dateTime={new Date(page.data.createdAt).toISOString()}>
+                                        {new Date(page.data.createdAt).toLocaleDateString(lang, { dateStyle: 'full' })}
+                                    </time>
+                                </div>
                             </article>
                         </a>
                     ))
                 }
-            </main>
+            </section>
             <Footer fediverse={fediverse} />
-        </>
+        </main>
     );
 }
 

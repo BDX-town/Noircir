@@ -14,7 +14,7 @@ import { Footer } from './Footer';
 const Article: React.FC<Post & Blog> = ({ title, blogName, fediverse, lang, content, blogCover, cover, description, updatedAt }) => {
     const { T } = useTranslations('Article', { 'fr-FR': fr });
     return (
-        <>
+        <main className='article'>
             <header >
                 <div >
                     <h1 >
@@ -28,25 +28,24 @@ const Article: React.FC<Post & Blog> = ({ title, blogName, fediverse, lang, cont
                 <h2 >
                     {title}
                 </h2>
+
+            </header>
+            <article>
                 <time>
                     <T date={new Date(updatedAt).toLocaleDateString(lang)}>date</T>
                 </time>
-            </header>
-            <main >
-                <article >
-                    {
-                        cover && <img src={cover} />
-                    }
-                    <section >
-                        {description}
-                    </section>
-                    <section id="article_content">
-                        <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(content) }} />
-                    </section>
-                </article>
-            </main>
+                {
+                    cover && <figure><img src={cover} /></figure>
+                }
+                <h3>
+                    {description}
+                </h3>
+                <section>
+                    <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(content) }} />
+                </section>
+            </article>
             <Footer fediverse={fediverse} />
-        </>
+        </main>
     )
 }
 
