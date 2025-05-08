@@ -18,16 +18,14 @@ export const Footer = ({ fediverse }: { fediverse?: string}) => {
     }, [fediverse])
 
     return (
-        <footer className='flex flex-col items-center gap-2 text-center text-xs text-gray-700'>
+        <footer >
             {
                 fediverse && fediverseUrl && (
-                    <div>
                         <a target='_blank' href={fediverseUrl}>{fediverse}</a>
-                    </div>
                 )
             }
             <T>about</T>
-            <a className='block' target='_blank' href="https://github.com/BDX-town/Noircir">Github</a>
+            <a  href="https://github.com/BDX-town/Noircir">Github</a>
         </footer>
     )
 }

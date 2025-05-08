@@ -1,9 +1,3 @@
-@import '@bdxtown/canaille/src/scss/index.scss';
-
-@tailwind base;
-@tailwind utilities;
-
-
 /* @font-face {
     font-family: 'Atkinson Hyperlegible';
     src: url('/fonts/AtkinsonHyperlegible-Italic.woff2') format('woff2'),
