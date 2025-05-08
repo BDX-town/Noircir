@@ -18,12 +18,10 @@ export const Footer = ({ fediverse, className, ...props }: { fediverse?: string 
     }, [fediverse])
 
     return (
-        <footer {...props as any} className={`flex flex-col items-center gap-2 text-center ${className}`}>
+        <footer >
             {
                 fediverse && fediverseUrl && (
-                    <div>
                         <a target='_blank' href={fediverseUrl}>{fediverse}</a>
-                    </div>
                 )
             }
             <T>about</T>

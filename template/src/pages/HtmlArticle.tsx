@@ -2,26 +2,13 @@ import React from 'react';
 
 import { Post } from 'types/src/Post';
 import { Blog } from 'types/src/Blog';
-import { Wrapper } from './types';
-import { createUseStyles, StyleMeta } from '@bdxtown/canaille';
+import { Wrapper } from './../types';
 
 
-// @ts-expect-error no type
-import CleanCSS from 'clean-css';
-import sanitize from './sanitize';
+import sanitize from './../sanitize';
 
-const clean = new CleanCSS({ level: 2 });
-
-const useStyle = createUseStyles({
-    body: {
-        '& h1, & h2, & h3, & h4, & h5, & h6': {
-            margin: 0,
-        },
-    }
-})
 
 const HTML: React.FC<Blog & Post & Wrapper> = ({ title, fediverse, blogName, blogCover, lang, content, style, page, cover, description }) => {
-    const { body } = useStyle();
     console.log({
         title,
         fediverse,
@@ -42,7 +29,6 @@ const HTML: React.FC<Blog & Post & Wrapper> = ({ title, fediverse, blogName, blo
                 <link rel="icon" type="image/x-icon" href={blogCover} />
                 <title>{ `${title} - ${blogName}`}</title>
                 <link rel="stylesheet" href={style} />
-                <style dangerouslySetInnerHTML={{__html: clean.minify([...StyleMeta.layerSheet.style, ...StyleMeta.staticSheet.style, ...StyleMeta.dynamicSheet.style].join('\n')).styles }} />
                 <meta property="og:title" content={title}/>
                 <meta property="og:type" content="article"/>
                 <meta property="og:url" content={page.url}/>
@@ -50,7 +36,7 @@ const HTML: React.FC<Blog & Post & Wrapper> = ({ title, fediverse, blogName, blo
                 <meta property="og:description" content={description}/>
                 <meta name="fediverse:creator" content={fediverse} />
             </head>
-            <body className={`${body} bg-white`} dangerouslySetInnerHTML={{ __html: sanitize(content) }}>
+            <body dangerouslySetInnerHTML={{ __html: sanitize(content) }}>
             </body>
         </html>
     )

@@ -1,6 +1,6 @@
 import type { Story } from "@ladle/react"
 import React from "react"
-import Index from "./Index.tsx"
+import Index from "./parts/Index.tsx"
 
 export const IndexStory: Story = (props) => <Index {...props}></Index>
 IndexStory.storyName = "Index"

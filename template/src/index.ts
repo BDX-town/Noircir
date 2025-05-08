@@ -1,9 +1,9 @@
 import './index.css';
 
-import Article from './Article';
-import HTMLIndex from './HtmlIndex.tsx';
-import HTMLArticle from './HtmlArticle.tsx';
-import Index from './Index.tsx';
+import Article from './parts/Article';
+import HTMLIndex from './pages/HtmlIndex.tsx';
+import HTMLArticle from './pages/HtmlArticle.tsx';
+import Index from './parts/Index.tsx';
 
 
 export { 

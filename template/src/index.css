@@ -1,76 +1,195 @@
-@import '@bdxtown/canaille/src/scss/index.scss';
-
-@tailwind base;
-@tailwind utilities;
-
-@font-face {
-    font-family: 'CooperHewitt-Bold';
-    src: url('/fonts/CooperHewitt-Bold.woff') format('woff'),
-        url('http://localhost:8080/src/fonts/CooperHewitt-Bold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+/* Global style */ 
+:root {
+    --primary-color: #0296b1;
+    background-color: black;
 }
 
-@font-face {
-    font-family: 'CooperHewitt-Medium';
-    src: url('/fonts/CooperHewitt-Medium.woff') format('woff'),
-        url('http://localhost:8080/src/fonts/CooperHewitt-Medium.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Atkinson Hyperlegible';
-    src: url('/fonts/AtkinsonHyperlegible-Bold.woff2') format('woff2'),
-        url('/fonts/AtkinsonHyperlegible-Bold.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Atkinson Hyperlegible';
-    src: url('/fonts/AtkinsonHyperlegible-Regular.woff2') format('woff2'),
-        url('/fonts/AtkinsonHyperlegible-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-html, body { 
+html, body {
     margin: 0;
     padding: 0;
-    font-family: 'Atkinson Hyperlegible';
-    font-size: 18px;
+}
+
+main.index, main.article {
+    color: white;
+    max-width: 900px;
+    min-height: calc(100vh - 2rem * 2);
+    padding: 2rem;
+    margin: auto;
+    font-family: sans-serif;
+}
+
+h1, h2, h3 {
+    font-family: serif;
+    line-height: 1.60;
+}
+
+p {
+    line-height: 1.4;
 }
 
 a {
-    color: inherit;
+    color: var(--primary-color);
+    text-decoration: none;
 }
 
-header h1, header h2, header h3 
-{
-    font-family: 'CooperHewitt-Bold';
-    line-height: 1.25;
-    letter-spacing: 0.25;
+
+/* Parts style */
+
+/* Footer */
+footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+}
+
+
+/* Index */
+main.index {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+main.index a:has(article) {
+    color: white;
+}
+
+main.index header h1, main.index header h2 {
     margin: 0;
 }
 
-header h1 {
-    font-size: 5rem;
+main.index header img {
+    display: none;
 }
 
-header h2 {
-    font-size: 2rem;
+main.index section {
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
+    flex-grow: 1;
 }
 
-header h3 {
-    font-family: 'CooperHewitt-Medium';
-    font-size: 1.3rem;
+main.index article {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: start;
 }
 
-footer, time {
-    font-family: 'CooperHewitt-Medium';
+main.index article figure {
+    margin: 0;
+    flex-shrink: 1;
+    width: 50%;
+    max-width: 400px;
+    position: relative;
+    height: 150px;
+}
+
+main.index article figure img {
+    filter: grayscale(1);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: .5rem;
+}
+
+main.index article figure::after {
+    content: "";
+    border-radius: .5rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background-color: var(--primary-color);
+}
+
+main.index article div {
+    order: 0;
+    flex-shrink: 1;
+    flex-grow: 1;
+    min-width: 362px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+main.index article div time {
+    order: -1;
+    text-transform: capitalize;
+    font-family: monospace;
+}
+
+main.index article div h3 {
+    margin: 0;
+}
+
+main.index article div p {
+    margin-top: 1rem;
+}
+
+/** Article **/
+main.article {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+
+main.article header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+main.article header img {
+    display: none;
+}
+
+main.article header h1, main.article header h2 {
+    margin: 0;
+    line-height: 1.4;
+}
+
+main.article article time {
+    font-family: monospace;
+}
+
+main.article article figure {
+    margin: 0;
+    width: 100%;
+    height: 300px;
+    position: relative;
+}
+
+main.article figure::after {
+    content: "";
+    border-radius: .5rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+    background-color: var(--primary-color);
+}
+
+main.article article figure img {
+    border-radius: 1rem;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+main.article article section img {
+    display: block;
+    border-radius: 1rem;
+    margin: auto;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
 }
