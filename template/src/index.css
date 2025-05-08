@@ -10,28 +10,28 @@
 /* Playfair Display */
 @font-face {
     font-family: 'Playfair Display';
-    src: url('/font/PlayfairDisplay-Regular.ttf') format('truetype');
+    src: url('/fonts/PlayfairDisplay-Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
   }
   
   @font-face {
     font-family: 'Playfair Display';
-    src: url('/font/PlayfairDisplay-Italic.ttf') format('truetype');
+    src: url('/fonts/PlayfairDisplay-Italic.ttf') format('truetype');
     font-weight: 400;
     font-style: italic;
   }
   
   @font-face {
     font-family: 'Playfair Display';
-    src: url('/font/PlayfairDisplay-Bold.ttf') format('truetype');
+    src: url('/fonts/PlayfairDisplay-Bold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
   }
   
   @font-face {
     font-family: 'Playfair Display';
-    src: url('/font/PlayfairDisplay-BoldItalic.ttf') format('truetype');
+    src: url('/fonts/PlayfairDisplay-BoldItalic.ttf') format('truetype');
     font-weight: 700;
     font-style: italic;
   }
@@ -39,28 +39,28 @@
   /* Open Sans */
   @font-face {
     font-family: 'Open Sans';
-    src: url('/font/OpenSans-Regular.ttf') format('truetype');
+    src: url('/fonts/OpenSans-Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
   }
   
   @font-face {
     font-family: 'Open Sans';
-    src: url('/font/OpenSans-Italic.ttf') format('truetype');
+    src: url('/fonts/OpenSans-Italic.ttf') format('truetype');
     font-weight: 400;
     font-style: italic;
   }
   
   @font-face {
     font-family: 'Open Sans';
-    src: url('/font/OpenSans-Bold.ttf') format('truetype');
+    src: url('/fonts/OpenSans-Bold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
   }
   
   @font-face {
     font-family: 'Open Sans';
-    src: url('/font/OpenSans-BoldItalic.ttf') format('truetype');
+    src: url('/fonts/OpenSans-BoldItalic.ttf') format('truetype');
     font-weight: 700;
     font-style: italic;
   }
