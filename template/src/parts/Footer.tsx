@@ -8,7 +8,7 @@ const tr = {
     "fr-FR": fr
 }
 
-export const Footer = ({ fediverse, className, ...props }: { fediverse?: string } & Partial<HTMLElement>) => {
+export const Footer = ({ fediverse }: { fediverse?: string } & Partial<HTMLElement>) => {
     const { T } = useTranslations('Footer', tr)
 
     const fediverseUrl = useMemo(() => { 
