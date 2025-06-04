@@ -9,11 +9,16 @@
   "scripts": {
     "story": "node toolchain/create-story.mjs",
     "dev": "npx ladle serve",
-    "build": "tsc && vite build"
+    "build": "tsc && vite build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "devDependencies": {
+    "@storybook/addon-onboarding": "^9.0.4",
+    "@storybook/react-vite": "^9.0.4",
     "autoprefixer": "^10.4.17",
     "postcss": "^8.4.35",
+    "storybook": "^9.0.4",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
     "vite": "^5.1.0"
@@ -27,7 +32,6 @@
     }
   },
   "dependencies": {
-    "@bdxtown/canaille": "^1.0.0-rc7",
     "@ladle/react": "^4.0.2",
     "clean-css": "^5.3.3",
     "counterpart": "^0.18.6",
