@@ -1,258 +1,161 @@
 /* Global style */ 
-:root {
-    --primary-color: #0296b1;
-    --secondary-color: #E0E0E0;
-    --background-color: #0A1A2A;
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
-    background-color: var(--background-color);
+:root {
+    --text-color: #030201;
+    --background-color: #fcfcfc;
+
+    --font-size: 17px;
+
+    --right-column: 400px;
 }
 
-/* Playfair Display */
-@font-face {
-    font-family: 'Playfair Display';
-    src: url('/fonts/PlayfairDisplay-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'Playfair Display';
-    src: url('/fonts/PlayfairDisplay-Italic.ttf') format('truetype');
-    font-weight: 400;
-    font-style: italic;
-  }
-  
-  @font-face {
-    font-family: 'Playfair Display';
-    src: url('/fonts/PlayfairDisplay-Bold.ttf') format('truetype');
-    font-weight: 700;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'Playfair Display';
-    src: url('/fonts/PlayfairDisplay-BoldItalic.ttf') format('truetype');
-    font-weight: 700;
-    font-style: italic;
-  }
-  
-  /* Open Sans */
-  @font-face {
-    font-family: 'Open Sans';
-    src: url('/fonts/OpenSans-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'Open Sans';
-    src: url('/fonts/OpenSans-Italic.ttf') format('truetype');
-    font-weight: 400;
-    font-style: italic;
-  }
-  
-  @font-face {
-    font-family: 'Open Sans';
-    src: url('/fonts/OpenSans-Bold.ttf') format('truetype');
-    font-weight: 700;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'Open Sans';
-    src: url('/fonts/OpenSans-BoldItalic.ttf') format('truetype');
-    font-weight: 700;
-    font-style: italic;
-  }
-  
+@media screen and (max-width: 1000px) {
+    :root {
+        --right-column: 200px;
+    }
+}
 
 html, body {
     margin: 0;
     padding: 0;
-}
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-size: var(--font-size);
+    font-family: "Rubik", sans-serif;
 
-main.index, main.article {
-    color: var(--secondary-color);
-    max-width: 900px;
-    min-height: calc(100vh - 2rem * 2);
-    padding: 2rem;
-    margin: auto;
-    font-family: 'Open Sans', sans-serif;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    line-height: 1.60;
-    font-family: 'Playfair Display', serif;
-}
-
-p {
+    font-weight: 400;
     line-height: 1.4;
 }
 
-a {
-    color: var(--primary-color);
-    text-decoration: none;
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 300;
+    margin: 0;
 }
 
+p {
+    margin: 0;
+}
 
-/* Parts style */
+a {
+    color: var(--text-color);
+}
 
-/* Footer */
-footer {
+/* Header */
+
+header {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: start;
+    gap: 4rem;
+}
+
+@media screen and (max-width: 700px) {
+    header {
+        flex-wrap: wrap;
+        flex-direction: row;
+        gap: 2rem;
+    }
+}
+
+header div:first-child {
+    min-width: var(--right-column);
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     gap: .5rem;
+}
+
+header div:first-child a {
+    width: 24px !important;
+    height: 24px !important;
+}
+
+header div:first-child h1 {
+    font-size: 1.3rem;
+    font-weight: 400;
+}
+
+/* Footer */
+
+footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+@media screen and (max-width: 700px) {
+    footer {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+footer span {
+    flex-grow: 1;
+}
+
+footer div {
+    min-width: var(--right-column);
 }
 
 
 /* Index */
-main.index {
+
+#index {
+    padding: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 4rem;
+    min-height: 100vh;
 }
 
-main.index a:has(article) {
-    color: var(--secondary-color);
-}
-
-main.index header h1, main.index header h2 {
-    margin: 0;
-}
-
-main.index header img {
-    display: none;
-}
-
-main.index section {
-    display: flex;
-    flex-direction: column;
-    gap: 3.2rem;
+#index section {
     flex-grow: 1;
 }
 
-main.index article {
+#index section>a {
+    text-decoration: none;
+}
+
+#index section>a article {
+    border-top: 2px solid var(--text-color);
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+#index section>a article>div {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: start;
+    gap: 3rem;
 }
 
-main.index article figure {
-    margin: 0;
-    flex-shrink: 1;
-    width: 50%;
-    max-width: 400px;
-    position: relative;
-    height: 150px;
+
+@media screen and (max-width: 700px) {
+    #index section>a article>div {
+        flex-wrap: wrap;
+        gap: 1rem
+    }
 }
 
-main.index article figure img {
-    filter: grayscale(1) contrast(2);
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: .5rem;
-}
-
-main.index article figure::after {
-    content: "";
-    border-radius: .5rem;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.5;
-    background-color: var(--primary-color);
-}
-
-main.index article div {
-    order: 0;
-    flex-shrink: 1;
+#index section>a article>div h3 {
+    line-height: 1.2;
+    font-size: 2rem;
     flex-grow: 1;
-    min-width: 362px;
-    width: 50%;
+}
+
+#index section>a article>div div {
+    min-width: var(--right-column);
     display: flex;
     flex-direction: column;
-}
-
-main.index article div time {
-    order: -1;
+    gap: .25rem;
+    flex-shrink: 0;
     text-transform: capitalize;
-    font-family: monospace;
 }
 
-main.index article div h3 {
-    margin: 0;
-}
-
-main.index article div p {
-    margin-top: 1rem;
-}
-
-/** Article **/
-main.article {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-
-main.article header {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-main.article header img {
+#index section>a article div p {
     display: none;
 }
 
-main.article header h1, main.article header h2 {
-    margin: 0;
-    line-height: 1.4;
-}
-
-main.article article time {
-    font-family: monospace;
-}
-
-main.article article figure {
-    margin: 0;
-    width: 100%;
-    height: 300px;
-    position: relative;
-}
-
-main.article figure::after {
-    content: "";
-    border-radius: .5rem;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.5;
-    background-color: var(--primary-color);
-}
-
-main.article article figure img {
-    border-radius: 1rem;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: grayscale(1) contrast(2);
-}
-
-main.article article section img {
-    display: block;
-    border-radius: 1rem;
-    margin: auto;
-    height: auto;
-    max-width: 100%;
-    object-fit: contain;
+#index section>a article figure {
+    display: none;
 }

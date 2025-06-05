@@ -5,6 +5,9 @@ import { Post } from 'types/src/Post';
 import { Footer } from './Footer'
 import { withI18n } from '../withI18n';
 
+import { Header } from './Header';
+import { useTranslations } from '@bdxtown/canaille';
+
 interface Collection {
     /**
      * Eleventy generated collection data
@@ -17,22 +20,13 @@ interface Collection {
     }>
 }
 
-const Index: React.FC<Blog & Collection> = ({ blogName, fediverse, blogDescription, blogCover, pages, lang }) => {
+import fr from './Index.fr-FR.i18n.json'
+
+const Index: React.FC<Blog & Collection> = ({ pages, lang, fediverse, ...rest }) => {
+    const { T } = useTranslations("Index", { "fr-FR": fr })
     return (
-        <main className='index'>
-            <header>
-                <div>
-                    <h1>
-                        <a href="./.." >
-                            {blogName}
-                        </a>
-                    </h1>
-                    <img  src={blogCover} />
-                </div>
-                <h2>
-                    {blogDescription}
-                </h2>
-            </header>
+        <main id='index'>
+            <Header {...rest} fediverse={fediverse} />
             <section>
                 {
                     pages.map((page) => (
@@ -48,9 +42,16 @@ const Index: React.FC<Blog & Collection> = ({ blogName, fediverse, blogDescripti
                                     <p>
                                         {page.data.description}
                                     </p>
-                                    <time dateTime={new Date(page.data.createdAt).toISOString()}>
-                                        {new Date(page.data.createdAt).toLocaleDateString(lang, { dateStyle: 'full' })}
-                                    </time>
+                                    <div>
+                                        <time dateTime={new Date(page.data.createdAt).toISOString()}>
+                                            {new Date(page.data.createdAt).toLocaleDateString(lang, { dateStyle: 'full' })}
+                                        </time>
+                                        <a href={page.page.url}>
+                                            <T>
+                                                read
+                                            </T>
+                                        </a>
+                                    </div>
                                 </div>
                             </article>
                         </a>

@@ -2,15 +2,17 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import Index from './../parts/Index';
 
+const blog = {
+    lang: 'fr-FR',
+    blogName: "Test",
+    blogDescription: "Blogs typically adhere to well-established structures, but this design dares to break away from the norm. Instead of relying on winning formulas, it offers a refreshing approach to displaying your thoughts on a blog. This theme design is not about certainty; it's about embracing new perspectives. Maybe it's the one for you.",
+    blogCover: 'https://noircir.bdx.town//blogs/clovis/ressources/T5FUKQQQJ-UJF1UUP2R-6d3621e91c4f-512.jpg.webp',
+    fediverse: 'https://bdx.town/clovis',
+}
 
 const page = {
     createdAt: new Date(),
     title: 'Découvertes n°1 - Les robots rêvent-ils de guitares éléctriques ?',
-    fediverse: undefined,
-    blogName: 'Boxon',
-    blogDescription: "Lorem Ipsum dolor sin amet",
-    blogCover: 'https://noircir.bdx.town//blogs/clovis/ressources/T5FUKQQQJ-UJF1UUP2R-6d3621e91c4f-512.jpg.webp',
-    lang: 'fr-FR',
     content: '<p>#blues #variété #glam #français #rock</p>\n' +
         '<p>La playlist: </p>\n' +
         '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4U3eUlvHy9QQNsmCokmyD5?utm_source=generator" width="100%" height="380" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" /></iframe>\n' +
@@ -71,7 +73,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
     args: {
-        ...page,
+        ...blog,
         pages: [{ data: page, page: page.page}, { data: { ...page, cover: null }, page: page.page}, { data: page, page: page.page}, { data: page, page: page.page}]
     }
  };

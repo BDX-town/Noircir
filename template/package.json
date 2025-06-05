@@ -10,7 +10,7 @@
     "story": "node toolchain/create-story.mjs",
     "dev": "npx ladle serve",
     "build": "tsc && vite build",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "BROWSER=true storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "devDependencies": {
@@ -38,6 +38,7 @@
     "postcss-import": "^16.0.1",
     "prettier": "^3.2.5",
     "react-docgen": "^7.0.3",
+    "types": "workspace:^",
     "vite-plugin-node-polyfills": "^0.21.0",
     "xss": "^1.0.15"
   }
