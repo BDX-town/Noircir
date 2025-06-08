@@ -1,5 +1,35 @@
 /* Global style */ 
-@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+@font-face {
+    font-family: 'Rubik';
+    src: url('/fonts/Rubik-Regular.ttf') format('truetype'),
+         url('http://localhost:8080/src/fonts/Rubik-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Rubik';
+    src: url('/fonts/Rubik-Italic.ttf') format('truetype'),
+         url('http://localhost:8080/src/fonts/Rubik-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Rubik';
+    src: url('/fonts/Rubik-Bold.ttf') format('truetype'),
+         url('http://localhost:8080/src/fonts/Rubik-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Rubik';
+    src: url('/fonts/Rubik-BoldItalic.ttf') format('truetype'),
+         url('http://localhost:8080/src/fonts/Rubik-BoldItalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+}
 
 :root {
     --text-color: #030201;
@@ -41,6 +71,20 @@ a {
     color: var(--text-color);
 }
 
+main {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    min-height: 100vh;
+    max-width: 1200px;
+    margin: auto;
+}
+
+main>section, main>article  {
+    flex-grow: 1;
+}
+
 /* Header */
 
 header {
@@ -58,6 +102,14 @@ header {
     }
 }
 
+header a {
+    text-decoration: none;
+}
+
+header a:hover {
+    text-decoration: underline;
+}
+
 header div:first-child {
     min-width: var(--right-column);
     display: flex;
@@ -73,6 +125,10 @@ header div:first-child a {
 header div:first-child h1 {
     font-size: 1.3rem;
     font-weight: 400;
+}
+
+header p { 
+    flex-grow: 1;
 }
 
 /* Footer */
@@ -100,22 +156,66 @@ footer div {
 }
 
 
-/* Index */
+/* Article */
 
-#index {
-    padding: 1rem;
+#article article {
+    display: flex;
+    border-top: 2px solid var(--text-color);
+    padding-top: 1rem;
+}
+
+#article article>div:first-child {
     display: flex;
     flex-direction: column;
-    gap: 4rem;
-    min-height: 100vh;
+    gap: 1rem
 }
 
-#index section {
-    flex-grow: 1;
+#article article>div:last-child {
+    min-width: var(--right-column);
 }
+
+#article article section {
+    line-height: 1.6;
+    margin-top: 1rem;
+}
+
+#article article figure {
+    margin: 0;
+}
+
+#article article h2 {
+    font-size: 1.5rem;
+}
+
+#article article h3 {
+    font-size: 1.3rem;
+}
+
+#article article h4 {
+    font-size: 1.2rem;
+}
+
+#article article h5 {
+    font-size: 1.1rem;
+}
+
+#article article h6 {
+    font-size: 1rem;
+}
+
+#article article section h1, #article article section h2, #article article section h3, #article article section h4, #article article section h5, #article article section h6 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Index */
 
 #index section>a {
     text-decoration: none;
+}
+
+#index section>a:hover {
+    text-decoration: underline;
 }
 
 #index section>a article {

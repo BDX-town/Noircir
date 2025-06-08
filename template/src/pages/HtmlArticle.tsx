@@ -4,10 +4,6 @@ import { Post } from 'types/src/Post';
 import { Blog } from 'types/src/Blog';
 import { Wrapper } from './../types';
 
-
-import sanitize from './../sanitize';
-
-
 const HTML: React.FC<Blog & Post & Wrapper> = ({ title, fediverse, blogName, blogCover, lang, content, style, page, cover, description }) => {
     console.log({
         title,
@@ -36,7 +32,7 @@ const HTML: React.FC<Blog & Post & Wrapper> = ({ title, fediverse, blogName, blo
                 <meta property="og:description" content={description}/>
                 <meta name="fediverse:creator" content={fediverse} />
             </head>
-            <body dangerouslySetInnerHTML={{ __html: sanitize(content) }}>
+            <body dangerouslySetInnerHTML={{ __html: content }}>
             </body>
         </html>
     )

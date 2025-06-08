@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Wrapper } from './../types';
 import { Blog } from 'types/src/Blog';
-import sanitize from './../sanitize';
 
 const HTML: React.FC<Wrapper & Blog> = ({ fediverse, blogName, blogCover, lang, content, style, page, blogDescription }) => {
     return (
@@ -20,7 +19,7 @@ const HTML: React.FC<Wrapper & Blog> = ({ fediverse, blogName, blogCover, lang, 
                 <meta property="og:description" content={blogDescription}/>
                 <meta name="fediverse:creator" content={fediverse} />
             </head>
-            <body dangerouslySetInnerHTML={{ __html: sanitize(content) }}>
+            <body dangerouslySetInnerHTML={{ __html: content }}>
             </body>
         </html>
     )

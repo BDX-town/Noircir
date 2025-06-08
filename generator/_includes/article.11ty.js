@@ -29,6 +29,7 @@ class Article {
     }
 
     async render(props) {
+
         await this.updateIndex(props);
         return ReactDOM.renderToStaticMarkup(React.createElement(ArticleComponent, props));
     }

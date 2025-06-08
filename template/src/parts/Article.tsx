@@ -10,41 +10,36 @@ import sanitizeHTML from './../sanitize'
 
 import fr from './Article.fr-FR.i18n.json';
 import { Footer } from './Footer';
+import { Header} from './Header';
 
-const Article: React.FC<Post & Blog> = ({ title, blogName, fediverse, lang, content, blogCover, cover, description, updatedAt }) => {
+const Article: React.FC<Post & Blog> = ({ title, fediverse, lang, content, cover, description, updatedAt, ...rest }) => {
     const { T } = useTranslations('Article', { 'fr-FR': fr });
     return (
-        <main className='article'>
-            <header >
-                <div >
-                    <h1 >
-                        <a href="./.." >
-                            {blogName}
-                        </a>
-                    </h1>
-
-                    <img src={blogCover} />
-                </div>
-                <h2 >
-                    {title}
-                </h2>
-
-            </header>
+        <main id='article'>
+            <Header {...rest} fediverse={fediverse} homePath='./..' />
             <article>
-                <time>
-                    <T date={new Date(updatedAt).toLocaleDateString(lang)}>date</T>
-                </time>
-                {
-                    cover && <figure><img src={cover} /></figure>
-                }
-                <h3>
-                    {description}
-                </h3>
-                <section>
-                    <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(content) }} />
-                </section>
+                <div>
+                    <h2>
+                        { title }
+                    </h2>
+                    <time dateTime={new Date(updatedAt).toISOString()}>
+                        <T date={new Date(updatedAt).toLocaleDateString(lang, { dateStyle: 'full' })}>date</T>
+                    </time>
+                    <div>
+                        {
+                            cover && <figure><img src={cover} /></figure>
+                        }
+                        <h3>
+                            {description}
+                        </h3>
+                    </div>
+                    <section>
+                        <div dangerouslySetInnerHTML={{ __html: sanitizeHTML(content) }} />
+                    </section>
+                </div>
+                <div />
             </article>
-            <Footer fediverse={fediverse} />
+            <Footer />
         </main>
     )
 }

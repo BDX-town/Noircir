@@ -26,7 +26,7 @@ const Index: React.FC<Blog & Collection> = ({ pages, lang, fediverse, ...rest })
     const { T } = useTranslations("Index", { "fr-FR": fr })
     return (
         <main id='index'>
-            <Header {...rest} fediverse={fediverse} />
+            <Header {...rest} fediverse={fediverse} homePath='.' />
             <section>
                 {
                     pages.map((page) => (
@@ -46,11 +46,9 @@ const Index: React.FC<Blog & Collection> = ({ pages, lang, fediverse, ...rest })
                                         <time dateTime={new Date(page.data.createdAt).toISOString()}>
                                             {new Date(page.data.createdAt).toLocaleDateString(lang, { dateStyle: 'full' })}
                                         </time>
-                                        <a href={page.page.url}>
-                                            <T>
-                                                read
-                                            </T>
-                                        </a>
+                                        <T>
+                                            read
+                                        </T>
                                     </div>
                                 </div>
                             </article>
@@ -58,7 +56,7 @@ const Index: React.FC<Blog & Collection> = ({ pages, lang, fediverse, ...rest })
                     ))
                 }
             </section>
-            <Footer fediverse={fediverse} />
+            <Footer />
         </main>
     );
 }

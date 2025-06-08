@@ -4,7 +4,7 @@ import { Blog } from 'types/src/Blog'
 import mastodon from './../misc/mastodon.svg?raw'
 import { useMemo } from 'react';
 
-export const Header = ({ blogName, blogDescription, fediverse } : Omit<Blog, "lang">) => {
+export const Header = ({ blogName, blogDescription, fediverse, homePath } : Omit<Blog & { homePath: string }, "lang">) => {
     
     const fediverseUrl = useMemo(() => { 
         if(!fediverse) return null;
@@ -15,7 +15,9 @@ export const Header = ({ blogName, blogDescription, fediverse } : Omit<Blog, "la
     return (
         <header>
             <div>
-                <h1>{ blogName }</h1>
+                <a href={homePath}>
+                    <h1>{ blogName }</h1>
+                </a>
                 <div>
                     {
                         fediverseUrl && (

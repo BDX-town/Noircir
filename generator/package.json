@@ -7,7 +7,7 @@
   "dependencies": {
     "@11ty/eleventy": "^2.0.1",
     "glob": "^10.3.10",
-    "template": "^0.0.0"
+    "template": "workspace:^"
   },
   "scripts": {
     "start": "./../node_modules/@11ty/eleventy/cmd.js --config=.eleventy.prod.js --watch --incremental",

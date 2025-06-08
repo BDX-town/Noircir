@@ -8930,7 +8930,7 @@ __metadata:
   dependencies:
     "@11ty/eleventy": "npm:^2.0.1"
     glob: "npm:^10.3.10"
-    template: "npm:^0.0.0"
+    template: "workspace:^"
   languageName: unknown
   linkType: soft
 
@@ -15863,7 +15863,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"template@npm:^0.0.0, template@workspace:template":
+"template@workspace:^, template@workspace:template":
   version: 0.0.0-use.local
   resolution: "template@workspace:template"
   dependencies:
@@ -15879,6 +15879,7 @@ __metadata:
     react-docgen: "npm:^7.0.3"
     storybook: "npm:^9.0.4"
     tailwindcss: "npm:^3.4.1"
+    types: "workspace:^"
     typescript: "npm:^5.2.2"
     vite: "npm:^5.1.0"
     vite-plugin-node-polyfills: "npm:^0.21.0"
