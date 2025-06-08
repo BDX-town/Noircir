@@ -208,6 +208,10 @@ footer div {
     margin-bottom: 1rem;
 }
 
+#article section img {
+    max-width: 100%;
+}
+
 /* Index */
 
 #index section>a {
