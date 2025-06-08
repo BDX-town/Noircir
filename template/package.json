@@ -32,6 +32,7 @@
     }
   },
   "dependencies": {
+    "@bdxtown/canaille": "workspace:^",
     "@ladle/react": "^4.0.2",
     "clean-css": "^5.3.3",
     "counterpart": "^0.18.6",
