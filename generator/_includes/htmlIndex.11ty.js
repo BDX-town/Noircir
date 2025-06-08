@@ -11,7 +11,6 @@ class Style {
     }
 
     render(props) {
-        console.log(ReactDOM.renderToStaticMarkup(React.createElement(HTMLIndex, {...props, ...(props.blog ? props.blog : {})})));
         return `<!DOCTYPE html>${ReactDOM.renderToStaticMarkup(React.createElement(HTMLIndex, {...props, ...(props.blog ? props.blog : {})}))}`;
     }
 }
