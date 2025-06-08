@@ -12,6 +12,10 @@ class Article {
         }
     }
 
+    /**
+     * This weird function is in charge of generating the blog's index. At this time, I didn't find a way to do this properly while keeping the
+     * desired file structure
+     */
     async updateIndex(props) {
         const blogPath = path.dirname(
             path.dirname(
