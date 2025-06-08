@@ -218,6 +218,11 @@ footer div {
     max-width: 100%;
 }
 
+#article article section p {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
 /* Index */
 
 #index section>a {
