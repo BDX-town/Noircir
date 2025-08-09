@@ -4,19 +4,19 @@ import { Blog } from 'types/src/Blog'
 import mastodon from './../misc/mastodon.svg?raw'
 import { useMemo } from 'react';
 
-export const Header = ({ blogName, blogDescription, fediverse, homePath } : Omit<Blog & { homePath: string }, "lang">) => {
+export const Header = ({ blog, homePath }: { blog: Blog, homePath: string}) => {
     
     const fediverseUrl = useMemo(() => { 
-        if(!fediverse) return null;
-        const [user, host] = fediverse.slice(1).split('@');
+        if(!blog.fediverse) return null;
+        const [user, host] = blog.fediverse.slice(1).split('@');
         return `https://${host}/users/@${user}`;
-    }, [fediverse])
+    }, [blog.fediverse])
 
     return (
         <header>
             <div>
                 <a href={homePath}>
-                    <h1>{ blogName }</h1>
+                    <h1>{ blog.name }</h1>
                 </a>
                 <div>
                     {
@@ -27,7 +27,7 @@ export const Header = ({ blogName, blogDescription, fediverse, homePath } : Omit
                 </div>
             </div>
             <p>
-                {blogDescription}
+                {blog.description}
             </p>
         </header>
     )

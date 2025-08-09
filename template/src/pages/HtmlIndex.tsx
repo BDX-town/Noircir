@@ -1,23 +1,21 @@
-import React from 'react';
-
 import { Wrapper } from './../types';
 import { Blog } from 'types/src/Blog';
 
-const HTML: React.FC<Wrapper & Blog> = ({ fediverse, blogName, blogCover, lang, content, style, page, blogDescription }) => {
+const HTML = ({ blog, content, page, style  }: Wrapper & { blog: Blog }) => {
     return (
-        <html lang={lang.split('-')[0]}>
+        <html lang={blog.lang.split('-')[0]}>
             <head>
                 <meta charSet="utf-8" />
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-                <link rel="icon" type="image/x-icon" href={blogCover} />
-                <title>{ blogName}</title>
+                <link rel="icon" type="image/x-icon" href={blog.cover} />
+                <title>{ blog.name}</title>
                 <link rel="stylesheet" href={style} />
-                <meta property="og:title" content={blogName}/>
+                <meta property="og:title" content={blog.name}/>
                 <meta property="og:type" content="website"/>
                 <meta property="og:url" content={page.url}/>
-                <meta property="og:image" content={blogCover}/>
-                <meta property="og:description" content={blogDescription}/>
-                <meta name="fediverse:creator" content={fediverse} />
+                <meta property="og:image" content={blog.cover}/>
+                <meta property="og:description" content={blog.description}/>
+                <meta name="fediverse:creator" content={blog.fediverse} />
             </head>
             <body dangerouslySetInnerHTML={{ __html: content }}>
             </body>

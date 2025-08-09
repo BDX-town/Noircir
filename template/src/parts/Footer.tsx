@@ -1,14 +1,11 @@
 
 
-import { useTranslations } from '@bdxtown/canaille'
-import fr from './Footer.fr-FR.i18n.json'
-
-const tr = {
-    "fr-FR": fr
-}
+// import { useTranslations } from '@bdxtown/canaille'
+// import fr from './Footer.fr-FR.i18n.json'
 
 export const Footer = () => {
-    const { T } = useTranslations('Footer', tr)
+    // const { T } = useTranslations('Footer', { "fr-FR": fr })
+    const T = ({ children}: any ) => children
 
     return (
         <footer >

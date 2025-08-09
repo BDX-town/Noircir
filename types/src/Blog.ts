@@ -1,7 +1,7 @@
 export interface Blog {
-    blogName: string,
-    blogDescription: string,
-    blogCover: string,
+    name: string,
+    description: string,
+    cover: string,
     fediverse?: string,
     lang: "fr-FR",
 }

@@ -1,32 +1,29 @@
-import React from 'react';
-
 import { Blog } from 'types/src/Blog';
 import { Post } from 'types/src/Post';
 import { Footer } from './Footer'
 import { withI18n } from '../withI18n';
 
 import { Header } from './Header';
-import { useTranslations } from '@bdxtown/canaille';
+// import { useTranslations } from '@bdxtown/canaille';
 
-interface Collection {
-    /**
-     * Eleventy generated collection data
-     */
-    pages: Array<{
-        data: Post,
-        page: {
-            url: string,
-        }
-    }>
-}
+/**
+ * Eleventy generated collection data
+ */
+type Collection = Array<{
+    data: Post,
+    page: {
+        url: string,
+    }
+}>
 
-import fr from './Index.fr-FR.i18n.json'
+// import fr from './Index.fr-FR.i18n.json'
 
-const Index: React.FC<Blog & Collection> = ({ pages, lang, fediverse, ...rest }) => {
-    const { T } = useTranslations("Index", { "fr-FR": fr })
+const Index = ({ pages, blog }: { pages: Collection, blog: Blog}) => {
+    // const { T } = useTranslations("Index", { "fr-FR": fr })
+    const T = ({ children }: any) => children
     return (
         <main id='index'>
-            <Header {...rest} fediverse={fediverse} homePath='.' />
+            <Header blog={blog} homePath='.' />
             <section>
                 {
                     pages.map((page) => (
@@ -44,7 +41,7 @@ const Index: React.FC<Blog & Collection> = ({ pages, lang, fediverse, ...rest })
                                     </p>
                                     <div>
                                         <time dateTime={new Date(page.data.createdAt).toISOString()}>
-                                            {new Date(page.data.createdAt).toLocaleDateString(lang, { dateStyle: 'full' })}
+                                            {new Date(page.data.createdAt).toLocaleDateString(blog.lang, { dateStyle: 'full' })}
                                         </time>
                                         <T>
                                             read
