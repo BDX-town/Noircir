@@ -8,8 +8,7 @@
     "cms",
     "generator",
     "template",
-    "types",
-    "canaille"
+    "types"
   ],
   "scripts": {
     "build": "yarn workspaces foreach -Rpt --from '{@bdxtown/canaille,cms,template}' run build",
