@@ -3,7 +3,7 @@ import React from 'react'
 import path from 'path'
 import fs from 'fs'
 
-import { TemplateBlog } from './../types.ts'
+import { TemplateBlog } from './../types'
 
 import { Post } from 'types/src/Post'
 

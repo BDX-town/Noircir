@@ -3,6 +3,14 @@
   "repository": "git@github.com:BDX-town/Noirsir.git",
   "author": "Clovis <clovis@synapse-medicine.com>",
   "license": "MIT",
+  "exports": {
+    ".": {
+      "import": {
+        "default": "./dist/index.es.js",
+        "types": "./dist/index.d.ts"
+      }
+    }
+  },
   "private": true,
   "workspaces": [
     "cms",
