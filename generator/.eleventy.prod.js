@@ -1,5 +1,5 @@
-const common = require('./.eleventy.common.js');
-const path = require('path');
+import common from './.eleventy.common.js'
+import path from 'path'
 
 const {
   NGINX_FOLDER,
@@ -9,7 +9,7 @@ const {
 
 const includesPath = path.relative(path.join(NGINX_FOLDER, BLOGS_FOLDER), NOIRCIR_FOLDER);
 
-module.exports = function(eleventyConfig) {
+export default function(eleventyConfig) {
     return {
       ...common(eleventyConfig),
       dir: {
