@@ -1,18 +1,15 @@
-const ReactDOM = require('react-dom/server');
-const React = require('react');
-const { HTMLArticle } = require('template');
-
-class Style {
+import ReactDOM from "react-dom/server.js";
+import React from 'react';
+import { HTMLArticle as HTMLArticleCmp } from 'template';
+class HTMLArticle {
     data() {
         return {
             templateEngineOverride: "11ty.js, md",
             style: "/style.css",
-        }
+        };
     }
-
     render(props) {
-        return `<!DOCTYPE html>${ReactDOM.renderToStaticMarkup(React.createElement(HTMLArticle, {...props, ...(props.blog ? props.blog : {})}))}`;
+        return `<!DOCTYPE html>${ReactDOM.renderToStaticMarkup(React.createElement(HTMLArticleCmp, { ...props, ...(props.blog ? props.blog : {}) }))}`;
     }
 }
-
-module.exports = Style;
+export default HTMLArticle;

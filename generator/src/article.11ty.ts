@@ -1,15 +1,15 @@
-import ReactDOM from 'react-dom/server'
+import ReactDOM from 'react-dom/server.js'
 import React from 'react'
 import path from 'path'
 import fs from 'fs'
 
-import { TemplateBlog } from './../types'
+import { TemplateBlog, Template } from './types'
 
 import { Post } from 'types/src/Post'
 
 import { Article as ArticleComponent } from 'template'
 
-class Article {
+class Article implements Template {
     data() {
         return {
             templateEngineOverride: "11ty.js, md",
@@ -47,4 +47,4 @@ class Article {
     }
 }
 
-module.exports = Article;
+export default Article

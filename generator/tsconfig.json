@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
+    "rootDir": "src",
     "moduleResolution": "node",
     "module": "esnext",
     "skipLibCheck": true,
     "target": "es2020",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "outDir": "_includes"
   },
-  "include": ["_includes"],
+  "include": ["src/*"],
 }

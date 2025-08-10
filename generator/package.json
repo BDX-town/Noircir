@@ -14,8 +14,12 @@
     "template": "workspace:^",
     "types": "workspace:^"
   },
+  "type": "module",
   "scripts": {
-    "start": "./../node_modules/@11ty/eleventy/cmd.js --config=.eleventy.prod.js --watch --incremental",
-    "test": "./../node_modules/@11ty/eleventy/cmd.js --config=.eleventy.common.js --serve"
+    "start": "tsc && ./../node_modules/@11ty/eleventy/cmd.cjs --config=.eleventy.prod.js --watch --incremental",
+    "test": "tsc && ./../node_modules/@11ty/eleventy/cmd.cjs --config=.eleventy.common.js --serve"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
   }
 }
