@@ -31,7 +31,4 @@ export default defineConfig({
       }
     }
   },
-  resolve: {
-    alias: {"react":"react", "react-dom": "react-dom"}
-  }
 })

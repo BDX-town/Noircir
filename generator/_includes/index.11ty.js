@@ -1,5 +1,6 @@
 import ReactDOM from "react-dom/server.js";
 import React from 'react';
+// @ts-expect-error no typedef
 import path from 'path';
 import { Index as IndexComponent } from 'template';
 class Index {

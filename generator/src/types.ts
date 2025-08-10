@@ -1,7 +1,13 @@
 import { Blog } from 'types/src/Blog'
 
-export type TemplateBlog = {
-    [Prop in keyof Blog as `blog${Capitalize<string & Prop>}`]: Blog[Prop]
+type Prefixed = {
+    [Prop in Exclude<keyof Blog, "lang" | "fediverse"> as `blog${Capitalize<string & Prop>}`]: Blog[Prop];
+}
+
+export type TemplateBlog = Prefixed & {
+    lang: string;
+    fediverse?: string;
+
 }
 
 export interface Template {

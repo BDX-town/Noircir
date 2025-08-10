@@ -13,6 +13,7 @@ import { Header} from './Header';
 const Article = ({ blog, post }: { blog: Blog, post: Post}) => {
     // const { T } = useTranslations('Article', { 'fr-FR': fr });
     const T = ({ children }: any) => children
+
     return (
         <main id='article'>
             <Header blog={blog} homePath='./..' />

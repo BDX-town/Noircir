@@ -1,13 +1,15 @@
 import ReactDOM from 'react-dom/server.js'
 import React from 'react'
-import path from 'path'
-import fs from 'fs'
+import 'react/jsx-runtime.js'
+// import path from 'path'
+// import fs from 'fs'
 
 import { TemplateBlog, Template } from './types'
 
 import { Post } from 'types/src/Post'
 
 import { Article as ArticleComponent } from 'template'
+import { Blog } from 'types/src/Blog'
 
 class Article implements Template {
     data() {
@@ -43,7 +45,28 @@ class Article implements Template {
     async render(props: TemplateBlog & Post) {
 
         // await this.updateIndex(props);
-        return ReactDOM.renderToStaticMarkup(React.createElement(ArticleComponent, props));
+        const blog: Blog = {
+            cover: props.blogCover,
+            description: props.blogDescription,
+            lang: props.lang as Blog["lang"],
+            name: props.blogName,
+            fediverse: props.fediverse
+        }
+
+        const post: Post = {
+            content: props.content,
+            createdAt: props.createdAt,
+            description: props.description,
+            draft:props.draft,
+            file: props.file,
+            title: props.title,
+            updatedAt: props.updatedAt,
+            weight: props.weight,
+            cover: props.cover
+        }
+
+
+        return ReactDOM.renderToStaticMarkup(React.createElement(ArticleComponent, { ...props, blog, post  }));
     }
 }
 
