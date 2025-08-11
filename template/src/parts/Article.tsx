@@ -2,7 +2,6 @@ import { Post } from 'types/src/Post';
 import { Blog } from 'types/src/Blog';
 
 // import { useTranslations } from '@bdxtown/canaille';
-import { withI18n } from './../withI18n';
 
 import sanitizeHTML from './../sanitize'
 
@@ -44,4 +43,4 @@ const Article = ({ blog, post }: { blog: Blog, post: Post}) => {
     )
 }
 
-export default withI18n(Article);
+export default Article;

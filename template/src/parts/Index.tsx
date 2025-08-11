@@ -1,7 +1,6 @@
 import { Blog } from 'types/src/Blog';
 import { Post } from 'types/src/Post';
 import { Footer } from './Footer'
-import { withI18n } from '../withI18n';
 
 import { Header } from './Header';
 // import { useTranslations } from '@bdxtown/canaille';
@@ -58,4 +57,4 @@ const Index = ({ pages, blog }: { pages: Collection, blog: Blog}) => {
     );
 }
 
-export default withI18n(Index);
+export default Index;
