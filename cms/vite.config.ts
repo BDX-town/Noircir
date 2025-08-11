@@ -1,24 +1,14 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import { nodePolyfills  } from 'vite-plugin-node-polyfills';
-import analyze from "rollup-plugin-analyzer";
+import path from "path"
+import tailwindcss from "@tailwindcss/vite"
+import react from "@vitejs/plugin-react"
+import { defineConfig } from "vite"
 
-// https://vitejs.dev/config/
+// https://vite.dev/config/
 export default defineConfig({
-  // @ts-expect-error no types
-  plugins: [react(), nodePolyfills(), analyze()],
-  define:{
-    global:JSON.stringify({})
-  },
-  optimizeDeps: {
-    include: ['@bdxtown/canaille', '**/node_modules/**', '../canaille/dist/*'],
-  },
-  build: {
-    commonjsOptions: {
-      include: [/@bdxtown\/canaille/, /node_modules/,/..\/canaille\/dist/ ],
+  plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
     },
   },
-  resolve: {
-    alias: {"react":"react", "react-dom": "react-dom"}
-  }
 })
