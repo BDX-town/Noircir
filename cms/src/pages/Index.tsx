@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import EasyMDE from 'easymde'
 import debounce from 'debounce'
 import { parse } from 'marked'
@@ -28,14 +28,29 @@ export function Index() {
         }
     }, [onPostContentChange])
 
+    const onPostDelete = useCallback(() => {
+
+    }, [])
+
     return (
+        <>
+        <div className='flex gap-5 items-center justify-between'>
+            <input name="title" />
+            <div>
+                <button onClick={onPostDelete}>supprimer</button>
+            </div>
+        </div>
         <div className='flex items-start'>
             <div>
+                {
+                    // TODO: when focusing on thqt the rest of the page should hide
+                }
                 <textarea />
             </div>
             <div>
                 <Article blog={undefined as unknown as Blog} post={post as IPost} />
             </div>
         </div>
+        </>
     )
 }
