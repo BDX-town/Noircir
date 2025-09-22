@@ -14,6 +14,10 @@ import type { Article, Blog } from "../types.js";
  */
 @customElement('blog-article')
 class BlogArticle extends LitElement {
+
+    @property({ type: String })
+    test = "prout"
+
     @property({ type: Object })
     article: Article = {
         coverUrl: "<cover-goes-here>",
@@ -24,7 +28,7 @@ class BlogArticle extends LitElement {
         url: "<url-goes-here>"
     }
 
-    @property({ type: Object})
+    @property({ type: Object })
     blog: Blog = {
         title: "<blog-name-goes-here>",
         coverUrl: "<blog-cover-url>",
@@ -63,8 +67,8 @@ class BlogArticle extends LitElement {
         }
     `
 
-
     render() {
+        console.log(this.blog)
         return html`
             <section class="blog-article">
                 <header>
