@@ -1,11 +1,14 @@
 const { EleventyRenderPlugin } = require("@11ty/eleventy");
+const litPlugin = require('@lit-labs/eleventy-plugin-lit');
 
 module.exports = function(eleventyConfig) {
     eleventyConfig.addPlugin(EleventyRenderPlugin);
-    eleventyConfig.addPassthroughCopy({ "./../node_modules/template/dist/style.css": "style.css" });
-    eleventyConfig.addPassthroughCopy({ "./../node_modules/template/src/fonts/*.woff": "/fonts/" });
-    eleventyConfig.addPassthroughCopy({ "./../node_modules/template/src/fonts/*.woff2": "/fonts/" });
-
+    eleventyConfig.addPlugin(litPlugin, {
+        mode: 'worker',
+        componentModules: [
+            '../template/dist/blog-article/index.js',
+        ],
+    });
     return {
         dir: {
             input: "blogs",
