@@ -1,0 +1,78 @@
+import { LitElement, html, css } from "lit";
+import { customElement, property } from "lit/decorators.js";
+
+import './../blog-logo/index.js'
+import './../blog-description/index.js'
+import './../blog-background/index.js'
+import './../blog-footer/index.js'
+import './../article-item/index.js'
+import type { Article, Blog } from "../types.js";
+
+/**
+ * Shows the blog index showing a listing of all articles 
+ */
+@customElement('blog-index')
+class Index extends LitElement {
+    @property({ type: Object})
+    blog: Blog = {
+        coverUrl: "<cover-url-goes-here>",
+        title: "<title-goes-here>",
+        description: "<description-goes-here>"
+    }
+
+    @property({ type: Array })
+    articles: Article[] = []
+
+    static styles = css`
+        .blog-index {
+            padding-top: var(--spacing-3);
+            padding-bottom: var(--spacing-3);
+            padding-left: var(--spacing-4);
+            padding-right: var(--spacing-4);
+
+            max-width: 750px;
+            margin: auto;
+
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--spacing-4) * 1.5);
+
+            position: relative;
+            isolation: isolate;
+        }
+
+        .blog-index>header {
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--spacing-4));
+        }
+
+        .blog-index>main {
+            display: flex;
+            gap: var(--spacing-4);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    `
+
+
+    render() {
+        return html`
+            <section class="blog-index">
+                <header>
+                    <blog-logo>${this.blog.title}</blog-logo>
+                    <blog-description blog=${JSON.stringify(this.blog)}></blog-description>
+                </header>
+                <main>
+                    ${
+                        this.articles.map((a) => html`
+                            <article-item article=${JSON.stringify(a)}></article-item>
+                        `)
+                    }
+                </main>
+                <blog-footer></blog-footer>
+                <blog-background></blog-background>
+            </section>
+        `
+    }
+}

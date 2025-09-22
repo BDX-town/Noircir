@@ -1,16 +1,14 @@
-export interface Wrapper {
-    /**
-     * url to stylesheet
-     */
-    style: string,
-    /**
-     * Eleventy-generated url of current page
-     */
-    page: {
-        url: string,
-    }
-    /**
-     * Eleventy-generated page content (from child template)
-     */
-    content: string,
+export type Article = {
+    url: string;
+    title: string;
+    description: string;
+    updatedAt: Date;
+    tags: string[];
+    coverUrl: string;
+}
+
+export type Blog = {
+    title: string,
+    description: string,
+    coverUrl: string,
 }

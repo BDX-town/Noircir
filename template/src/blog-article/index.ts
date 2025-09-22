@@ -1,0 +1,82 @@
+import { LitElement, html, css } from "lit";
+import { customElement, property } from "lit/decorators.js";
+
+import './../blog-logo/index.js'
+import './../article-cover/index.js'
+import './../blog-description/index.js'
+import './../blog-background/index.js'
+import './../blog-footer/index.js'
+import './../article-item/index.js'
+import type { Article, Blog } from "../types.js";
+
+/**
+ * Shows an article in a full page
+ */
+@customElement('blog-article')
+class BlogArticle extends LitElement {
+    @property({ type: Object })
+    article: Article = {
+        coverUrl: "<cover-goes-here>",
+        description: "<description-goes-here>",
+        tags: ["<tags-go-here>"],
+        title: "<title-goes-here>",
+        updatedAt: new Date(),
+        url: "<url-goes-here>"
+    }
+
+    @property({ type: Object})
+    blog: Blog = {
+        title: "<blog-name-goes-here>",
+        coverUrl: "<blog-cover-url>",
+        description: "<description-goes-here>"
+    }
+
+    static styles = css`
+        .blog-article {
+            padding-top: var(--spacing-3);
+            padding-bottom: var(--spacing-3);
+            padding-left: var(--spacing-4);
+            padding-right: var(--spacing-4);
+
+            max-width: 750px;
+            margin: auto;
+
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--spacing-4) * 1.5);
+
+            position: relative;
+            isolation: isolate;
+        }
+
+        .blog-article>header {
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--spacing-4) * 1.5);
+        }
+
+        .blog-article>main {
+            display: flex;
+            gap: var(--spacing-4);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    `
+
+
+    render() {
+        return html`
+            <section class="blog-article">
+                <header>
+                    <blog-logo>${this.blog.title}</blog-logo>
+                    <article-cover article=${JSON.stringify(this.article)}></article-cover>
+                </header>
+                <main>
+                    <slot />
+                </main>
+                <blog-footer></blog-footer>
+                <blog-background></blog-background>
+            </section>
+        `
+    }
+}
