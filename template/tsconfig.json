@@ -1,4 +1,5 @@
 {
+  "exclude": ["*/**/*.stories.ts"],
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
@@ -11,6 +12,7 @@
     "target": "esnext",
     "moduleResolution": "nodenext",
     "types": [],
+    "outDir": "dist",
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
