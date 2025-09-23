@@ -24,12 +24,11 @@ export default class ArticleCover extends LitElement {
 
         .cover {
             display: flex;
-            align-items: flex-end;
             gap: var(--spacing-3);
         }
 
         .cover>img {
-            height: 200px;
+            object-fit: cover;
             border-radius: var(--spacing-2);
             box-shadow:
                 hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.4) 5px 5px,

@@ -1,4 +1,5 @@
 
+const { sanitize, escapeForHtmlAttr } = require('./../misc/utils')
 class Style {
     data() {
         return {
@@ -7,8 +8,6 @@ class Style {
     }
 
     async render(props) {
-        const { html } = await import("lit");
-
         const article = {
             title: props.title,
             description: props.description,
@@ -23,17 +22,22 @@ class Style {
             description: props.blogDescription
         }
 
-        return html`
+        const r =  `
             <!DOCTYPE html>
             <html>
                 <head>
                     <title>${blog.title} - ${article.title}</title>
+                    <link rel="stylesheet" href="/style.css">
                 </head>
                 <body>
-                    <blog-article .blog=${blog} .article=${article} />
+                    <blog-article blog='${escapeForHtmlAttr(JSON.stringify(blog))}' article='${escapeForHtmlAttr(JSON.stringify(article))}'>
+                        ${sanitize(props.content)}
+                    </blog-article>
                 </body>
             </html>
         `;
+
+        return r;
     }
 }
 

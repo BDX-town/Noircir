@@ -3,6 +3,7 @@ const litPlugin = require('@lit-labs/eleventy-plugin-lit');
 
 module.exports = function(eleventyConfig) {
     eleventyConfig.addPlugin(EleventyRenderPlugin);
+    eleventyConfig.addPassthroughCopy({ "../template/src/main.css": "style.css" });
     eleventyConfig.addPlugin(litPlugin, {
         mode: 'worker',
         componentModules: [

@@ -7,7 +7,8 @@
   "dependencies": {
     "@11ty/eleventy": "^2.0.1",
     "@lit-labs/eleventy-plugin-lit": "^1.0.5",
-    "glob": "^10.3.10"
+    "glob": "^10.3.10",
+    "xss": "^1.0.15"
   },
   "scripts": {
     "start": "./../node_modules/@11ty/eleventy/cmd.js --config=.eleventy.prod.js --watch --incremental",

@@ -9,14 +9,20 @@ import './../blog-footer/index.js'
 import './../article-item/index.js'
 import type { Article, Blog } from "../types.js";
 
+function fromAttribute(value: string) {
+    console.log("coucou", value)
+    try {
+        return JSON.parse(value);
+    } catch {
+        return null;
+    }
+}
+
 /**
  * Shows an article in a full page
  */
 @customElement('blog-article')
 class BlogArticle extends LitElement {
-
-    @property({ type: String })
-    test = "prout"
 
     @property({ type: Object })
     article: Article = {
@@ -68,7 +74,6 @@ class BlogArticle extends LitElement {
     `
 
     render() {
-        console.log(this.blog)
         return html`
             <section class="blog-article">
                 <header>
@@ -84,3 +89,5 @@ class BlogArticle extends LitElement {
         `
     }
 }
+
+
