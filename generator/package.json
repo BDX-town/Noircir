@@ -7,6 +7,7 @@
   "dependencies": {
     "@11ty/eleventy": "^2.0.1",
     "@lit-labs/eleventy-plugin-lit": "^1.0.5",
+    "debounce": "^2.2.0",
     "glob": "^10.3.10",
     "xss": "^1.0.15"
   },

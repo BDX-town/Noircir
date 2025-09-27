@@ -64,13 +64,6 @@ class BlogArticle extends LitElement {
             flex-direction: column;
             gap: calc(var(--spacing-4) * 1.5);
         }
-
-        .blog-article>main {
-            display: flex;
-            gap: var(--spacing-4);
-            flex-wrap: wrap;
-            justify-content: center;
-        }
     `
 
     render() {

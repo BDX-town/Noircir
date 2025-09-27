@@ -7494,7 +7494,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debounce@npm:^2.0.0":
+"debounce@npm:^2.0.0, debounce@npm:^2.2.0":
   version: 2.2.0
   resolution: "debounce@npm:2.2.0"
   checksum: 684536fe9a04c9eea46cf02f119f69aa4071813ba25b9b43370e1503ea60b34fd38d694c7145fa2be504f9d40e7e39354cb9ed155c70954a0eefa391aefe271c
@@ -9567,6 +9567,7 @@ __metadata:
   dependencies:
     "@11ty/eleventy": "npm:^2.0.1"
     "@lit-labs/eleventy-plugin-lit": "npm:^1.0.5"
+    debounce: "npm:^2.2.0"
     glob: "npm:^10.3.10"
     xss: "npm:^1.0.15"
   languageName: unknown

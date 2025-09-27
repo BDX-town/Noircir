@@ -57,6 +57,7 @@ class Index extends LitElement {
 
 
     render() {
+        console.log('coucou')
         return html`
             <section class="blog-index">
                 <header>

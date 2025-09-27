@@ -1,6 +1,7 @@
 
 const { sanitize, escapeForHtmlAttr } = require('./../misc/utils')
-class Style {
+const { generate } = require('./index.11ty')
+class Article {
     data() {
         return {
             templateEngineOverride: "11ty.js, md",
@@ -8,6 +9,7 @@ class Style {
     }
 
     async render(props) {
+        generate(this.renderFile.bind(this), props)
         const article = {
             title: props.title,
             description: props.description,
@@ -41,4 +43,4 @@ class Style {
     }
 }
 
-module.exports = Style;
+module.exports = Article;

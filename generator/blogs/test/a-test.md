@@ -16,7 +16,7 @@ La playlist:&#x20;
 
 # The Grassland Sinners
 
-\<img height="300px" src="https://plume.bdx.town/static/media/F095C0D5-808D-AE0E-A4FB-9FE747BF7C13.jpg" />
+<img height="300px" src="https://plume.bdx.town/static/media/F095C0D5-808D-AE0E-A4FB-9FE747BF7C13.jpg" />
 
 Se présente comme un groupe de Rock'n'soul'n'blues'n'groove'n'indie basé à Barcelone.
 
@@ -26,7 +26,7 @@ Lien vers leur site: [http://www.grasslandsinners.com/](http://www.grasslandsinn
 
 # Ottis cœur
 
-\<img src="https://plume.bdx.town/static/media/380BFFA0-734E-BA35-EAF0-F004623C73A9.png" height="300px"  />
+<img src="https://plume.bdx.town/static/media/380BFFA0-734E-BA35-EAF0-F004623C73A9.png" height="300px"  />
 
 Groupe de Garage Rock parisien et exclusivement féminin. \*Labrador\* donne la pêche.
 
@@ -36,7 +36,7 @@ Lien vers leur instagram: [https://www.instagram.com/ottiscoeur/](https://www.in
 
 # The Moon City Masters
 
-\<img src="https://plume.bdx.town/static/media/BF1E175C-23F6-9C18-174A-2ED4E8D292B7.jpeg" height="300px" />
+<img src="https://plume.bdx.town/static/media/BF1E175C-23F6-9C18-174A-2ED4E8D292B7.jpeg" height="300px" />
 
 Deux jumeaux identiques avec une esthétique très Glam et très rétro. D'aucuns diraient que c'est pas très original, mais ça donne quand même bien.&#x20;
 
@@ -46,7 +46,7 @@ Lien vers leur site: [https://www.mooncitymasters.com/](https://www.mooncitymast
 
 # Syd Carter West&#x20;
 
-\<img src="https://plume.bdx.town/static/media/2F4C7B96-1F4B-984E-7E9A-075AF1CCD4E5.jpeg" height="300px" />
+<img src="https://plume.bdx.town/static/media/2F4C7B96-1F4B-984E-7E9A-075AF1CCD4E5.jpeg" height="300px" />
 
 Une artiste à la voix grave et puissante, donnant dans le Blues Rock. Formation classique à l'opéra et ça se sent. &#x20;
 
@@ -56,7 +56,7 @@ Lien vers son site: [https://sydcarterwest.com/](https://sydcarterwest.com/)
 
 # Larkin Poe
 
-\<img src="https://plume.bdx.town/static/media/027CF5CC-4586-A1B8-5C21-73BE656E0908.jpg" height="300px" />
+<img src="https://plume.bdx.town/static/media/027CF5CC-4586-A1B8-5C21-73BE656E0908.jpg" height="300px" />
 
 Deux descendantes d'Edgar Allan Poe (si si, c'est sur leur site) produisant du rock fortement teinté du sud des Etats-Unis.&#x20;
 
@@ -66,7 +66,7 @@ Lien vers leur site: [https://www.larkinpoe.com/](https://www.larkinpoe.com/)
 
 # Bolivard&#x20;
 
-\<img src="https://plume.bdx.town/static/media/824A76DD-C012-CFF2-6007-65827FBC51E8.jpg" height="300px" />
+<img src="https://plume.bdx.town/static/media/824A76DD-C012-CFF2-6007-65827FBC51E8.jpg" height="300px" />
 
 L'autre français d'la sélection, c'est le seul à ne pas produire une variante de rock. Certainement le plus intéressant dans sa démarche également, visiblement axée autour de plusieurs personnages.&#x20;
 
