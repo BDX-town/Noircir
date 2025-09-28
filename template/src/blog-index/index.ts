@@ -31,9 +31,11 @@ class Index extends LitElement {
             padding-right: var(--spacing-4);
 
             max-width: 750px;
-            margin: auto;
+            margin-left: auto;
+            margin-right: auto;
 
             display: flex;
+            flex-grow: 1;
             flex-direction: column;
             gap: calc(var(--spacing-4) * 1.5);
 
@@ -49,9 +51,14 @@ class Index extends LitElement {
 
         .blog-index>main {
             display: flex;
+            flex-grow: 1;
             gap: var(--spacing-4);
             flex-wrap: wrap;
             justify-content: center;
+        }
+
+        blog-background {
+            position: absolute;
         }
     `
 

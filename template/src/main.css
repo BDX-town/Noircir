@@ -30,6 +30,7 @@
 
 
 body {
+    margin: 0;
     font-family: var(--font-primary);
     font-weight: 400;
     font-size: 16px;
@@ -37,4 +38,14 @@ body {
     color: var(--grey-500);
 
     background-color: white;
+
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+blog-index {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
