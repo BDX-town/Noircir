@@ -1,6 +1,5 @@
 
 const { sanitize, escapeForHtmlAttr } = require('./../misc/utils')
-const { generate } = require('./index.11ty')
 class Article {
     data() {
         return {
@@ -9,7 +8,6 @@ class Article {
     }
 
     async render(props) {
-        generate(this.renderFile.bind(this), props)
         const article = {
             title: props.title,
             description: props.description,

@@ -1,14 +1,5 @@
 const path = require('path')
-const fs = require('fs')
-const debounce = require('debounce')
 const { escapeForHtmlAttr } = require('./../misc/utils')
-
-async function generate(renderFile, data) {
-  const blogPath = path.dirname(path.dirname(data.page.outputPath));
-  // we only keep articles from current blog
-  const res = await renderFile(__filename, { collections: { articles: data.collections.articles.filter((a) => a.page.outputPath.startsWith(blogPath)) } });
-  fs.writeFileSync(path.join(blogPath, "index.html"), res);
-}
 
 class Index {
   data() {
@@ -18,7 +9,11 @@ class Index {
   }
 
   render(data) {
-    const articles = data.collections.articles.map((props) => ({
+    const blogPath = path.dirname(path.dirname(data.page.outputPath));
+
+    const articles = data.collections.all
+    .filter((a) => a.page.outputPath.startsWith(blogPath))
+    .map((props) => ({
       title: props.data.title,
       description: props.data.description,
       coverUrl: props.data.cover,
@@ -27,9 +22,9 @@ class Index {
     }))
 
     const blog = {
-      title: data.collections.articles[0].data.blogName,
-      coverUrl: data.collections.articles[0].data.blogCover,
-      description: data.collections.articles[0].data.blogDescription
+      title: data.collections.all[0].data.blogName,
+      coverUrl: data.collections.all[0].data.blogCover,
+      description: data.collections.all[0].data.blogDescription
     }
 
     const r = `
@@ -49,7 +44,5 @@ class Index {
     return r;
   }
 }
-
-Index.generate = debounce(generate, 500);
 
 module.exports = Index;
