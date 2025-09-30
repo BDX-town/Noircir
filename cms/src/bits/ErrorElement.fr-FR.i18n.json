@@ -1,8 +1,0 @@
-{
-    "ErrorElement": {
-        "offline": {
-            "title": "Vous devez vous reconnecter à internet pour accéder à cet écran.",
-            "description": "Noircir est capable de fonctionner hors ligne, néanmoins, un écran doit au moins avoir été visité une fois pour pouvoir être utilisé hors ligne."
-        }
-    }
-}
