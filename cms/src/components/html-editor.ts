@@ -25,6 +25,7 @@ const actions = [
 
 @customElement('html-editor')
 export default class MdEditor extends LitElement {
+    static formAssociated = true;
 
     static styles = css`
         #editor {
@@ -59,7 +60,14 @@ export default class MdEditor extends LitElement {
         htmlContent: "html-content-here"
     }
 
-    onChange(value: string) {
+    internals: ElementInternals
+
+    constructor() {
+        super();
+        this.internals = this.attachInternals()
+    }
+
+    private onChange = (value: string) => {
         const event = new CustomEvent("change", {
             bubbles: true,
             cancelable: true,
@@ -69,6 +77,9 @@ export default class MdEditor extends LitElement {
             }
         })
         this.dispatchEvent(event)
+        const data = new FormData()
+        data.set('htmlContent', value)
+        this.internals.setFormValue(data)
     }
 
     firstUpdated() {
@@ -82,6 +93,9 @@ export default class MdEditor extends LitElement {
         })
 
         editor.content.innerHTML = this.article.htmlContent
+        const data = new FormData()
+        data.set('htmlContent', this.article.htmlContent)
+        this.internals.setFormValue(data)
     }
 
     render() {

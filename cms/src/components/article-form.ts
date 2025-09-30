@@ -1,11 +1,15 @@
 import { LitElement, html, css } from "lit";
 import { property, customElement } from "lit/decorators.js";
 import { parse } from 'marked'
+import turndown from 'turndown'
 
 import './html-editor'
 import './meta-data'
 import type { HTMLArticle, MDArticle } from "../types";
 
+
+
+const turndownService = new turndown()
 @customElement('article-form')
 export default class ArticleForm extends LitElement {
 
@@ -42,8 +46,18 @@ export default class ArticleForm extends LitElement {
     onSubmit(e: SubmitEvent) {
         e.preventDefault()
         const data = new FormData(e.target as HTMLFormElement)
-        console.log(e.target)
-        console.log(data)
+        const result: MDArticle = Object.keys(this.article).reduce((acc: any, curr) => {
+            const value = data.get(curr)
+            if(value === null) return acc;
+            acc[curr] = value
+            return acc
+        }, this.article)
+        result.draft = data.get('draft') ? true : false
+        const markdown = turndownService.turndown(data.get('htmlContent') as string)
+        result.mdContent = markdown
+        this.article = result
+        console.log(this.article)
+
     }
 
     render() {
@@ -56,9 +70,7 @@ export default class ArticleForm extends LitElement {
                     : ''
                 }
                 <button type="submit">
-                    ${
-                        this.article.draft ? "Enregistrer le brouillon" : "Publier l'article"
-                    }
+                    ${this.article.draft ? "Enregistrer le brouillon" : "Publier l'article"}
                 </button>
             </form>
         `

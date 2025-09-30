@@ -1,4 +1,4 @@
-import { html, css, LitElement } from 'lit'
+import { html, css, LitElement, type PropertyValues } from 'lit'
 import { property, customElement } from 'lit/decorators.js'
 import type { Article } from '../types'
 
@@ -11,15 +11,15 @@ import type { Article } from '../types'
 
 @customElement('meta-data')
 export default class MetaData extends LitElement {
-    static shadowRootOptions = { ...LitElement.shadowRootOptions, mode: 'open' as const, formAssociated: true }
+    static formAssociated = true;
     static styles? = css`
-        .root {
+        #root {
             display: flex;
             flex-direction: column;
             gap: var(--spacing-2);
         }
 
-        .root > formgroup {
+        #root > formgroup {
             display: flex;
             gap: var(--spacing-2);
         }
@@ -47,16 +47,27 @@ export default class MetaData extends LitElement {
         title: "<title-here>",
     }
 
-    connectedCallback(): void {
-        super.connectedCallback();
-        this.attachInternals()
+    internals: ElementInternals;
+
+    constructor() {
+        super();
+        this.internals = this.attachInternals();
     }
 
+    protected firstUpdated(): void {
+        const root = this.shadowRoot?.getElementById("root");
+        const data = new FormData(root as HTMLFormElement)
+        this.internals.setFormValue(data)
+    }
 
+    private onChange(e: Event): void {
+        const data = new FormData(e.currentTarget as HTMLFormElement)
+        this.internals.setFormValue(data)
+    }
 
     render() {
         return html`
-            <formgroup class="root">
+            <form id='root' @change=${this.onChange}>
                 <formgroup>
                     <label>
                         Titre:
@@ -78,7 +89,7 @@ export default class MetaData extends LitElement {
                     </label>
            
                 </formgroup>
-            </formgroup>
+            </form>
         `
     }
 }
