@@ -4,6 +4,11 @@ import { DefaultArticle, type Article } from '../types';
 import { Router } from '@vaadin/router';
 import { deleteArticle } from '../services/articles';
 
+
+export type DeleteArticleEvent = {
+    detail: Article
+}
+
 @customElement('article-item')
 export default class ArticleItem extends LitElement {
 
@@ -22,8 +27,6 @@ export default class ArticleItem extends LitElement {
     @property({ type: Object })
     article: Article = DefaultArticle
 
-    private requestReloadEvent: CustomEvent = new CustomEvent('request-reload');
-
     constructor() {
         super();
     }
@@ -38,7 +41,7 @@ export default class ArticleItem extends LitElement {
         if(!result) return;
         // TODO: handle errors
         await deleteArticle(this.article)
-        this.dispatchEvent(this.requestReloadEvent)
+        this.dispatchEvent(new CustomEvent('delete-article', { bubbles: true, cancelable: true, composed: true, detail: this.article }))
     }
 
     render() {

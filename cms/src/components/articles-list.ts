@@ -40,6 +40,7 @@ export default class ArticlesList extends LitElement {
     @property({ type: Boolean, reflect: true})
     expanded = true
 
+
     constructor() {
         super();
         this.fetchArticles()
@@ -76,7 +77,7 @@ export default class ArticlesList extends LitElement {
             </div>
             <ul>
                 ${
-                    this.articles.map((a) => html`<article-item .article=${a} @request-reload=${this.fetchArticles}></article-item>`)
+                    this.articles.map((a) => html`<article-item .article=${a} @delete-article=${this.fetchArticles}></article-item>`)
                 }
             </ul>
             <button @click=${this.onWrite} type="button">Ecrire</button>

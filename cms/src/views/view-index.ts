@@ -8,6 +8,7 @@ import { DefaultArticle, type Article, type Blog } from "../types";
 import { Router } from "@vaadin/router";
 import { fetchArticles } from "../services/articles";
 import { fetchBlog as fetchBlogService } from "../services/blog";
+import type { DeleteArticleEvent } from "../components/article-item";
 
 @customElement('view-index')
 export default class ViewIndex extends LitElement {
@@ -79,10 +80,16 @@ export default class ViewIndex extends LitElement {
         this.article = article;
     }
 
+    onDeleteArticle(e: DeleteArticleEvent) {
+        if(e.detail.id === this.article?.id) {
+            Router.go('/')
+        }
+    }
+
 
     render() {
         return html`
-            <articles-list></articles-list>
+            <articles-list @delete-article=${this.onDeleteArticle}></articles-list>
             ${
                 this.article ? html`<article-form .article=${this.article}></article-form>` : 'Chargement...'
             }
