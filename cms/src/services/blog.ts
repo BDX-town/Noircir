@@ -6,7 +6,6 @@ import type { Blog } from "../types";
 export async function getBlog(stat: FileStat): Promise<Blog> {
     const raw = await client.getFileContents(stat.filename, { format: "text" }) as string;
     const json = JSON.parse(raw)
-    console.log(json)
     return {
         cover: json.blogCover,
         description: json.blogDescription,

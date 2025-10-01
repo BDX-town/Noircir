@@ -5,7 +5,7 @@ import { Router } from '@vaadin/router';
 import { deleteArticle } from '../services/articles';
 
 
-export type DeleteArticleEvent = {
+export type DeleteArticleEvent = CustomEvent & {
     detail: Article
 }
 
@@ -41,7 +41,7 @@ export default class ArticleItem extends LitElement {
         if(!result) return;
         // TODO: handle errors
         await deleteArticle(this.article)
-        this.dispatchEvent(new CustomEvent('delete-article', { bubbles: true, cancelable: true, composed: true, detail: this.article }))
+        this.dispatchEvent(new CustomEvent('delete-article', { bubbles: true, cancelable: true, composed: true, detail: this.article }) as DeleteArticleEvent)
     }
 
     render() {
