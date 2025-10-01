@@ -13,6 +13,10 @@ export default class ArticleItem extends LitElement {
             align-items: center;
             gap: var(--spacing-2);
         }
+
+        span {
+            flex-grow: 1;
+        }
     `
 
     @property({ type: Object })

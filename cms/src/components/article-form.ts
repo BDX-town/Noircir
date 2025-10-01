@@ -13,7 +13,23 @@ import { Router } from "@vaadin/router";
 export default class ArticleForm extends LitElement {
 
     static styles = css`
-    
+        :host {
+            display: flex;
+            flex-direction: column;
+        }
+
+        :host > form {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-3);
+        }
+
+        html-editor {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
     `
 
     @property({ type: "Object" })

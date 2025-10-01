@@ -11,11 +11,11 @@ export type Article = {
 
 export const DefaultArticle = {
     id: '',
-    cover: "<cover-here>",
+    cover: "",
     createdAt: new Date(),
     updatedAt: new Date(),
-    description: "<description-here>",
-    draft: false,
-    title: "<title-here>",
-    htmlContent: "html-content-here"
+    description: "",
+    draft: true,
+    title: "",
+    htmlContent: ""
 } as const

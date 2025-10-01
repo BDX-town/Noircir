@@ -28,8 +28,15 @@ export default class MdEditor extends LitElement {
     static formAssociated = true;
 
     static styles = css`
+        :host {
+            display: flex;
+            flex-grow: 1;
+            flex-direction: column;
+        }
+
         #editor {
             display: flex;
+            flex-grow: 1;
             flex-direction: column;
             min-height: 200px;
         }
