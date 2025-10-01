@@ -29,7 +29,7 @@ const mutations = {
     'createdAt': (d: Date) => ({ 'createdAt': d.toISOString() }),
     'updatedAt': (d: Date) => ({ 'updatedAt': d.toISOString() }),
 } as Record<string, (d: any) => Record<string, string>>
-export async function saveArticle(article: Article) {
+export async function saveArticle(article: Article): Promise<Article | null> {
     // TODO: validate input
     let newlyCreated = !article.id
     if(!article.id) {
@@ -60,7 +60,18 @@ export async function saveArticle(article: Article) {
     const content = matter.stringify(mdContent, parsed);
     console.log(content)
     // we dont want to erase an existing file while creating a new one
-    return client.putFileContents(article.id, content, { overwrite: !newlyCreated })
+    // the / at beginning is mandatory to avoid errors
+    const result = await client.putFileContents(`/${article.id}`, content, { overwrite: !newlyCreated })
+    if(result) {
+        return article
+    } 
+    return null
+}
+
+export async function deleteArticle(article: Article) {
+    // TODO: check inputs
+    // the / at beginning is mandatory to avoid errors
+    return client.deleteFile(`/${article.id}`)
 }
 
 export async function findArticles() {

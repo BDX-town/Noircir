@@ -1,6 +1,6 @@
 import { html, css, LitElement, type PropertyValues } from 'lit'
 import { property, customElement } from 'lit/decorators.js'
-import type { Article } from '../types'
+import { DefaultArticle, type Article } from '../types'
 
 // title: "Découvertes n°1 - Les robots rêvent-ils de guitares éléctriques ?"
 // description: "Les robots rêvent-ils de guitares éléctriques ?"
@@ -38,16 +38,9 @@ export default class MetaData extends LitElement {
     `
 
     @property({ type: "Object" })
-    article: Article = {
-        cover: "<cover-here>",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        description: "<description-here>",
-        draft: false,
-        title: "<title-here>",
-    }
+    article: Article = DefaultArticle
 
-    internals: ElementInternals;
+    private internals: ElementInternals;
 
     constructor() {
         super();
@@ -63,6 +56,8 @@ export default class MetaData extends LitElement {
     private onChange(e: Event): void {
         const data = new FormData(e.currentTarget as HTMLFormElement)
         this.internals.setFormValue(data)
+        const event = new CustomEvent('edit', { bubbles: true,cancelable: true, composed: true, detail: data })
+        this.dispatchEvent(event)
     }
 
     render() {

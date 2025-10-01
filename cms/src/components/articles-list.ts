@@ -18,7 +18,7 @@ export default class ArticlesList extends LitElement {
     `
 
     @property({ type: Array})
-    articles: Article[] = []
+    articles: Article[] | undefined
 
     constructor() {
         super();
@@ -26,6 +26,7 @@ export default class ArticlesList extends LitElement {
     }
 
     async fetchArticles() {
+        this.articles = undefined
         const articles = await findArticles()
         this.articles = articles
     }
@@ -35,11 +36,14 @@ export default class ArticlesList extends LitElement {
     }
 
     render() {
+        // TODO: handle loading
+        if(!this.articles) return html`Chargement...`
+
         return html`
             <button @click=${this.onWrite} type="button">Ecrire</button>
             <ul>
                 ${
-                    this.articles.map((a) => html`<article-item .article=${a}></article-item>`)
+                    this.articles.map((a) => html`<article-item .article=${a} @request-reload=${this.fetchArticles}></article-item>`)
                 }
             </ul>
         `
