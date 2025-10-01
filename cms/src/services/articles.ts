@@ -22,6 +22,47 @@ export async function getArticle(stat: FileStat): Promise<Article> {
     }
 }
 
+
+const mutations = {
+    'id': () => ({}),
+    'htmlContent': (c: string) => ({ 'mdContent': turndownService.turndown(c)}),
+    'createdAt': (d: Date) => ({ 'createdAt': d.toISOString() }),
+    'updatedAt': (d: Date) => ({ 'updatedAt': d.toISOString() }),
+} as Record<string, (d: any) => Record<string, string>>
+export async function saveArticle(article: Article) {
+    // TODO: validate input
+    let newlyCreated = !article.id
+    if(!article.id) {
+        // we are creating a new file 
+        article.id = `${article.title}-${new Date().getTime()}.md`
+    }
+
+    if(!article.id.endsWith('.md')) throw new Error('Illegal file id');
+
+    const parsed = Object.keys(article).reduce((acc: any, cur) => {
+        const curr = cur as keyof Article;
+        if(mutations[curr]) {
+            return {
+                ...acc,
+                ...(mutations[curr](article[curr]))
+            }
+        } else {
+            return {
+                ...acc, 
+                [curr]: article[curr]
+            }
+        }
+    }, {})
+
+    const { mdContent } = parsed;
+    delete parsed.mdContent;
+
+    const content = matter.stringify(mdContent, parsed);
+    console.log(content)
+    // we dont want to erase an existing file while creating a new one
+    return client.putFileContents(article.id, content, { overwrite: !newlyCreated })
+}
+
 export async function findArticles() {
     const filedefs = (await client.getDirectoryContents("/") as FileStat[])
         .filter((f) => f.type === "file" && f.filename.endsWith('.md'))

@@ -4,6 +4,7 @@ import { property, customElement } from "lit/decorators.js";
 import './html-editor'
 import './meta-data'
 import { DefaultArticle, type Article } from "../types";
+import { saveArticle } from "../services/articles";
 
 
 
@@ -34,8 +35,8 @@ export default class ArticleForm extends LitElement {
         result.draft = data.get('draft') ? true : false
         result.htmlContent = data.get('htmlContent') as string
         this.article = result
-        console.log(this.article)
-
+        // TODO: handle rror
+        saveArticle(result)
     }
 
     render() {
