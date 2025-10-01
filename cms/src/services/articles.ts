@@ -11,6 +11,7 @@ export async function getArticle(stat: FileStat): Promise<Article> {
     const raw = await client.getFileContents(stat.filename, { format: "text" }) as string;
     const { data, content } = matter(raw)
     return {
+        id: stat.basename,
         createdAt: new Date(data.createdAt),
         cover: data.cover, 
         description: data.description,
@@ -24,6 +25,7 @@ export async function getArticle(stat: FileStat): Promise<Article> {
 export async function findArticles() {
     const filedefs = (await client.getDirectoryContents("/") as FileStat[])
         .filter((f) => f.type === "file" && f.filename.endsWith('.md'))
+    // TODO: can be cached here to avoid retrieveing unmodified articles 
     const files = await Promise.all(filedefs
         .map((f) => getArticle(f)
     ))

@@ -1,4 +1,5 @@
 export type Article = {
+    id: string,
     title: string, 
     description: string,
     cover?: string,
@@ -9,6 +10,7 @@ export type Article = {
 }
 
 export const DefaultArticle = {
+    id: '',
     cover: "<cover-here>",
     createdAt: new Date(),
     updatedAt: new Date(),

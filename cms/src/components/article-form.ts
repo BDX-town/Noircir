@@ -3,7 +3,7 @@ import { property, customElement } from "lit/decorators.js";
 
 import './html-editor'
 import './meta-data'
-import type { Article } from "../types";
+import { DefaultArticle, type Article } from "../types";
 
 
 
@@ -15,15 +15,7 @@ export default class ArticleForm extends LitElement {
     `
 
     @property({ type: "Object" })
-    article: Article = {
-        cover: "<cover-here>",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        description: "<description-here>",
-        draft: false,
-        title: "<title-here>",
-        htmlContent: "html-content-here"
-    }
+    article: Article = DefaultArticle;
 
     connectedCallback() {
         super.connectedCallback()

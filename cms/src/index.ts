@@ -4,12 +4,15 @@ import {Router} from '@vaadin/router';
 
 import './components/html-editor'
 import './components/meta-data'
+import './components/article-edit'
 import './components/article-form'
 import './components/articles-list'
 
 const ROUTES = [
     {path: '/', component: 'articles-list'},
     {path: '/write', component: 'article-form'},
+    {path: '/write/:basename', component: 'article-edit'},
+    {path: '/not-foud', component: 'not-found'} // TODO: implement
 ]
 
 
