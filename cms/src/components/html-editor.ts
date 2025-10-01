@@ -3,7 +3,7 @@ import {
 } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import pell, { type pellAction } from 'pell'
-import type { HTMLArticle } from '../types'
+import { DefaultArticle, type Article } from '../types'
 
 
 const actions = [
@@ -50,15 +50,7 @@ export default class MdEditor extends LitElement {
         }
     `
     @property({ type: "Object" })
-    article: HTMLArticle = {
-        cover: "<cover-here>",
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        description: "<description-here>",
-        draft: false,
-        title: "<title-here>",
-        htmlContent: "html-content-here"
-    }
+    article: Article = DefaultArticle
 
     internals: ElementInternals
 

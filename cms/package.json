@@ -9,12 +9,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vaadin/router": "^2.0.0",
+    "gray-matter": "^4.0.3",
     "lit": "^3.3.1",
     "marked": "^16.3.0",
-    "pell": "^1.0.6"
+    "pell": "^1.0.6",
+    "turndown": "^7.2.1",
+    "vite-plugin-node-polyfills": "^0.24.0",
+    "webdav": "^5.8.0"
   },
   "devDependencies": {
     "@types/pell": "^1.0.4",
+    "@types/turndown": "^5.0.5",
     "typescript": "~5.8.3",
     "vite": "^7.1.7"
   }

@@ -5,13 +5,15 @@ export type Article = {
     createdAt: Date,
     updatedAt: Date,
     draft: boolean,
-}
-
-export type HTMLArticle = Article & {
     htmlContent: string,
 }
 
-
-export type MDArticle = Article & {
-    mdContent: string,
-}
+export const DefaultArticle = {
+    cover: "<cover-here>",
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    description: "<description-here>",
+    draft: false,
+    title: "<title-here>",
+    htmlContent: "html-content-here"
+} as const
