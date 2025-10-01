@@ -1,5 +1,5 @@
 import type { FileStat } from "webdav";
-import { client } from "./client";
+import { client, getBlogContent } from "./client";
 import matter from 'gray-matter';
 import type { Article } from "../types";
 import { parse} from 'marked'
@@ -58,14 +58,13 @@ export async function saveArticle(article: Article): Promise<Article | null> {
     delete parsed.mdContent;
 
     const content = matter.stringify(mdContent, parsed);
-    console.log(content)
     // we dont want to erase an existing file while creating a new one
     // the / at beginning is mandatory to avoid errors
     const result = await client.putFileContents(`/${article.id}`, content, { overwrite: !newlyCreated })
     if(result) {
         return article
     } 
-    return null
+    throw new Error('Unable to save article')
 }
 
 export async function deleteArticle(article: Article) {
@@ -74,8 +73,8 @@ export async function deleteArticle(article: Article) {
     return client.deleteFile(`/${article.id}`)
 }
 
-export async function findArticles() {
-    const filedefs = (await client.getDirectoryContents("/") as FileStat[])
+export async function fetchArticles() {
+    const filedefs = (await getBlogContent())
         .filter((f) => f.type === "file" && f.filename.endsWith('.md'))
     // TODO: can be cached here to avoid retrieveing unmodified articles 
     const files = await Promise.all(filedefs

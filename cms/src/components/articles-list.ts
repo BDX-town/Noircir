@@ -1,7 +1,7 @@
 import { html, css, LitElement} from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import type { Article } from '../types';
-import { findArticles } from '../services/articles';
+import { fetchArticles } from '../services/articles';
 import { Router } from '@vaadin/router'
 
 import './article-item'
@@ -19,12 +19,14 @@ export default class ArticlesList extends LitElement {
 
         :host > button:last-of-type {
             width: 100%;
+            position: sticky;
+            bottom: var(--spacing-2);
         }
 
 
         ul {
             margin: 0;
-            padding: 0;
+            padding: var(--spacing-2);
             display: flex;
             flex-grow: 1;
             flex-direction: column;
@@ -46,7 +48,7 @@ export default class ArticlesList extends LitElement {
     async fetchArticles() {
         this.articles = undefined
         // TODO: handle errors
-        const articles = await findArticles()
+        const articles = await fetchArticles()
         this.articles = articles
     }
 
@@ -61,7 +63,7 @@ export default class ArticlesList extends LitElement {
     render() {
         if(!this.expanded) {
             return html`
-                <button @click=${this.onExpand} type="button">&gt;&gt;</button>
+                <div><button @click=${this.onExpand} type="button">&gt;&gt;</button></div>
             `
         }
 
@@ -69,7 +71,9 @@ export default class ArticlesList extends LitElement {
         if(!this.articles) return html`Chargement...`
 
         return html`
-            <button @click=${this.onExpand} type="button">&lt;&lt;</button>
+            <div>
+                <button @click=${this.onExpand} type="button">&lt;&lt;</button>
+            </div>
             <ul>
                 ${
                     this.articles.map((a) => html`<article-item .article=${a} @request-reload=${this.fetchArticles}></article-item>`)

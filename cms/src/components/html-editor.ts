@@ -55,6 +55,10 @@ export default class MdEditor extends LitElement {
             flex-grow: 1;
             border: 1px solid black;
         }
+
+        .pell-content img {
+            max-width: 100%;
+        }
     `
     @property({ type: "Object" })
     article: Article = DefaultArticle

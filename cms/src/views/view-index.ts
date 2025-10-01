@@ -3,9 +3,11 @@ import { property, customElement } from "lit/decorators.js";
 
 import '../components/article-form'
 import '../components/articles-list'
-import { DefaultArticle, type Article } from "../types";
+import './../components/blog-form'
+import { DefaultArticle, type Article, type Blog } from "../types";
 import { Router } from "@vaadin/router";
-import { findArticles } from "../services/articles";
+import { fetchArticles } from "../services/articles";
+import { fetchBlog as fetchBlogService } from "../services/blog";
 
 @customElement('view-index')
 export default class ViewIndex extends LitElement {
@@ -20,27 +22,45 @@ export default class ViewIndex extends LitElement {
             gap: var(--spacing-2);
         }
 
-        articles-list {
+        articles-list, blog-form {
             padding: var(--spacing-2);
-            position: sticky;
-            top: var(--spacing-2);
         }
+
 
         articles-list[expanded] {
             min-width: 400px;
         }
 
+        blog-form[expanded] {
+            min-width: 300px;
+        }
+
         article-form {
             flex-grow: 1;
+            flex-shrink: 1;
+            min-width: 0;
         }
     `
-    @property({ type: Object })
+    @property({ type: Object, attribute: false })
     article: Article | undefined;
+
+
+    @property({ type: Object, attribute: false })
+    blog: Blog | undefined;
 
     connectedCallback(): void {
         super.connectedCallback();
         const { basename } = this.location.params;
         this.fetchArticle(basename)
+        this.fetchBlog()
+    }
+
+    async fetchBlog() {
+        const blog = await fetchBlogService()
+        if(!blog) {
+            Router.go('/not-found')
+        }
+        this.blog = blog;
     }
 
     async fetchArticle(basename: string) {
@@ -50,10 +70,10 @@ export default class ViewIndex extends LitElement {
             return;
         }
         // TODO: handle errors 
-        const articles = await findArticles();
+        const articles = await fetchArticles();
         const article = articles.find((a) => a.id === basename)
         if (!article) {
-            Router.go('not-found')
+            Router.go('/not-found')
             return;
         }
         this.article = article;
@@ -65,6 +85,9 @@ export default class ViewIndex extends LitElement {
             <articles-list></articles-list>
             ${
                 this.article ? html`<article-form .article=${this.article}></article-form>` : 'Chargement...'
+            }
+            ${
+                this.blog ? html`<blog-form .blog=${this.blog}></blog-form>` : "Chargement..."
             }
         `
     }
