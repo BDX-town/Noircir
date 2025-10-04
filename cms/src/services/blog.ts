@@ -1,9 +1,11 @@
 import type { FileStat } from "webdav";
-import { client, getBlogContent } from "./client";
+import { client, getBlogContent, NOT_AUTHENTICATED_ERROR } from "./client";
 import type { Blog } from "../types";
+import { AppError } from "../utils/error";
 
 
 export async function getBlog(stat: FileStat): Promise<Blog> {
+    if(!client) throw new AppError(NOT_AUTHENTICATED_ERROR)
     const raw = await client.getFileContents(stat.filename, { format: "text" }) as string;
     const json = JSON.parse(raw)
     return {
@@ -22,6 +24,7 @@ const mutations = {
     'description': (v) => ({ blogDescription: v }),
 } as Record<string, (d: any) => Record<string, string>>
 export async function saveBlog(blog: Blog) {
+    if(!client) throw new AppError(NOT_AUTHENTICATED_ERROR)
     // TODO: check input
 
     const parsed = Object.keys(blog).reduce((acc: any, cur) => {

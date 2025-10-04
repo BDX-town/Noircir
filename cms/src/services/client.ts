@@ -3,7 +3,7 @@ import { AppError, declareError, type ErrorDefinition } from "../utils/error";
 
 let client: WebDAVClient | undefined = undefined
 
-
+export const NOT_AUTHENTICATED_ERROR = declareError({ fatal: false, translationKey: "Vous devez être connecté pour réaliser cette opération"})
 export const BAD_CREDENTIALS_ERROR: ErrorDefinition = declareError({ translationKey: "Impossible de se connecter avec ces identifiants", fatal: false })
 export async function connect(username: string, password: string) {
     // TODO: yes this is bad
@@ -35,7 +35,7 @@ export function init() {
     return connect(username, password)
 }
 
-export function getBlogContent(c: WebDAVClient): Promise<FileStat[]> {
+export function getBlogContent(c: WebDAVClient | undefined = undefined): Promise<FileStat[]> {
     const currentClient = c || client
     if(!currentClient) throw new Error("Client is not initialized")
     // TODO: can be cached here to avoid retrieveing unmodified content 

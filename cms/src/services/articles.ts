@@ -1,13 +1,15 @@
 import type { FileStat } from "webdav";
-import { client, getBlogContent } from "./client";
+import { client, getBlogContent, NOT_AUTHENTICATED_ERROR } from "./client";
 import matter from 'gray-matter';
 import type { Article } from "../types";
 import { parse} from 'marked'
 
 import turndown from 'turndown'
+import { AppError } from "../utils/error";
 const turndownService = new turndown()
 
 export async function getArticle(stat: FileStat): Promise<Article> {
+    if(!client) throw new AppError(NOT_AUTHENTICATED_ERROR)
     const raw = await client.getFileContents(stat.filename, { format: "text" }) as string;
     const { data, content } = matter(raw)
     return {
@@ -30,6 +32,7 @@ const mutations = {
     'updatedAt': (d: Date) => ({ 'updatedAt': d.toISOString() }),
 } as Record<string, (d: any) => Record<string, string>>
 export async function saveArticle(article: Article): Promise<Article | null> {
+    if(!client) throw new AppError(NOT_AUTHENTICATED_ERROR)
     // TODO: validate input
     let newlyCreated = !article.id
     if(!article.id) {
@@ -68,6 +71,7 @@ export async function saveArticle(article: Article): Promise<Article | null> {
 }
 
 export async function deleteArticle(article: Article) {
+    if(!client) throw new AppError(NOT_AUTHENTICATED_ERROR)
     // TODO: check inputs
     // the / at beginning is mandatory to avoid errors
     return client.deleteFile(`/${article.id}`)

@@ -22,9 +22,9 @@ class Index {
     }))
 
     const blog = {
-      title: data.collections.all[0].data.blogName,
-      coverUrl: data.collections.all[0].data.blogCover,
-      description: data.collections.all[0].data.blogDescription
+      title: data.blogName,
+      coverUrl: data.blogCover,
+      description: data.blogDescription
     }
 
     const r = `

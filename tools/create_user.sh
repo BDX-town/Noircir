@@ -34,6 +34,12 @@ TOKEN=$(echo -n "$USERNAME:$RAW_PASSWORD" | base64)
 
 mkdir -p "$NGINX_FOLDER/$BLOGS_FOLDER/$USERNAME/$RESSOURCES_FOLDER"
 echo '{ "blogName": "blog name", "blogDescription": "blog description", "blogCover": null, "lang": "fr-FR" }' > "$NGINX_FOLDER/$BLOGS_FOLDER/$USERNAME/$USERNAME.json"
+echo '---
+eleventyExcludeFromCollections: true
+layout: index.11ty.js
+---
+ 
+' > "$NGINX_FOLDER/$BLOGS_FOLDER/$USERNAME/index.md"
 echo "$USERNAME:$PASSWORD" > "$NGINX_FOLDER/$BLOGS_FOLDER/$USERNAME/.auth.allow"
 chown -R "$WWW_USER:$WWW_GROUP" "$NGINX_FOLDER/$BLOGS_FOLDER"
 chmod -R g+w "$NGINX_FOLDER/$BLOGS_FOLDER"
