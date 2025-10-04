@@ -43,11 +43,16 @@ export default class AppRouter extends LitElement {
 
     connectedCallback(): void {
         super.connectedCallback();
-        init();
+        this.tryConnect()
+    }
+
+    async tryConnect() {
+        await init();
         this.onConnect(); // we check if the connexion from stored data worked
     }
 
     onConnect() {
+        console.log('connect', client)
         if(client) {
             this.routes = [...LOGGED_ROUTES, ...COMMON_ROUTES]
         }

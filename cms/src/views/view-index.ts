@@ -57,6 +57,7 @@ export default class ViewIndex extends LitElement {
     }
 
     async fetchBlog() {
+        // TODO: handle errors 
         const blog = await fetchBlogService()
         if(!blog) {
             Router.go('/not-found')

@@ -1,42 +1,55 @@
-import { LitElement, html, css  } from "lit";
+import { html, css } from "lit";
 import { customElement } from "lit/decorators.js";
 import { connect } from "../services/client";
+import { AppError, LitElementWithErrorHandling } from "../utils/error";
 
 @customElement('view-login')
-export default class ViewLogin extends LitElement {
+export default class ViewLogin extends LitElementWithErrorHandling {
 
-    static styles = css`
-        :host {
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            justify-content: center;
-            align-items: center;
-        }
+    static styles =
+        css`
+            ${LitElementWithErrorHandling.styles}
 
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-3);
-        }
+            :host {
+                display: flex;
+                flex-direction: column;
+                flex-grow: 1;
+                justify-content: center;
+                align-items: center;
+                gap: var(--spacing-2);
+            }
 
-        input {
-            display: block;
-        }
-    `
+            form {
+                display: flex;
+                flex-direction: column;
+                gap: var(--spacing-3);
+            }
+
+            input {
+                display: block;
+            }
+        `
 
     static ConnectEvent = new CustomEvent('connect', { bubbles: true, cancelable: true, composed: true })
 
-    onSubmit(e: Event) {
+    async onSubmit(e: Event) {
         e.preventDefault();
-        const data = new FormData(e.currentTarget as HTMLFormElement)
-        connect(data.get('username') as string, data.get('password') as string)
-        e.currentTarget?.dispatchEvent(ViewLogin.ConnectEvent)
+        const { currentTarget } = e;
+        const data = new FormData(currentTarget as HTMLFormElement)
+        try {
+            await connect(data.get('username') as string, data.get('password') as string)
+            currentTarget?.dispatchEvent(ViewLogin.ConnectEvent)
+        } catch (e) {
+            console.error(e)
+            this.error = e as AppError;
+        }
     }
 
 
     render() {
+        const error = super.render()
         return html`
+            ${error}
             <form @submit=${this.onSubmit}>
                 <label>
                     Nom d'utilisateur:
