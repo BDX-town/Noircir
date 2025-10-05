@@ -79,7 +79,7 @@ export async function deleteArticle(article: Article) {
 
 export async function fetchArticles() {
     const filedefs = (await getBlogContent())
-        .filter((f) => f.type === "file" && f.filename.endsWith('.md'))
+        .filter((f) => f.type === "file" && f.filename.endsWith('.md') && f.basename !== "index.md")
     // TODO: can be cached here to avoid retrieveing unmodified articles 
     const files = await Promise.all(filedefs
         .map((f) => getArticle(f)

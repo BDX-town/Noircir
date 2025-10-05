@@ -4,6 +4,7 @@ import {Router} from '@vaadin/router';
 
 import './views/view-index'
 import './views/view-login'
+import './views/view-invite'
 import { client, init } from './services/client';
 
 const LOGGED_ROUTES = [
@@ -17,6 +18,7 @@ const NOT_LOGGED_ROUTES = [
 ]
 
 const COMMON_ROUTES = [
+    {path: '/invite/:token', component: 'view-invite'},
     {path: '/not-foud', component: 'not-found'} // TODO: implement
 ]
 

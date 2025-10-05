@@ -42,7 +42,7 @@ export async function saveBlog(blog: Blog) {
         }
     }, {})
 
-    const result = await client.putFileContents(`/${import.meta.env.VITE_USERNAME}.json`, JSON.stringify(parsed))
+    const result = await client.putFileContents(`/${client.username}.json`, JSON.stringify(parsed))
     if(!result) throw new Error('Unable to save blog')
     return blog
 }

@@ -21,12 +21,14 @@ export class AppError extends Error implements ErrorDefinition {
     id: any;
     fatal: boolean;
     translationKey: string;
+    details?: Error;
 
-    constructor(definition: ErrorDefinition, options?: any) {
+    constructor(definition: ErrorDefinition, details?: Error, options?: any) {
         super(definition.translationKey, options) // TODO: handle translation
         this.id = definition.id
         this.fatal = definition.fatal
         this.translationKey = definition.translationKey
+        this.details = details
     }
 }
 
