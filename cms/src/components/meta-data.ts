@@ -13,26 +13,36 @@ import { DefaultArticle, type Article } from '../types'
 export default class MetaData extends LitElement {
     static formAssociated = true;
     static styles? = css`
-        #root {
+        * {
+            box-sizing: border-box;
+        }
+        form {
             display: flex;
             flex-direction: column;
             gap: var(--spacing-2);
         }
 
-        #root > formgroup {
+        form > fieldset {
             display: flex;
             gap: var(--spacing-2);
+            border: 0;
+            padding: 0;
+        }
+
+        form > fieldset > label {
+            flex-grow: 1;
+            display: block;
         }
 
         input, textarea {
             display: block;
         }
 
-        textarea {
+        input:not([type=checkbox]), textarea {
             width: 100%;
         }
 
-        formgroup:last-of-type > label {
+        fieldset:last-of-type > label {
             flex-grow: 1;
         }
     `
@@ -62,28 +72,36 @@ export default class MetaData extends LitElement {
 
     render() {
         return html`
-            <form id='root' @change=${this.onChange}>
-                <formgroup>
+            <form @change=${this.onChange}>
+                <fieldset>
                     <label>
-                        Titre:
+                        <span>
+                            Titre:
+                        </span>
                         <input name="title" required value=${this.article.title} />
                     </label>
                     <label>
-                        Couverture: 
+                        <span>
+                            Couverture: 
+                        </span>
                         <input name="cover" value=${this.article.cover} />
                     </label>
                     <label>
-                        Brouillon
+                        <span>
+                            Brouillon
+                        </span>
                         <input name="draft" type="checkbox" ?checked=${this.article.draft} />
                     </label>
-                </formgroup>
-                <formgroup>
+                </fieldset>
+                <fieldset>
                     <label>
-                        Description: 
+                        <span>
+                            Description: 
+                        </span>
                         <textarea required name="description">${this.article.description}</textarea>
                     </label>
            
-                </formgroup>
+                </fieldset>
             </form>
         `
     }

@@ -37,7 +37,8 @@ export async function saveArticle(article: Article): Promise<Article | null> {
     let newlyCreated = !article.id
     if(!article.id) {
         // we are creating a new file 
-        article.id = `${article.title}-${new Date().getTime()}.md`
+        const id = `${article.title.replace(/[^\w\s]/gi, '-').replace(/ /g, '-')}-${new Date().getTime()}`
+        article.id = encodeURIComponent(`${id}.md`)
     }
 
     if(!article.id.endsWith('.md')) throw new Error('Illegal file id');

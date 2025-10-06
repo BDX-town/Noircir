@@ -32,7 +32,7 @@ export default class ArticleItem extends LitElement {
     }
 
     onEdit() {
-        Router.go('/write/' + this.article.id)
+        Router.go('/write/' + encodeURIComponent(this.article.id))
     }
 
     async onDelete() {

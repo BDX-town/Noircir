@@ -45,6 +45,11 @@ export default class MdEditor extends LitElement {
             padding: var(--spacing-2);
             display: flex;
             gap: var(--spacing-2);
+
+            position: sticky;
+            top: 0;
+            background: white;
+            border: 1px solid gray;
         }
 
         .pell-actionbar > button {
@@ -53,7 +58,10 @@ export default class MdEditor extends LitElement {
 
         .pell-content {
             flex-grow: 1;
-            border: 1px solid black;
+            border: 1px solid grey;
+            border-top: 0px;
+            padding-left: var(--spacing-3);
+            padding-right: var(--spacing-3);
         }
 
         .pell-content img {
