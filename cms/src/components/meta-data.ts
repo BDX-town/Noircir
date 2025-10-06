@@ -2,12 +2,7 @@ import { html, css, LitElement } from 'lit'
 import { property, customElement } from 'lit/decorators.js'
 import { DefaultArticle, type Article } from '../types'
 
-// title: "Découvertes n°1 - Les robots rêvent-ils de guitares éléctriques ?"
-// description: "Les robots rêvent-ils de guitares éléctriques ?"
-// cover: "https://noircir.bdx.town/blogs/clovis/ressources/1000007217.png.webp"
-// createdAt: "2024-04-11T17:34:03.811Z"
-// updatedAt: "2024-10-18T23:14:52.131Z"
-// draft: true
+import './input-image'
 
 @customElement('meta-data')
 export default class MetaData extends LitElement {
@@ -16,22 +11,34 @@ export default class MetaData extends LitElement {
         * {
             box-sizing: border-box;
         }
+
         form {
             display: flex;
+            gap: var(--spacing-2);
+            align-items: center;
+        }
+
+        form > div {
+            flex-grow: 1;
+            display: flex; 
             flex-direction: column;
             gap: var(--spacing-2);
         }
 
-        form > fieldset {
+        fieldset {
             display: flex;
             gap: var(--spacing-2);
             border: 0;
             padding: 0;
         }
 
-        form > fieldset > label {
+        fieldset > label {
             flex-grow: 1;
             display: block;
+        }
+
+        fieldset > label.checkbox {
+            flex-grow: 0;
         }
 
         input, textarea {
@@ -58,7 +65,7 @@ export default class MetaData extends LitElement {
     }
 
     protected firstUpdated(): void {
-        const root = this.shadowRoot?.getElementById("root");
+        const root = this.shadowRoot?.querySelector('form');
         const data = new FormData(root as HTMLFormElement)
         this.internals.setFormValue(data)
     }
@@ -73,36 +80,34 @@ export default class MetaData extends LitElement {
     render() {
         return html`
             <form @change=${this.onChange}>
-                <fieldset>
-                    <label>
-                        <span>
-                            Titre:
-                        </span>
-                        <input name="title" required value=${this.article.title} />
-                    </label>
-                    <label>
-                        <span>
-                            Couverture: 
-                        </span>
-                        <input name="cover" value=${this.article.cover} />
-                    </label>
-                    <label>
-                        <span>
-                            Brouillon
-                        </span>
-                        <input name="draft" type="checkbox" ?checked=${this.article.draft} />
-                    </label>
-                </fieldset>
-                <fieldset>
-                    <label>
-                        <span>
-                            Description: 
-                        </span>
-                        <textarea required name="description">${this.article.description}</textarea>
-                    </label>
-           
-                </fieldset>
+                <div>
+                    <fieldset>
+                        <label>
+                            <span>
+                                Titre:
+                            </span>
+                            <input name="title" required value=${this.article.title} />
+                        </label>
+                        <label class="checkbox">
+                            <span>
+                                Brouillon
+                            </span>
+                            <input name="draft" type="checkbox" ?checked=${this.article.draft} />
+                        </label>
+                    </fieldset>
+                    <fieldset>
+                        <label>
+                            <span>
+                                Description: 
+                            </span>
+                            <textarea required name="description">${this.article.description}</textarea>
+                        </label>
+                    </fieldset>
+                </div>
+                <input-image>Couverture</input-image>
             </form>
         `
     }
 }
+
+// <input name="cover" value=${this.article.cover} />
