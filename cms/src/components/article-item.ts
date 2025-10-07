@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js'
 import { DefaultArticle, type Article } from '../types';
 import { Router } from '@vaadin/router';
 import { deleteArticle } from '../services/articles';
+import { client } from '../services/client';
 
 
 export type DeleteArticleEvent = CustomEvent & {
@@ -35,6 +36,15 @@ export default class ArticleItem extends LitElement {
         Router.go('/write/' + encodeURIComponent(this.article.id))
     }
 
+    onSee() {
+        const a = document.createElement('a')
+        a.target = "_blank"
+        a.href = `${import.meta.env.VITE_SERVER}/${client?.username}/${encodeURIComponent(this.article.id.replace('.md', ''))}`
+        document.body.appendChild(a)
+        a.click();
+        document.body.removeChild(a)
+    }
+
     async onDelete() {
         // TODO: enable revert
         const result = window.confirm(`Êtes-vous sûrs de vouloir supprimer ${this.article.title} ?`)
@@ -47,6 +57,7 @@ export default class ArticleItem extends LitElement {
     render() {
         return html`
             <span>${this.article.title}</span>
+            <button type="button" @click=${this.onSee}>Voir</button>
             <button type="button" @click=${this.onEdit}>Editer</button>
             <button type="button" @click=${this.onDelete}>Supprimer</button>
         `
