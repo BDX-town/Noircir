@@ -1,6 +1,7 @@
 import type { FileStat } from "webdav";
 import { client, getBlogContent, NOT_AUTHENTICATED_ERROR } from "./client";
 import matter from 'gray-matter';
+import yaml from 'js-yaml';
 import type { Article } from "../types";
 import { parse} from 'marked'
 
@@ -8,9 +9,16 @@ import turndown from 'turndown'
 import { AppError } from "../utils/error";
 const turndownService = new turndown()
 
+// Configurer js-yaml pour éviter les littéraux pliés
+const yamlOptions = {
+  lineWidth: Infinity, // Empêche les sauts de ligne automatiques
+  flowLevel: -1, // Désactive le style de bloc
+};
+
 export async function getArticle(stat: FileStat): Promise<Article> {
     if(!client) throw new AppError(NOT_AUTHENTICATED_ERROR)
     const raw = await client.getFileContents(stat.filename, { format: "text" }) as string;
+console.log(raw)
     const { data, content } = matter(raw)
     return {
         id: stat.basename,
@@ -61,7 +69,11 @@ export async function saveArticle(article: Article): Promise<Article | null> {
     const { mdContent } = parsed;
     delete parsed.mdContent;
 
-    const content = matter.stringify(mdContent, parsed);
+    console.log('matter', `*${parsed.cover}*`)
+
+    const content = matter.stringify(mdContent, parsed, { language: 'yaml', lineWidth: -1 });
+
+    console.log('content', content)
     // we dont want to erase an existing file while creating a new one
     // the / at beginning is mandatory to avoid errors
     const result = await client.putFileContents(`/${article.id}`, content, { overwrite: !newlyCreated })

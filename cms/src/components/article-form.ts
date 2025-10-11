@@ -6,6 +6,7 @@ import './meta-data'
 import { DefaultArticle, type Article } from "../types";
 import { saveArticle } from "../services/articles";
 import { Router } from "@vaadin/router";
+import { saveRessource } from "../services/ressources";
 
 
 
@@ -55,8 +56,16 @@ export default class ArticleForm extends LitElement {
 
     async onSubmit(e: SubmitEvent) {
         e.preventDefault()
+
         const newlyCreated = !this.article.title
         const data = new FormData(e.target as HTMLFormElement)
+
+        let cover = data.get('cover') as string | undefined
+        // if cover is data-url then it was changed / not uploaded already
+        if(cover && !cover.startsWith('http')) {
+            cover = await saveRessource(cover)
+        }
+
         const result: Article = Object.keys(this.article).reduce((acc: any, curr) => {
             const value = data.get(curr)
             if(value === null) return acc;
@@ -64,6 +73,8 @@ export default class ArticleForm extends LitElement {
             return acc
         }, this.article)
         result.draft = data.get('draft') ? true : false
+        result.cover = cover
+
         this.article = result
         // TODO: handle error
         const after = await saveArticle(result)

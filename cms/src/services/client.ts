@@ -66,11 +66,11 @@ export async function changePassword(newpass: string) {
     }
 }
 
-export function getBlogContent(c: NoircirClient | undefined = undefined): Promise<FileStat[]> {
+export function getBlogContent(c: NoircirClient | undefined = undefined, path = "/"): Promise<FileStat[]> {
     const currentClient = c || client
     if(!currentClient) throw new Error("Client is not initialized")
     // TODO: can be cached here to avoid retrieveing unmodified content 
-    return currentClient.getDirectoryContents("/") as Promise<FileStat[]>
+    return currentClient.getDirectoryContents(path) as Promise<FileStat[]>
 }
 
 export {

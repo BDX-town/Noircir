@@ -9,6 +9,7 @@ import { Router } from "@vaadin/router";
 import { fetchArticles } from "../services/articles";
 import { fetchBlog as fetchBlogService } from "../services/blog";
 import type { DeleteArticleEvent } from "../components/article-item";
+import { fetchRessources } from "../services/ressources";
 
 @customElement('view-index')
 export default class ViewIndex extends LitElement {

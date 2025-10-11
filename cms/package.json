@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@noble/hashes": "^2.0.1",
     "@vaadin/router": "^2.0.0",
     "gray-matter": "^4.0.3",
     "lit": "^3.3.1",
@@ -16,7 +17,8 @@
     "pell": "^1.0.6",
     "turndown": "^7.2.1",
     "vite-plugin-node-polyfills": "^0.24.0",
-    "webdav": "^5.8.0"
+    "webdav": "^5.8.0",
+    "webp-converter-browser": "^1.0.4"
   },
   "devDependencies": {
     "@types/pell": "^1.0.4",

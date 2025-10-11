@@ -15,7 +15,6 @@ export default class MetaData extends LitElement {
         form {
             display: flex;
             gap: var(--spacing-2);
-            align-items: center;
         }
 
         form > div {
@@ -23,6 +22,12 @@ export default class MetaData extends LitElement {
             display: flex; 
             flex-direction: column;
             gap: var(--spacing-2);
+        }
+
+        form > div > label {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         fieldset {
@@ -45,12 +50,12 @@ export default class MetaData extends LitElement {
             display: block;
         }
 
-        input:not([type=checkbox]), textarea {
-            width: 100%;
+        textarea {
+            flex-grow: 1;
         }
 
-        fieldset:last-of-type > label {
-            flex-grow: 1;
+        input:not([type=checkbox]), textarea {
+            width: 100%;
         }
     `
 
@@ -95,16 +100,14 @@ export default class MetaData extends LitElement {
                             <input name="draft" type="checkbox" ?checked=${this.article.draft} />
                         </label>
                     </fieldset>
-                    <fieldset>
-                        <label>
-                            <span>
-                                Description: 
-                            </span>
-                            <textarea required name="description">${this.article.description}</textarea>
-                        </label>
-                    </fieldset>
+                    <label>
+                        <span>
+                            Description: 
+                        </span>
+                        <textarea required name="description">${this.article.description}</textarea>
+                    </label>
                 </div>
-                <input-image>Couverture</input-image>
+                <input-image name="cover" value=${this.article.cover}>Couverture</input-image>
             </form>
         `
     }

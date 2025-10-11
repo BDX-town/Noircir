@@ -1,12 +1,15 @@
-import { LitElement, html, css } from "lit";
-import { property, customElement } from "lit/decorators.js";
+import { html, css } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { AppError, declareError, LitElementWithErrorHandling } from "../utils/error";
 
 
+const FILE_READ_ERROR = declareError({ fatal: false, translationKey: "Le fichier n'est pas lisible."})
 @customElement('input-image')
-export default class InputImage extends LitElement {
+export default class InputImage extends LitElementWithErrorHandling {
+    static formAssociated = true;
 
     static styles = css`
-        :host {
+        label {
             position: relative;
             display: flex;
             align-items: center;
@@ -34,25 +37,49 @@ export default class InputImage extends LitElement {
         }
     `
 
+    @property({ type: String })
+    public value: string | undefined
+
+    @property({ type: String })
+    public name: string = "input-image"
+
+    private internals: ElementInternals
+
+    constructor() {
+        super();
+        this.internals = this.attachInternals()
+    }
+
     onChange(event: Event) {
-        const files = (event.target as HTMLInputElement).files;
+        this.error = undefined
+        const target = (event.target as HTMLInputElement)
+        const files = target.files;
         if(!files) return;
         const file = files[0]
-        console.log(file)
         // Read the file
         const reader = new FileReader();
         reader.onload = () => {
-            console.log(this.shadowRoot!.querySelector('img'))
-            this.shadowRoot!.querySelector('img')!.src = reader.result as string
+            const data = new FormData()
+            data.set(this.name, reader.result as string)
+            this.internals.setFormValue(data)
+            this.value = reader.result as string
+
+            this.shadowRoot?.dispatchEvent(new Event("change", { bubbles: true, cancelable: true, composed: true }))
         };
+        reader.onerror = () => {
+            this.error = new AppError(FILE_READ_ERROR)
+        }
         reader.readAsDataURL(file)
     }
 
     render() {
+        const error = super.render();
+
         return html`
             <label>
+                ${html`${error}`}
                 <slot></slot>
-                <img />
+                <img src=${this.value} />
                 <input @change=${this.onChange} type="file" accept="image/*" /> 
             </label>
         `
