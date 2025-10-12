@@ -14,7 +14,7 @@ export async function connect(username: string, password: string) {
     localStorage.setItem('NOIRCIR_USERNAME', username)
     localStorage.setItem('NOIRCIR_PASSWORD', password)
     let c = createClient(
-        `${import.meta.env.VITE_SERVER}/${import.meta.env.VITE_BLOGS_FOLDER}/${username}`,
+        `${import.meta.env.SERVER}/${import.meta.env.BLOGS_FOLDER}/${username}`,
         {
             username,
             password
@@ -49,7 +49,7 @@ export function init() {
 export async function changePassword(newpass: string) {
     if(!client) throw new AppError(NOT_AUTHENTICATED_ERROR)
     try {
-        const request = await fetch(`${import.meta.env.VITE_SERVER}/${import.meta.env.VITE_BLOGS_FOLDER}/${client.username}/password`,{
+        const request = await fetch(`${import.meta.env.SERVER}/${import.meta.env.BLOGS_FOLDER}/${client.username}/password`,{
             headers: { 
                 'Authorization': `Basic ${btoa(`${client.username}:${client.password}`)}`
             },

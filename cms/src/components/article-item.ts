@@ -39,7 +39,7 @@ export default class ArticleItem extends LitElement {
     onSee() {
         const a = document.createElement('a')
         a.target = "_blank"
-        a.href = `${import.meta.env.VITE_SERVER}/${client?.username}/${encodeURIComponent(this.article.id.replace('.md', ''))}`
+        a.href = `${import.meta.env.SERVER}/${client?.username}/${encodeURIComponent(this.article.id.replace('.md', ''))}`
         document.body.appendChild(a)
         a.click();
         document.body.removeChild(a)
