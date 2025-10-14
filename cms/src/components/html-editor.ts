@@ -2,8 +2,9 @@ import {
     css, html, LitElement
 } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
-import pell, { type pellAction } from 'pell'
+import pell, { type pellAction, exec } from 'pell'
 import { DefaultArticle, type Article } from '../types'
+import { selectFile } from '../utils/selectFile'
 
 
 const actions = [
@@ -17,7 +18,16 @@ const actions = [
     "olist",
     "ulist",
     "code",
-    "line"
+    "line",
+    {
+      name: 'image',
+      result: async () => {
+        const url = await selectFile()
+        // TODO: handle loading
+        exec('insertImage', url)
+        // TODO: handle error 
+      }
+    },
 ] as pellAction[]
 
 // TODO: implement link

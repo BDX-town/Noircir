@@ -1,6 +1,7 @@
 import { html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { AppError, declareError, LitElementWithErrorHandling } from "../utils/error";
+import { onInputFileChange } from "../utils/selectFile";
 
 
 const FILE_READ_ERROR = declareError({ fatal: false, translationKey: "Le fichier n'est pas lisible."})
@@ -50,26 +51,18 @@ export default class InputImage extends LitElementWithErrorHandling {
         this.internals = this.attachInternals()
     }
 
-    onChange(event: Event) {
+    async onChange(event: Event) {
         this.error = undefined
-        const target = (event.target as HTMLInputElement)
-        const files = target.files;
-        if(!files) return;
-        const file = files[0]
-        // Read the file
-        const reader = new FileReader();
-        reader.onload = () => {
+        try {
+            const img = await onInputFileChange(event)
             const data = new FormData()
-            data.set(this.name, reader.result as string)
+            data.set(this.name, img)
             this.internals.setFormValue(data)
-            this.value = reader.result as string
-
+            this.value = img
             this.shadowRoot?.dispatchEvent(new Event("change", { bubbles: true, cancelable: true, composed: true }))
-        };
-        reader.onerror = () => {
-            this.error = new AppError(FILE_READ_ERROR)
+        } catch (e) {
+            this.error = new AppError(FILE_READ_ERROR, e as Error)
         }
-        reader.readAsDataURL(file)
     }
 
     render() {
