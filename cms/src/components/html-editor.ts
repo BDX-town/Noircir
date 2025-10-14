@@ -5,43 +5,25 @@ import { customElement, property } from 'lit/decorators.js'
 import pell, { type pellAction, exec } from 'pell'
 import { DefaultArticle, type Article } from '../types'
 import { selectFile } from '../utils/selectFile'
+import { AppError, declareError, LitElementWithErrorHandling } from '../utils/error'
 
 
-const actions = [
-    "bold",
-    "italic",
-    "underline",
-    "strikethrough",
-    "heading1",
-    "heading2",
-    "quote",
-    "olist",
-    "ulist",
-    "code",
-    "line",
-    {
-      name: 'image',
-      result: async () => {
-        const url = await selectFile()
-        // TODO: handle loading
-        exec('insertImage', url)
-        // TODO: handle error 
-      }
-    },
-] as pellAction[]
 
 // TODO: implement link
-// TODO: implement image 
 
+
+const UPLOAD_IMAGE_ERROR = declareError({ translationKey: "Une erreur est survenue lors du chargement de votre image", fatal: false })
 @customElement('html-editor')
-export default class MdEditor extends LitElement {
+export default class MdEditor extends LitElementWithErrorHandling {
     static formAssociated = true;
 
     static styles = css`
+        ${LitElementWithErrorHandling.styles}
         :host {
             display: flex;
             flex-grow: 1;
             flex-direction: column;
+            gap: var(--spacing-2);
         }
 
         #editor {
@@ -103,6 +85,36 @@ export default class MdEditor extends LitElement {
         this.internals.setFormValue(data)
     }
 
+    private uploadImage = async () => {
+        try {
+            const url = await selectFile()
+            // TODO: handle loading
+            exec('insertImage', url)
+        } catch(e) {
+            console.error(e)
+            this.error = new AppError(UPLOAD_IMAGE_ERROR, e as Error)
+        }
+
+    }
+
+    private actions = [
+        "bold",
+        "italic",
+        "underline",
+        "strikethrough",
+        "heading1",
+        "heading2",
+        "quote",
+        "olist",
+        "ulist",
+        "code",
+        "line",
+        {
+        name: 'image',
+        result: this.uploadImage
+        },
+    ] as pellAction[]
+
     firstUpdated() {
         if (!this.shadowRoot) return
         const editor = pell.init({
@@ -110,7 +122,7 @@ export default class MdEditor extends LitElement {
             onChange: this.onChange,
             defaultParagraphSeparator: 'p',
             styleWithCSS: false,
-            actions,
+            actions: this.actions,
         })
 
         editor.content.innerHTML = this.article.htmlContent
@@ -120,7 +132,9 @@ export default class MdEditor extends LitElement {
     }
 
     render() {
+        const error = super.render()
         return html`
+            ${error}
             <div id="editor" />
         `
     }
