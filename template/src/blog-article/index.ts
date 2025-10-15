@@ -64,6 +64,18 @@ class BlogArticle extends LitElement {
             flex-direction: column;
             gap: calc(var(--spacing-4) * 1.5);
         }
+
+        .main {
+            h1, h2, h3, h4, h5, h6 {
+                line-height: 1.1;
+            }
+
+            p {
+                line-height: 1.6;
+                letter-spacing: 3%;
+            }
+        
+        }
     `
 
     render() {

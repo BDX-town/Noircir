@@ -28,6 +28,8 @@ export default class ArticleCover extends LitElement {
         }
 
         .cover>img {
+            flex-shrink: 1;
+            min-width: 0;
             object-fit: cover;
             border-radius: var(--spacing-2);
             box-shadow:
@@ -36,6 +38,7 @@ export default class ArticleCover extends LitElement {
         }
 
         .meta {
+            min-width: 30%;
             flex-grow: 1;
             padding-top: var(--spacing-2);
             padding-bottom: var(--spacing-1);
