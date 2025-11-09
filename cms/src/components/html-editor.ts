@@ -6,6 +6,7 @@ import pell, { type pellAction, exec } from 'pell'
 import { DefaultArticle, type Article } from '../types'
 import { selectFile } from '../utils/selectFile'
 import { AppError, declareError, LitElementWithErrorHandling } from '../utils/error'
+import { Styles } from '../styles'
 
 
 
@@ -18,6 +19,7 @@ export default class MdEditor extends LitElementWithErrorHandling {
     static formAssociated = true;
 
     static styles = css`
+        ${Styles}
         ${LitElementWithErrorHandling.styles}
         :host {
             display: flex;
@@ -26,34 +28,39 @@ export default class MdEditor extends LitElementWithErrorHandling {
             gap: var(--spacing-2);
         }
 
-        #editor {
+        div#editor {
             display: flex;
             flex-grow: 1;
             flex-direction: column;
             min-height: 200px;
+            padding: 0;
         }
 
         .pell-actionbar {
             padding: var(--spacing-2);
             display: flex;
             gap: var(--spacing-2);
+            border-top-left-radius: var(--spacing-2);
+            border-top-right-radius: var(--spacing-2);
+            overflow-x: auto;
 
             position: sticky;
             top: 0;
-            background: white;
-            border: 1px solid gray;
+            background: var(--color-tertiary);
+            border-bottom: 1px solid var(--color-secondary);
         }
 
         .pell-actionbar > button {
-            min-width: 30px;
+            min-width: 40px;
+            white-space: nowrap;
         }
 
         .pell-content {
             flex-grow: 1;
-            border: 1px solid grey;
             border-top: 0px;
             padding-left: var(--spacing-3);
             padding-right: var(--spacing-3);
+            font-family: var(--font-secondary);
         }
 
         .pell-content img {

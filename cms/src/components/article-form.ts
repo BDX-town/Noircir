@@ -7,6 +7,7 @@ import { DefaultArticle, type Article } from "../types";
 import { saveArticle } from "../services/articles";
 import { Router } from "@vaadin/router";
 import { saveRessource } from "../services/ressources";
+import { Styles } from "../styles";
 
 
 
@@ -14,6 +15,7 @@ import { saveRessource } from "../services/ressources";
 export default class ArticleForm extends LitElement {
 
     static styles = css`
+        ${Styles}
         :host {
             display: flex;
             flex-direction: column;
@@ -24,6 +26,7 @@ export default class ArticleForm extends LitElement {
             display: flex;
             flex-direction: column;
             gap: var(--spacing-3);
+            padding: var(--spacing-3);
         }
 
         html-editor {
@@ -87,7 +90,7 @@ export default class ArticleForm extends LitElement {
                 <meta-data .article=${this.article}></meta-data>
                 <html-editor .article=${this.article}></html-editor>
                 <button type="submit">
-                    ${this.draft ? "Enregistrer le brouillon" : "Publier l'article"}
+                    〒 ${this.draft ? "Enregistrer le brouillon" : "Publier l'article"}
                 </button>
             </form>
         `

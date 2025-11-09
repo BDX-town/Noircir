@@ -2,16 +2,38 @@ import { css, html, LitElement } from 'lit'
 import { property, customElement } from 'lit/decorators.js'
 import { DefautBlog, type Blog } from '../types'
 import { saveBlog } from '../services/blog'
+import { Styles } from '../styles'
 
 @customElement('blog-form')
 export default class BlogForm extends LitElement {
 
     static styles = css`
+        ${Styles}
+
         :host {
             display: flex;
             flex-direction: column;
             gap: var(--spacing-3);
             align-items: flex-start;
+        }
+
+        div {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2rem;
+            font-family: var(--font-secondary);
+            color: var(--color-secondary);
+        }
+
+        div span::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: var(--color-primary);
+            margin-top: var(--spacing-1);
         }
 
         input, textarea {
@@ -24,7 +46,7 @@ export default class BlogForm extends LitElement {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            gap: var(--spacing-2);
+            gap: var(--spacing-3);
         }
 
         form > label {
@@ -57,11 +79,13 @@ export default class BlogForm extends LitElement {
     }
 
     render() {
-        if (!this.expanded) return html`<button @click=${this.onExpanded} type="button">&lt;&lt;</button>`
-
+        if (!this.expanded) return html`<button @click=${this.onExpanded} type="button">⇐</button>`
 
         return html`
-            <button @click=${this.onExpanded} type="button">&gt;&gt;</button>
+            <div>
+                <button @click=${this.onExpanded} type="button">⇒</button>
+                <span>Blog</span>
+            </div>
             <form @submit=${this.onSubmit}>
                 <label>
                     Nom du blog:
@@ -79,7 +103,7 @@ export default class BlogForm extends LitElement {
                     Handle fediverse:
                     <input name="fediverse" value=${this.blog.fediverse} />
                 </label>
-                <button type='submit'>Mettre à jour</button>
+                <button type='submit'>♺ Mettre à jour</button>
             </form>
         `
     }

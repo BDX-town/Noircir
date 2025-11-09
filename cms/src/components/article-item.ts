@@ -4,6 +4,7 @@ import { DefaultArticle, type Article } from '../types';
 import { Router } from '@vaadin/router';
 import { deleteArticle } from '../services/articles';
 import { client } from '../services/client';
+import { Styles } from '../styles';
 
 
 export type DeleteArticleEvent = CustomEvent & {
@@ -14,14 +15,31 @@ export type DeleteArticleEvent = CustomEvent & {
 export default class ArticleItem extends LitElement {
 
     static styles = css`
+        ${Styles}
+
         :host {
             display: flex;
             align-items: center;
             gap: var(--spacing-2);
         }
 
-        span {
+        button {
+            font-size: 1.2rem;
+            min-width: 45px;
+            max-width: 45px;
+            height: 45px;
+        }
+
+        div {
             flex-grow: 1;
+            font-size: 1.1rem;
+            font-weight: 500;
+            font-family: var(--font-secondary);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            min-width: 0;
+            flex-shrink: 1;
         }
     `
 
@@ -56,10 +74,10 @@ export default class ArticleItem extends LitElement {
 
     render() {
         return html`
-            <span>${this.article.title}</span>
-            <button type="button" @click=${this.onSee}>Voir</button>
-            <button type="button" @click=${this.onEdit}>Editer</button>
-            <button type="button" @click=${this.onDelete}>Supprimer</button>
+            <div>${this.article.title}</div>
+            <button type="button" class="secondary" @click=${this.onSee}>◎</button>
+            <button type="button" class="secondary" @click=${this.onEdit}>✐</button>
+            <button type="button" class="secondary" @click=${this.onDelete}>⌫</button>
         `
     }
 }

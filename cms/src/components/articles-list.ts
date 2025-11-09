@@ -5,11 +5,14 @@ import { fetchArticles } from '../services/articles';
 import { Router } from '@vaadin/router'
 
 import './article-item'
+import { Styles } from '../styles';
 
 @customElement('articles-list')
 export default class ArticlesList extends LitElement {
 
     static styles = css`
+        ${Styles}
+
         :host {
             display: flex;
             flex-direction: column;
@@ -20,17 +23,42 @@ export default class ArticlesList extends LitElement {
         :host > button:last-of-type {
             width: 100%;
             position: sticky;
-            bottom: var(--spacing-2);
+            bottom: var(--spacing-3);
+        }
+
+        div {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2rem;
+            font-family: var(--font-secondary);
+            color: var(--color-secondary);
+        }
+
+        div span::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: var(--color-primary);
+            margin-top: var(--spacing-1);
+        }
+
+        hr {
+            border: 1px dashed var(--color-secondary);
+            width: 100%;
         }
 
 
         ul {
             margin: 0;
+            max-width: 100%;
             padding: var(--spacing-2);
             display: flex;
             flex-grow: 1;
             flex-direction: column;
-            gap: var(--spacing-3);
+            gap: 20px;
         }
     `
 
@@ -64,7 +92,7 @@ export default class ArticlesList extends LitElement {
     render() {
         if(!this.expanded) {
             return html`
-                <div><button @click=${this.onExpand} type="button">&gt;&gt;</button></div>
+                <div><button @click=${this.onExpand} type="button">⇒</button></div>
             `
         }
 
@@ -73,14 +101,15 @@ export default class ArticlesList extends LitElement {
 
         return html`
             <div>
-                <button @click=${this.onExpand} type="button">&lt;&lt;</button>
+                <span>Article(s)</span>
+                <button @click=${this.onExpand} type="button">⇐</button>
             </div>
             <ul>
                 ${
-                    this.articles.map((a) => html`<article-item .article=${a} @delete-article=${this.fetchArticles}></article-item>`)
+                    this.articles.map((a) => html`<article-item .article=${a} @delete-article=${this.fetchArticles}></article-item><hr />`)
                 }
             </ul>
-            <button @click=${this.onWrite} type="button">Ecrire</button>
+            <button @click=${this.onWrite} type="button">𝍌 Ecrire</button>
         `
     }
 }

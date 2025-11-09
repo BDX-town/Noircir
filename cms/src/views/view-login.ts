@@ -2,12 +2,14 @@ import { html, css } from "lit";
 import { customElement } from "lit/decorators.js";
 import { connect } from "../services/client";
 import { AppError, LitElementWithErrorHandling } from "../utils/error";
+import { Styles } from "../styles";
 
 @customElement('view-login')
 export default class ViewLogin extends LitElementWithErrorHandling {
 
     static styles =
         css`
+            ${Styles}
             ${LitElementWithErrorHandling.styles}
 
             :host {
@@ -20,6 +22,16 @@ export default class ViewLogin extends LitElementWithErrorHandling {
             }
 
             form {
+                display: flex;
+                flex-direction: column;
+                gap: var(--spacing-4);
+            }
+
+            form>img {
+                width: 200px;
+            }
+
+            form>div {
                 display: flex;
                 flex-direction: column;
                 gap: var(--spacing-3);
@@ -51,14 +63,17 @@ export default class ViewLogin extends LitElementWithErrorHandling {
         return html`
             ${error}
             <form @submit=${this.onSubmit}>
-                <label>
-                    Nom d'utilisateur:
-                    <input name="username" required />
-                </label>
-                <label>
-                    Mot de passe:
-                    <input name="password" type="password" required />
-                </label>
+                <img src="/noircir.svg" />
+                <div>
+                    <label>
+                        Nom d'utilisateur:
+                        <input name="username" required />
+                    </label>
+                    <label>
+                        Mot de passe:
+                        <input name="password" type="password" required />
+                    </label>
+                </div>
                 <button type="submit">Connexion</button>
             </form>
         `

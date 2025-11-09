@@ -29,7 +29,7 @@ export default class ViewIndex extends LitElement {
 
 
         articles-list[expanded] {
-            min-width: 400px;
+            width: 400px;
         }
 
         blog-form[expanded] {
@@ -39,7 +39,7 @@ export default class ViewIndex extends LitElement {
         article-form {
             flex-grow: 1;
             flex-shrink: 1;
-            min-width: 0;
+            min-width: 300px;
         }
     `
     @property({ type: Object, attribute: false })

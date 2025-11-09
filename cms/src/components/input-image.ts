@@ -2,6 +2,7 @@ import { html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { AppError, declareError, LitElementWithErrorHandling } from "../utils/error";
 import { onInputFileChange } from "../utils/selectFile";
+import { Styles } from "../styles";
 
 
 const FILE_READ_ERROR = declareError({ fatal: false, translationKey: "Le fichier n'est pas lisible."})
@@ -10,14 +11,16 @@ export default class InputImage extends LitElementWithErrorHandling {
     static formAssociated = true;
 
     static styles = css`
+        ${Styles}
         label {
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 120px;
-            width: 120px;
-            border: 1px solid grey;
+            height: 146px;
+            width: 146px;
+            border: 2px solid var(--color-secondary);
+            border-radius: var(--spacing-2);
         }
 
         img:not([src]) {

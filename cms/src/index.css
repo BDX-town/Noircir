@@ -1,20 +1,18 @@
 :root {
-    --color-primary: #f7405f;
+    --color-primary: #6ddbb4;
     --color-primary-h: 348;
     --color-primary-s: 91%;
     --color-primary-l: 61%;
 
-    --color-secondary: #402141;
+    --color-secondary: #070727;
     --color-secondary-h: 300;
     --color-secondary-s: 33%;
     --color-secondary-l: 19%;
 
-    --color-tertiary: #fcc77f;
+    --color-tertiary: #FFF1E3;
     --color-tertiary-h: 35;
     --color-tertiary-s: 97%;
     --color-tertiary-l: 75%;
-    --grey-500: #1c1c1c;
-    --grey-300: #6d6d6d;
 
     --font-primary: "Rubik", sans-serif;
     --font-secondary: "Lato", sans-serif;
@@ -38,4 +36,6 @@ body {
     overflow: auto;
     display: flex; 
     flex-direction: column;
+
+    background-color: var(--color-tertiary);
 }

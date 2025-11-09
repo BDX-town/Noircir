@@ -3,11 +3,14 @@ import { property, customElement } from 'lit/decorators.js'
 import { DefaultArticle, type Article } from '../types'
 
 import './input-image'
+import { Styles } from '../styles';
 
 @customElement('meta-data')
 export default class MetaData extends LitElement {
     static formAssociated = true;
     static styles? = css`
+        ${Styles}
+
         * {
             box-sizing: border-box;
         }
@@ -21,7 +24,7 @@ export default class MetaData extends LitElement {
             flex-grow: 1;
             display: flex; 
             flex-direction: column;
-            gap: var(--spacing-2);
+            gap: var(--spacing-3);
         }
 
         form > div > label {
