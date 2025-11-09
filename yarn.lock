@@ -1930,6 +1930,7 @@ __metadata:
     "@types/pell": "npm:^1.0.4"
     "@types/turndown": "npm:^5.0.5"
     "@vaadin/router": "npm:^2.0.0"
+    debounce: "npm:^2.2.0"
     gray-matter: "npm:^4.0.3"
     lit: "npm:^3.3.1"
     marked: "npm:^16.3.0"

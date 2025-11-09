@@ -11,6 +11,7 @@
   "dependencies": {
     "@noble/hashes": "^2.0.1",
     "@vaadin/router": "^2.0.0",
+    "debounce": "^2.2.0",
     "gray-matter": "^4.0.3",
     "lit": "^3.3.1",
     "marked": "^16.3.0",

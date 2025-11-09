@@ -8,20 +8,39 @@ import turndown from 'turndown'
 import { AppError } from "../utils/error";
 const turndownService = new turndown()
 
+export function createArticleId(article: Article): string {
+    if(!article.title) return "WIP";
+    const id = `${article.title.replace(/[^\w\s]/gi, '-').replace(/ /g, '-')}-${article.createdAt.getTime()}`
+    return encodeURIComponent(`${id}.md`)
+}
+
+export async function parseArticle(rawData: Record<keyof Article, string>): Promise<Article> {
+    return {
+        id: rawData.id,
+        createdAt: new Date(rawData.createdAt),
+        cover: rawData.cover,
+        description: rawData.description,
+        draft: Boolean(rawData.draft),
+        title: rawData.title,
+        updatedAt: new Date(rawData.updatedAt),
+        htmlContent: rawData.htmlContent
+    }
+}
+
 export async function getArticle(stat: FileStat): Promise<Article> {
     if(!client) throw new AppError(NOT_AUTHENTICATED_ERROR)
     const raw = await client.getFileContents(stat.filename, { format: "text" }) as string;
     const { data, content } = matter(raw)
-    return {
+    return parseArticle({
         id: stat.basename,
-        createdAt: new Date(data.createdAt),
+        createdAt: data.createdAt,
         cover: data.cover, 
         description: data.description,
         draft: data.draft,
         title: data.title,
-        updatedAt: new Date(stat.lastmod),
+        updatedAt: stat.lastmod,
         htmlContent: await parse(content)
-    }
+    })
 }
 
 
@@ -37,8 +56,7 @@ export async function saveArticle(article: Article): Promise<Article | null> {
     let newlyCreated = !article.id
     if(!article.id) {
         // we are creating a new file 
-        const id = `${article.title.replace(/[^\w\s]/gi, '-').replace(/ /g, '-')}-${new Date().getTime()}`
-        article.id = encodeURIComponent(`${id}.md`)
+         article.id = createArticleId(article)
     }
 
     if(!article.id.endsWith('.md')) throw new Error('Illegal file id');

@@ -62,12 +62,14 @@ export default class ViewIndex extends LitElement {
         if(!blog) {
             Router.go('/not-found')
         }
+        console.log('set blog')
         this.blog = blog;
     }
 
     async fetchArticle(basename: string) {
         // we are creating a new article 
         if (!basename) {
+            console.log(('set article'))
             this.article = DefaultArticle
             return;
         }
@@ -78,6 +80,7 @@ export default class ViewIndex extends LitElement {
             Router.go('/not-found')
             return;
         }
+            console.log(('set article'))
         this.article = article;
     }
 
@@ -89,6 +92,8 @@ export default class ViewIndex extends LitElement {
 
 
     render() {
+        if(!this.article || !this.blog) return "Chargement..."
+
         return html`
             <articles-list @delete-article=${this.onDeleteArticle}></articles-list>
             ${

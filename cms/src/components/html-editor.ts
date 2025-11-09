@@ -4,7 +4,7 @@ import {
 import { customElement, property } from 'lit/decorators.js'
 import pell, { type pellAction, exec } from 'pell'
 import { DefaultArticle, type Article } from '../types'
-import { selectFile } from '../utils/selectFile'
+import { selectFile } from '../utils/select-file'
 import { AppError, declareError, LitElementWithErrorHandling } from '../utils/error'
 
 

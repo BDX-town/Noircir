@@ -1,7 +1,7 @@
 import { html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { AppError, declareError, LitElementWithErrorHandling } from "../utils/error";
-import { onInputFileChange } from "../utils/selectFile";
+import { onInputFileChange } from "../utils/select-file";
 
 
 const FILE_READ_ERROR = declareError({ fatal: false, translationKey: "Le fichier n'est pas lisible."})

@@ -78,8 +78,8 @@ export default class MetaData extends LitElement {
     private onChange(e: Event): void {
         const data = new FormData(e.currentTarget as HTMLFormElement)
         this.internals.setFormValue(data)
-        const event = new CustomEvent('edit', { bubbles: true,cancelable: true, composed: true, detail: data })
-        this.dispatchEvent(event)
+        const changeEvent = new CustomEvent('change', { bubbles: true,cancelable: true, composed: true, detail: data })
+        this.dispatchEvent(changeEvent)
     }
 
     render() {
