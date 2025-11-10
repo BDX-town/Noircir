@@ -21,17 +21,15 @@ export const Styles = css`
         transform: translateX(-3px) translateY(3px);
     }
 
-    button.secondary, button.pell-button {
+    button.secondary, button.pell-button:not(:last-of-type) {
         box-shadow: -3px 3px 0px var(--color-secondary);
         background: transparent;
         transition: all 0.1s ease;
     }
 
-    button.secondary:hover, button.pell-button:hover {
+    button.secondary:hover, button.pell-button:hover:not(:last-of-type) {
         box-shadow: -1px 1px 0px var(--color-secondary);
     }
-
-
 
     label:has(input), label:has(textarea) {
         font-family: var(--font-secondary);

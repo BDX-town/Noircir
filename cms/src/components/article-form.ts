@@ -44,6 +44,7 @@ export default class ArticleForm extends LitElement {
 
     connectedCallback() {
         super.connectedCallback()
+        this.draft = this.article.draft
     }
 
     onEdit(e: CustomEvent) {
@@ -59,9 +60,11 @@ export default class ArticleForm extends LitElement {
 
     async onSubmit(e: SubmitEvent) {
         e.preventDefault()
+        const form = this.shadowRoot?.querySelector('form')
+        if(!form) return;
 
         const newlyCreated = !this.article.title
-        const data = new FormData(e.target as HTMLFormElement)
+        const data = new FormData(form)
 
         let cover = data.get('cover') as string | undefined
         // if cover is data-url then it was changed / not uploaded already
@@ -88,10 +91,7 @@ export default class ArticleForm extends LitElement {
         return html`
             <form @submit=${this.onSubmit} @edit=${this.onEdit}>
                 <meta-data .article=${this.article}></meta-data>
-                <html-editor .article=${this.article}></html-editor>
-                <button type="submit">
-                    〒 ${this.draft ? "Enregistrer le brouillon" : "Publier l'article"}
-                </button>
+                <html-editor @submit=${this.onSubmit} .article=${this.article}></html-editor>
             </form>
         `
     }

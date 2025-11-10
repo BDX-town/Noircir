@@ -55,6 +55,10 @@ export default class MdEditor extends LitElementWithErrorHandling {
             white-space: nowrap;
         }
 
+        .pell-actionbar > button:last-of-type {
+            margin-left: auto;
+        }
+
         .pell-content {
             flex-grow: 1;
             border-top: 0px;
@@ -104,6 +108,11 @@ export default class MdEditor extends LitElementWithErrorHandling {
 
     }
 
+    private submit = () => {
+        const e = new CustomEvent('submit', { bubbles: true, cancelable: true, composed: true});
+        this.dispatchEvent(e);
+    }
+
     private actions = [
         "bold",
         "italic",
@@ -117,9 +126,14 @@ export default class MdEditor extends LitElementWithErrorHandling {
         "code",
         "line",
         {
-        name: 'image',
-        result: this.uploadImage
+            name: 'image',
+            result: this.uploadImage
         },
+        {
+            name: 'submit',
+            icon: `<div> 〒 Enregistrer</div>`,
+            result: this.submit,
+        }
     ] as pellAction[]
 
     firstUpdated() {
