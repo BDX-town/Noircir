@@ -21,6 +21,10 @@ export const Styles = css`
         transform: translateX(-3px) translateY(3px);
     }
 
+    button.error {
+        background: red;
+    }
+
     button.secondary, button.pell-button:not(:last-of-type) {
         box-shadow: -3px 3px 0px var(--color-secondary);
         background: transparent;

@@ -1,5 +1,6 @@
 import { css, html, LitElement } from "lit";
 import { property } from "lit/decorators.js";
+import { Styles } from "../styles";
 
 export type ErrorDefinition = {
     id: any,
@@ -34,13 +35,16 @@ export class AppError extends Error implements ErrorDefinition {
 
 export class LitElementWithErrorHandling extends LitElement {
     @property({ type: Object })
-    protected error: AppError | undefined
+    protected error: AppError | undefined;
 
     static styles = css`
+        ${Styles}
         .app-error {
-            border: 1px solid red;
-            border-radius: var(--spacing-1);
             padding: var(--spacing-1);
+            font-family: var(--font-secondary);
+            color: var(--color-error);
+            text-align: right;
+            line-height: 1.3;
         }
     `
 

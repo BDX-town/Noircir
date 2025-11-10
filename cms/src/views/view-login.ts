@@ -22,9 +22,14 @@ export default class ViewLogin extends LitElementWithErrorHandling {
             }
 
             form {
+                width: 350px;
                 display: flex;
                 flex-direction: column;
                 gap: var(--spacing-4);
+            }
+
+            label, label input {
+                width: 100%;
             }
 
             form>img {
@@ -61,7 +66,6 @@ export default class ViewLogin extends LitElementWithErrorHandling {
     render() {
         const error = super.render()
         return html`
-            ${error}
             <form @submit=${this.onSubmit}>
                 <img src="/noircir.svg" />
                 <div>
@@ -74,7 +78,10 @@ export default class ViewLogin extends LitElementWithErrorHandling {
                         <input name="password" type="password" required />
                     </label>
                 </div>
-                <button type="submit">Connexion</button>
+                <div>
+                    <button type="submit">Connexion</button>
+                    ${error}
+                </div>
             </form>
         `
     }
