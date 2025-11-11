@@ -15,6 +15,7 @@ const LOGGED_ROUTES = [
 
 const NOT_LOGGED_ROUTES = [
     {path: '/', component: 'view-login'},
+    {path: '/login', component: 'view-login'},
 ]
 
 const COMMON_ROUTES = [
