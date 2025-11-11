@@ -42,19 +42,27 @@ export class LitElementWithErrorHandling extends LitElement {
         .app-error {
             padding: var(--spacing-1);
             font-family: var(--font-secondary);
-            color: var(--color-error);
+            font-weight: 500;
             text-align: right;
             line-height: 1.3;
+            color: var(--color-secondary);
+            position: relative;
+            display: inline;
         }
+
+        .app-error span {
+            color: var(--color-error);
+            font-size: 1.3rem;
+        }
+
     `
 
     render() {
         if(!this.error) return ''
         return html`
             <div class="app-error">
-                ${this.error.message}
+                <span>ε</span> ${this.error.message}
             </div>
         `
     }
-
 }

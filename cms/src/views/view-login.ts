@@ -1,11 +1,15 @@
 import { html, css } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import { connect } from "../services/client";
 import { AppError, LitElementWithErrorHandling } from "../utils/error";
 import { Styles } from "../styles";
+import { wait } from "../utils/wait";
 
 @customElement('view-login')
 export default class ViewLogin extends LitElementWithErrorHandling {
+
+    @property({ type: "Boolean", attribute: false })
+    private loading: Boolean = false;
 
     static styles =
         css`
@@ -50,16 +54,20 @@ export default class ViewLogin extends LitElementWithErrorHandling {
     static ConnectEvent = new CustomEvent('connect', { bubbles: true, cancelable: true, composed: true })
 
     async onSubmit(e: Event) {
+        this.error = undefined;
         e.preventDefault();
         const { currentTarget } = e;
         const data = new FormData(currentTarget as HTMLFormElement)
+        this.loading = true;
+        await wait(1000);
         try {
-            await connect(data.get('username') as string, data.get('password') as string)
+            await connect(data.get('username') as string, data.get('password') as string),
             currentTarget?.dispatchEvent(ViewLogin.ConnectEvent)
         } catch (e) {
             console.error(e)
             this.error = e as AppError;
         }
+        this.loading = false;
     }
 
 
@@ -79,7 +87,7 @@ export default class ViewLogin extends LitElementWithErrorHandling {
                     </label>
                 </div>
                 <div>
-                    <button type="submit">Connexion</button>
+                    <button type="submit" ?aria-busy=${this.loading} ?disabled=${this.loading}>Connexion</button>
                     ${error}
                 </div>
             </form>

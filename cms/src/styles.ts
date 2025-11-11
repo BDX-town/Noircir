@@ -1,6 +1,17 @@
 import { css } from "lit";
 
 export const Styles = css`
+    @keyframes rotate {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+
     * {
         box-sizing: border-box;
     }
@@ -14,11 +25,37 @@ export const Styles = css`
         transition: all 0.2s ease;
         font-weight: 600;
         cursor: pointer;
+        position: relative;
     }
 
     button:hover {
         box-shadow: -2px 2px 0px var(--color-secondary);
         transform: translateX(-3px) translateY(3px);
+    }
+
+    button[disabled] {
+        box-shadow: -2px 2px 0px var(--color-secondary);
+        opacity: 0.8;
+    }
+
+    button[aria-busy] {
+        color: transparent
+    }
+
+    button[aria-busy]::after {
+        content: "↻";
+        animation: 1s linear infinite running rotate;
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: var(--color-secondary);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        font-size: 1.2rem;
+        padding-right: 1.5px;
     }
 
     button.error {
