@@ -1,5 +1,5 @@
 import {
-    css, html, LitElement
+    css, html
 } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import pell, { type pellAction, exec } from 'pell'
@@ -9,11 +9,7 @@ import { AppError, declareError, LitElementWithErrorHandling } from '../utils/er
 import { Styles } from '../styles'
 
 
-
-// TODO: implement link
-
-
-const UPLOAD_IMAGE_ERROR = declareError({ translationKey: "Une erreur est survenue lors du chargement de votre image", fatal: false })
+export const UPLOAD_IMAGE_ERROR = declareError({ translationKey: "Une erreur est survenue lors du chargement de votre image", fatal: false })
 @customElement('html-editor')
 export default class MdEditor extends LitElementWithErrorHandling {
     static formAssociated = true;
@@ -28,6 +24,31 @@ export default class MdEditor extends LitElementWithErrorHandling {
             gap: var(--spacing-2);
         }
 
+        #errors {
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            font-family: var(--font-secondary);
+            color: var(--color-tertiary);
+            font-size: 1.1rem;
+            cursur: pointer;
+        }
+
+        #errors ::slotted(*), #errors>* {
+            background: var(--color-error);
+            padding: var(--spacing-1);
+            padding-top: var(--spacing-2);
+            padding-bottom: var(--spacing-2);
+            border-bottom: 2px solid var(--color-secondary);
+        }
+
+        .app-error {
+            padding: 0;
+            color: inherit;
+            text-align: left;
+        }
+ 
         div#editor {
             display: flex;
             flex-grow: 1;
@@ -42,7 +63,6 @@ export default class MdEditor extends LitElementWithErrorHandling {
             gap: var(--spacing-2);
             border-top-left-radius: var(--spacing-2);
             border-top-right-radius: var(--spacing-2);
-            overflow-x: auto;
 
             position: sticky;
             top: 0;
@@ -70,15 +90,22 @@ export default class MdEditor extends LitElementWithErrorHandling {
         .pell-content img {
             max-width: 100%;
         }
+
+ 
     `
     @property({ type: "Object" })
     article: Article = DefaultArticle
 
     internals: ElementInternals
 
+    observer: MutationObserver;
+
+    errorsNode: HTMLElement | null = null;
+
     constructor() {
         super();
         this.internals = this.attachInternals()
+        this.observer = new MutationObserver(this.onMutation);
     }
 
     private onChange = (value: string) => {
@@ -101,7 +128,7 @@ export default class MdEditor extends LitElementWithErrorHandling {
             const url = await selectFile()
             // TODO: handle loading
             exec('insertImage', url)
-        } catch(e) {
+        } catch (e) {
             console.error(e)
             this.error = new AppError(UPLOAD_IMAGE_ERROR, e as Error)
         }
@@ -109,7 +136,7 @@ export default class MdEditor extends LitElementWithErrorHandling {
     }
 
     private submit = () => {
-        const e = new CustomEvent('submit', { bubbles: true, cancelable: true, composed: true});
+        const e = new CustomEvent('submit', { bubbles: true, cancelable: true, composed: true });
         this.dispatchEvent(e);
     }
 
@@ -136,10 +163,26 @@ export default class MdEditor extends LitElementWithErrorHandling {
         }
     ] as pellAction[]
 
-    firstUpdated() {
-        if (!this.shadowRoot) return
+    onMutation = (mutationList: MutationRecord[]) => {
+        if(!this.errorsNode) return;
+        for (const mutation of mutationList) {
+            if (mutation.type === "childList") {
+                const actions = this.shadowRoot?.querySelector('.pell-actionbar');
+                if(!actions) continue;
+                this.errorsNode.parentElement?.removeChild(this.errorsNode)
+                actions.appendChild(this.errorsNode)
+                this.errorsNode.style.top = `${actions.getBoundingClientRect().height}px`
+            }
+        }
+    }
+
+    watchMutations(el: HTMLElement) {
+        this.observer.observe(el, { childList: true });
+    }
+
+    buildEditor(el: HTMLElement) {
         const editor = pell.init({
-            element: this.shadowRoot?.getElementById('editor') as HTMLElement,
+            element: el,
             onChange: this.onChange,
             defaultParagraphSeparator: 'p',
             styleWithCSS: false,
@@ -152,11 +195,34 @@ export default class MdEditor extends LitElementWithErrorHandling {
         this.internals.setFormValue(data)
     }
 
+
+    firstUpdated() {
+        if (!this.shadowRoot) return
+        const element = this.shadowRoot?.getElementById('editor') as HTMLElement
+        this.watchMutations(element);
+        this.buildEditor(element);
+        this.errorsNode = this.shadowRoot.getElementById('errors') as HTMLElement;
+    }
+
+    disconnectedCallback(): void {
+        this.observer.disconnect();
+    }
+
+    cleanError() {
+        this.error = undefined
+        this.dispatchEvent(new CustomEvent('cleanError', { bubbles: true, cancelable: true, composed: true }))
+    }
+
     render() {
-        const error = super.render()
+        const error = super.render();
+        const divError = error ? html`<div>${error}</div>` : null
         return html`
-            ${error}
-            <div id="editor" />
+            <div id="editor"></div>
+            <div id="errors" @click=${this.cleanError}>
+                ${divError}
+                <slot name="error" />
+            </div>
+           
         `
     }
 }
