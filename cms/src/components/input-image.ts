@@ -5,7 +5,7 @@ import { onInputFileChange } from "../utils/selectFile";
 import { Styles } from "../styles";
 
 
-const FILE_READ_ERROR = declareError({ fatal: false, translationKey: "Le fichier n'est pas lisible."})
+const FILE_READ_ERROR = declareError({ fatal: false, translationKey: "Le fichier n'est pas lisible." })
 @customElement('input-image')
 export default class InputImage extends LitElementWithErrorHandling {
     static formAssociated = true;
@@ -64,7 +64,12 @@ export default class InputImage extends LitElementWithErrorHandling {
             this.value = img
             this.shadowRoot?.dispatchEvent(new Event("change", { bubbles: true, cancelable: true, composed: true }))
         } catch (e) {
-            this.error = new AppError(FILE_READ_ERROR, e as Error)
+            console.error(e);
+            if (e instanceof AppError) {
+                this.error = e;
+            } else {
+                this.error = new AppError(FILE_READ_ERROR, e as Error)
+            }
         }
     }
 

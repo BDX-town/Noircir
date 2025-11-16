@@ -12,7 +12,7 @@ export type DeleteArticleEvent = CustomEvent & {
     detail: Article
 }
 
-const UNABLE_DELETE_ARTICLE_ERROR = declareError({ fatal: false, translationKey: "Impossible de supprimer"})
+const UNABLE_DELETE_ARTICLE_ERROR = declareError({ fatal: false, translationKey: "Impossible de supprimer" })
 
 @customElement('article-item')
 export default class ArticleItem extends LitElementWithErrorHandling {
@@ -54,7 +54,7 @@ export default class ArticleItem extends LitElementWithErrorHandling {
     @property({ type: Object })
     article: Article = DefaultArticle
 
-    @property({ type: "Boolean", attribute: false})
+    @property({ type: "Boolean", attribute: false })
     loading: boolean = false;
 
     constructor() {
@@ -77,7 +77,7 @@ export default class ArticleItem extends LitElementWithErrorHandling {
     async onDelete() {
         // TODO: enable revert
         const result = window.confirm(`Êtes-vous sûrs de vouloir supprimer ${this.article.title} ?`)
-        if(!result) return;
+        if (!result) return;
         this.error = undefined;
         this.loading = true;
         try {
@@ -86,7 +86,11 @@ export default class ArticleItem extends LitElementWithErrorHandling {
         }
         catch (e) {
             console.error(e)
-            this.error = new AppError(UNABLE_DELETE_ARTICLE_ERROR, e as Error)
+            if (e instanceof AppError) {
+                this.error = e;
+            } else {
+                this.error = new AppError(UNABLE_DELETE_ARTICLE_ERROR, e as Error)
+            }
         }
         this.loading = false;
     }

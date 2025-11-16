@@ -101,7 +101,7 @@ export default class MdEditor extends LitElementWithErrorHandling {
     @property({ type: "Object" })
     article: Article = DefaultArticle
 
-    @property({ type: "Boolean"})
+    @property({ type: "Boolean" })
     disabled: Boolean = false;
 
     internals: ElementInternals
@@ -139,7 +139,11 @@ export default class MdEditor extends LitElementWithErrorHandling {
             exec('insertImage', url)
         } catch (e) {
             console.error(e)
-            this.error = new AppError(UPLOAD_IMAGE_ERROR, e as Error)
+            if (e instanceof AppError) {
+                this.error = e;
+            } else {
+                this.error = new AppError(UPLOAD_IMAGE_ERROR, e as Error)
+            }
         }
         this.disabled = false;
 
@@ -174,11 +178,11 @@ export default class MdEditor extends LitElementWithErrorHandling {
     ] as pellAction[]
 
     onMutation = (mutationList: MutationRecord[]) => {
-        if(!this.errorsNode) return;
+        if (!this.errorsNode) return;
         for (const mutation of mutationList) {
             if (mutation.type === "childList") {
                 const actions = this.shadowRoot?.querySelector('.pell-actionbar');
-                if(!actions) continue;
+                if (!actions) continue;
                 this.errorsNode.parentElement?.removeChild(this.errorsNode)
                 actions.appendChild(this.errorsNode)
                 this.errorsNode.style.top = `${actions.getBoundingClientRect().height}px`

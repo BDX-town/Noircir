@@ -12,7 +12,7 @@ import { AppError, declareError, LitElementWithErrorHandling } from "../utils/er
 import { UPLOAD_IMAGE_ERROR } from "./html-editor";
 
 
-const ARTICLE_SAVE_ERROR = declareError({ fatal: false, translationKey: "Une erreur est survenue lors de la sauvegarde de votre article."})
+const ARTICLE_SAVE_ERROR = declareError({ fatal: false, translationKey: "Une erreur est survenue lors de la sauvegarde de votre article." })
 @customElement('article-form')
 export default class ArticleForm extends LitElementWithErrorHandling {
 
@@ -41,10 +41,10 @@ export default class ArticleForm extends LitElementWithErrorHandling {
     @property({ type: "Object" })
     article: Article = DefaultArticle;
 
-    @property({ type: Boolean, attribute: false})
+    @property({ type: Boolean, attribute: false })
     draft: Boolean = DefaultArticle.draft
 
-    @property({type: Boolean, attribute: false})
+    @property({ type: Boolean, attribute: false })
     loading: boolean = false;
 
     connectedCallback() {
@@ -59,14 +59,14 @@ export default class ArticleForm extends LitElementWithErrorHandling {
 
     protected updated(_changedProperties: PropertyValues): void {
         const updatedArticle = _changedProperties.get('article')
-        if(!updatedArticle) return
+        if (!updatedArticle) return
         this.draft = updatedArticle.draft
     }
 
     async onSubmit(e: SubmitEvent) {
         e.preventDefault()
         const form = this.shadowRoot?.querySelector('form')
-        if(!form) return;
+        if (!form) return;
         this.error = undefined
         this.loading = true;
 
@@ -75,22 +75,26 @@ export default class ArticleForm extends LitElementWithErrorHandling {
 
         let cover = data.get('cover') as string | undefined
         // if cover is data-url then it was changed / not uploaded already
-        if(cover && !cover.startsWith('http')) {
+        if (cover && !cover.startsWith('http')) {
             try {
-             cover = await saveRessource(cover)
+                cover = await saveRessource(cover)
             } catch (e) {
                 console.error(e)
-                this.error = new AppError(UPLOAD_IMAGE_ERROR, e as Error)
+                if (e instanceof AppError) {
+                    this.error = e;
+                } else {
+                    this.error = new AppError(UPLOAD_IMAGE_ERROR, e as Error)
+                }
             }
         }
-        if(this.error) {
+        if (this.error) {
             this.loading = false;
             return;
         };
 
         const result: Article = Object.keys(this.article).reduce((acc: any, curr) => {
             const value = data.get(curr)
-            if(value === null) return acc;
+            if (value === null) return acc;
             acc[curr] = value
             return acc
         }, this.article)
@@ -100,10 +104,14 @@ export default class ArticleForm extends LitElementWithErrorHandling {
         try {
             const after = await saveArticle(result)
             this.article = result
-            if(newlyCreated && after) Router.go(`/write/${after.id}`)
+            if (newlyCreated && after) Router.go(`/write/${after.id}`)
         } catch (e) {
             console.error(e)
-            this.error = new AppError(ARTICLE_SAVE_ERROR, e as Error)
+            if (e instanceof AppError) {
+                this.error = e;
+            } else {
+                this.error = new AppError(ARTICLE_SAVE_ERROR, e as Error)
+            }
         }
         this.loading = false;
     }

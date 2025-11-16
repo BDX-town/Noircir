@@ -6,7 +6,7 @@ import { Styles } from '../styles'
 import { AppError, declareError, LitElementWithErrorHandling } from '../utils/error'
 
 
-const UNABLE_BLOG_SAVE_ERROR = declareError({ fatal: false, translationKey: "Une erreur est survenue lors de la sauvegarde des paramètres du blog"})
+const UNABLE_BLOG_SAVE_ERROR = declareError({ fatal: false, translationKey: "Une erreur est survenue lors de la sauvegarde des paramètres du blog" })
 
 @customElement('blog-form')
 export default class BlogForm extends LitElementWithErrorHandling {
@@ -84,7 +84,11 @@ export default class BlogForm extends LitElementWithErrorHandling {
         }
         catch (e) {
             console.error(e);
-            this.error = new AppError(UNABLE_BLOG_SAVE_ERROR, e as Error)
+            if (e instanceof AppError) {
+                this.error = e;
+            } else {
+                this.error = new AppError(UNABLE_BLOG_SAVE_ERROR, e as Error)
+            }
         }
         this.loading = false;
     }

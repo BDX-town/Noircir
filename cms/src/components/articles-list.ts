@@ -1,4 +1,4 @@
-import { html, css, LitElement} from 'lit'
+import { html, css, LitElement } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import type { Article } from '../types';
 import { fetchArticles } from '../services/articles';
@@ -9,7 +9,7 @@ import { Styles } from '../styles';
 import { AppError, declareError, LitElementWithErrorHandling } from '../utils/error';
 
 
-const UNABLE_FETCH_ARTICLES_ERROR = declareError({ fatal: true, translationKey: "Une erreur est survenue lors de la récupération des articles"})
+const UNABLE_FETCH_ARTICLES_ERROR = declareError({ fatal: true, translationKey: "Une erreur est survenue lors de la récupération des articles" })
 @customElement('articles-list')
 export default class ArticlesList extends LitElementWithErrorHandling {
 
@@ -65,10 +65,10 @@ export default class ArticlesList extends LitElementWithErrorHandling {
         }
     `
 
-    @property({ type: Array})
+    @property({ type: Array })
     articles: Article[] | undefined
 
-    @property({ type: Boolean, reflect: true})
+    @property({ type: Boolean, reflect: true })
     expanded = true
 
 
@@ -82,9 +82,13 @@ export default class ArticlesList extends LitElementWithErrorHandling {
         try {
             const articles = await fetchArticles()
             this.articles = articles
-        } catch(e) {
+        } catch (e) {
             console.error(e)
-            this.error = new AppError(UNABLE_FETCH_ARTICLES_ERROR, e as Error)
+            if (e instanceof AppError) {
+                this.error = e;
+            } else {
+                this.error = new AppError(UNABLE_FETCH_ARTICLES_ERROR, e as Error)
+            }
         }
     }
 
@@ -97,26 +101,25 @@ export default class ArticlesList extends LitElementWithErrorHandling {
     }
 
     render() {
-        if(!this.expanded) {
+        if (!this.expanded) {
             return html`
                 <div><button @click=${this.onExpand} type="button">⇒</button></div>
             `
         }
 
         let content = html`<div class="loader">↻</div>`
-        if(this.articles) {
+        if (this.articles) {
             content = html`
                 <ul>
-                    ${
-                        this.articles.map((a) => html`<article-item .article=${a} @delete-article=${this.fetchArticles}></article-item><hr />`)
-                    }
+                    ${this.articles.map((a) => html`<article-item .article=${a} @delete-article=${this.fetchArticles}></article-item><hr />`)
+                }
                 </ul>
                 <button @click=${this.onWrite} type="button">𝍌 Ecrire</button>
             `
         }
 
         const error = super.render();
-        if(error) {
+        if (error) {
             content = error;
         }
 
