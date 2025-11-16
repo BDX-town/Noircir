@@ -11,7 +11,8 @@
     "types"
   ],
   "scripts": {
-    "build": "yarn workspaces foreach -Rpt --from '{cms,template}' run build",
+    "template": "cd template && yarn build",
+    "cms": "cd cms && yarn build",
     "start": "cd generator && yarn start"
   },
   "packageManager": "yarn@4.0.2",

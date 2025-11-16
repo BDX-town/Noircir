@@ -1,4 +1,4 @@
-import { html, css, LitElement } from 'lit'
+import { html, css } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import type { Article } from '../types';
 import { fetchArticles } from '../services/articles';
