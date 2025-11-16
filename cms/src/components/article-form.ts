@@ -44,6 +44,9 @@ export default class ArticleForm extends LitElementWithErrorHandling {
     @property({ type: Boolean, attribute: false})
     draft: Boolean = DefaultArticle.draft
 
+    @property({type: Boolean, attribute: false})
+    loading: boolean = false;
+
     connectedCallback() {
         super.connectedCallback()
         this.draft = this.article.draft
@@ -62,9 +65,10 @@ export default class ArticleForm extends LitElementWithErrorHandling {
 
     async onSubmit(e: SubmitEvent) {
         e.preventDefault()
-        this.error = undefined
         const form = this.shadowRoot?.querySelector('form')
         if(!form) return;
+        this.error = undefined
+        this.loading = true;
 
         const newlyCreated = !this.article.title
         const data = new FormData(form)
@@ -79,7 +83,10 @@ export default class ArticleForm extends LitElementWithErrorHandling {
                 this.error = new AppError(UPLOAD_IMAGE_ERROR, e as Error)
             }
         }
-        if(this.error) return;
+        if(this.error) {
+            this.loading = false;
+            return;
+        };
 
         const result: Article = Object.keys(this.article).reduce((acc: any, curr) => {
             const value = data.get(curr)
@@ -98,6 +105,7 @@ export default class ArticleForm extends LitElementWithErrorHandling {
             console.error(e)
             this.error = new AppError(ARTICLE_SAVE_ERROR, e as Error)
         }
+        this.loading = false;
     }
 
     cleanError() {
@@ -109,8 +117,8 @@ export default class ArticleForm extends LitElementWithErrorHandling {
         const slottedError = error ? html`<div slot="error">${error}` : ''
         return html`
             <form @submit=${this.onSubmit} @edit=${this.onEdit}>
-                <meta-data .article=${this.article}></meta-data>
-                <html-editor @submit=${this.onSubmit} .article=${this.article} @cleanError=${this.cleanError}>
+                <meta-data ?disabled=${this.loading} .article=${this.article}></meta-data>
+                <html-editor ?disabled=${this.loading} @submit=${this.onSubmit} .article=${this.article} @cleanError=${this.cleanError}>
                     ${slottedError}
                 </html-editor>
             </form>

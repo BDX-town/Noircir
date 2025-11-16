@@ -20,6 +20,11 @@ export default class MetaData extends LitElement {
             gap: var(--spacing-2);
         }
 
+        form[disabled] {
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
         form > div {
             flex-grow: 1;
             display: flex; 
@@ -65,6 +70,9 @@ export default class MetaData extends LitElement {
     @property({ type: "Object" })
     article: Article = DefaultArticle
 
+    @property({ type: "Boolean" })
+    disabled: boolean = false
+
     private internals: ElementInternals;
 
     constructor() {
@@ -87,7 +95,7 @@ export default class MetaData extends LitElement {
 
     render() {
         return html`
-            <form @change=${this.onChange}>
+            <form @change=${this.onChange} ?disabled=${this.disabled}>
                 <div>
                     <fieldset>
                         <label>

@@ -57,6 +57,11 @@ export default class MdEditor extends LitElementWithErrorHandling {
             padding: 0;
         }
 
+        div#editor[disabled] {
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
         .pell-actionbar {
             padding: var(--spacing-2);
             display: flex;
@@ -96,6 +101,9 @@ export default class MdEditor extends LitElementWithErrorHandling {
     @property({ type: "Object" })
     article: Article = DefaultArticle
 
+    @property({ type: "Boolean"})
+    disabled: Boolean = false;
+
     internals: ElementInternals
 
     observer: MutationObserver;
@@ -124,14 +132,16 @@ export default class MdEditor extends LitElementWithErrorHandling {
     }
 
     private uploadImage = async () => {
+        this.disabled = true;
+        this.error = undefined;
         try {
             const url = await selectFile()
-            // TODO: handle loading
             exec('insertImage', url)
         } catch (e) {
             console.error(e)
             this.error = new AppError(UPLOAD_IMAGE_ERROR, e as Error)
         }
+        this.disabled = false;
 
     }
 
@@ -217,7 +227,7 @@ export default class MdEditor extends LitElementWithErrorHandling {
         const error = super.render();
         const divError = error ? html`<div>${error}</div>` : null
         return html`
-            <div id="editor"></div>
+            <div id="editor" ?disabled=${this.disabled}></div>
             <div id="errors" @click=${this.cleanError}>
                 ${divError}
                 <slot name="error" />

@@ -6,9 +6,12 @@ import { Router } from '@vaadin/router'
 
 import './article-item'
 import { Styles } from '../styles';
+import { AppError, declareError, LitElementWithErrorHandling } from '../utils/error';
 
+
+const UNABLE_FETCH_ARTICLES_ERROR = declareError({ fatal: true, translationKey: "Une erreur est survenue lors de la récupération des articles"})
 @customElement('articles-list')
-export default class ArticlesList extends LitElement {
+export default class ArticlesList extends LitElementWithErrorHandling {
 
     static styles = css`
         ${Styles}
@@ -76,9 +79,13 @@ export default class ArticlesList extends LitElement {
 
     async fetchArticles() {
         this.articles = undefined
-        // TODO: handle errors
-        const articles = await fetchArticles()
-        this.articles = articles
+        try {
+            const articles = await fetchArticles()
+            this.articles = articles
+        } catch(e) {
+            console.error(e)
+            this.error = new AppError(UNABLE_FETCH_ARTICLES_ERROR, e as Error)
+        }
     }
 
     onWrite() {
@@ -96,20 +103,29 @@ export default class ArticlesList extends LitElement {
             `
         }
 
-        // TODO: handle loading
-        if(!this.articles) return html`Chargement...`
+        let content = html`<div class="loader">↻</div>`
+        if(this.articles) {
+            content = html`
+                <ul>
+                    ${
+                        this.articles.map((a) => html`<article-item .article=${a} @delete-article=${this.fetchArticles}></article-item><hr />`)
+                    }
+                </ul>
+                <button @click=${this.onWrite} type="button">𝍌 Ecrire</button>
+            `
+        }
+
+        const error = super.render();
+        if(error) {
+            content = error;
+        }
 
         return html`
             <div>
                 <span>Article(s)</span>
                 <button @click=${this.onExpand} type="button">⇐</button>
             </div>
-            <ul>
-                ${
-                    this.articles.map((a) => html`<article-item .article=${a} @delete-article=${this.fetchArticles}></article-item><hr />`)
-                }
-            </ul>
-            <button @click=${this.onWrite} type="button">𝍌 Ecrire</button>
+            ${content}
         `
     }
 }

@@ -5,19 +5,23 @@ import { Router } from '@vaadin/router';
 import { deleteArticle } from '../services/articles';
 import { client } from '../services/client';
 import { Styles } from '../styles';
+import { AppError, declareError, LitElementWithErrorHandling } from '../utils/error';
 
 
 export type DeleteArticleEvent = CustomEvent & {
     detail: Article
 }
 
+const UNABLE_DELETE_ARTICLE_ERROR = declareError({ fatal: false, translationKey: "Impossible de supprimer"})
+
 @customElement('article-item')
-export default class ArticleItem extends LitElement {
+export default class ArticleItem extends LitElementWithErrorHandling {
 
     static styles = css`
         ${Styles}
+        ${LitElementWithErrorHandling.styles}
 
-        :host {
+        :host>div {
             display: flex;
             align-items: center;
             gap: var(--spacing-2);
@@ -30,7 +34,7 @@ export default class ArticleItem extends LitElement {
             height: 45px;
         }
 
-        div {
+        :host > div > div {
             flex-grow: 1;
             font-size: 1.1rem;
             font-weight: 500;
@@ -41,10 +45,17 @@ export default class ArticleItem extends LitElement {
             min-width: 0;
             flex-shrink: 1;
         }
+
+        .app-error {
+            justify-content: flex-end;
+        }
     `
 
     @property({ type: Object })
     article: Article = DefaultArticle
+
+    @property({ type: "Boolean", attribute: false})
+    loading: boolean = false;
 
     constructor() {
         super();
@@ -67,17 +78,29 @@ export default class ArticleItem extends LitElement {
         // TODO: enable revert
         const result = window.confirm(`Êtes-vous sûrs de vouloir supprimer ${this.article.title} ?`)
         if(!result) return;
-        // TODO: handle errors
-        await deleteArticle(this.article)
-        this.dispatchEvent(new CustomEvent('delete-article', { bubbles: true, cancelable: true, composed: true, detail: this.article }) as DeleteArticleEvent)
+        this.error = undefined;
+        this.loading = true;
+        try {
+            await deleteArticle(this.article)
+            this.dispatchEvent(new CustomEvent('delete-article', { bubbles: true, cancelable: true, composed: true, detail: this.article }) as DeleteArticleEvent)
+        }
+        catch (e) {
+            console.error(e)
+            this.error = new AppError(UNABLE_DELETE_ARTICLE_ERROR, e as Error)
+        }
+        this.loading = false;
     }
 
     render() {
+        const error = super.render()
         return html`
-            <div>${this.article.title}</div>
-            <button type="button" class="secondary" @click=${this.onSee}>◎</button>
-            <button type="button" class="secondary" @click=${this.onEdit}>✐</button>
-            <button type="button" class="secondary" @click=${this.onDelete}>⌫</button>
+            <div>
+                <div>${this.article.title}</div>
+                <button type="button" class="secondary" ?disabled=${this.loading} @click=${this.onSee}>◎</button>
+                <button type="button" class="secondary" ?disabled=${this.loading} @click=${this.onEdit}>✐</button>
+                <button type="button" class="secondary" ?aria-busy=${this.loading} ?disabled=${this.loading} @click=${this.onDelete}>⌫</button>
+            </div>
+            ${error}
         `
     }
 }

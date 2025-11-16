@@ -58,6 +58,15 @@ export const Styles = css`
         padding-right: 1.5px;
     }
 
+    .loader {
+        animation: 1s linear infinite running rotate;
+        font-size: 1.2rem;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        padding-right: 1.5px;
+    }
+
     button.error {
         background: red;
     }

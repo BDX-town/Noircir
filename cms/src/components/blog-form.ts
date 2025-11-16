@@ -1,11 +1,15 @@
-import { css, html, LitElement } from 'lit'
+import { css, html } from 'lit'
 import { property, customElement } from 'lit/decorators.js'
 import { DefautBlog, type Blog } from '../types'
 import { saveBlog } from '../services/blog'
 import { Styles } from '../styles'
+import { AppError, declareError, LitElementWithErrorHandling } from '../utils/error'
+
+
+const UNABLE_BLOG_SAVE_ERROR = declareError({ fatal: false, translationKey: "Une erreur est survenue lors de la sauvegarde des paramètres du blog"})
 
 @customElement('blog-form')
-export default class BlogForm extends LitElement {
+export default class BlogForm extends LitElementWithErrorHandling {
 
     static styles = css`
         ${Styles}
@@ -60,8 +64,13 @@ export default class BlogForm extends LitElement {
     @property({ type: Boolean, reflect: true })
     expanded = false
 
+    @property({ type: Boolean, attribute: false })
+    loading: boolean = false
+
     async onSubmit(e: Event) {
         e.preventDefault()
+        this.loading = true;
+        this.error = undefined;
         const data = new FormData(e.target as HTMLFormElement)
         const result: Blog = Object.keys(this.blog).reduce((acc: any, curr) => {
             const value = data.get(curr)
@@ -69,9 +78,15 @@ export default class BlogForm extends LitElement {
             acc[curr] = value
             return acc
         }, this.blog)
-        this.blog = result
-        // TODO: handle error
-        saveBlog(result)
+        try {
+            await saveBlog(result)
+            this.blog = result
+        }
+        catch (e) {
+            console.error(e);
+            this.error = new AppError(UNABLE_BLOG_SAVE_ERROR, e as Error)
+        }
+        this.loading = false;
     }
 
     onExpanded() {
@@ -80,6 +95,8 @@ export default class BlogForm extends LitElement {
 
     render() {
         if (!this.expanded) return html`<button @click=${this.onExpanded} type="button">⇐</button>`
+
+        const error = super.render();
 
         return html`
             <div>
@@ -103,7 +120,8 @@ export default class BlogForm extends LitElement {
                     Handle fediverse:
                     <input name="fediverse" value=${this.blog.fediverse} />
                 </label>
-                <button type='submit'>♺ Mettre à jour</button>
+                <button ?aria-busy=${this.loading} ?disabled=${this.loading} type='submit'>♺ Mettre à jour</button>
+                ${error}
             </form>
         `
     }
