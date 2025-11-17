@@ -79,6 +79,7 @@ export default class BlogForm extends LitElementWithErrorHandling {
             return acc
         }, this.blog)
         try {
+            console.log(result)
             await saveBlog(result)
             this.blog = result
         }
@@ -110,7 +111,7 @@ export default class BlogForm extends LitElementWithErrorHandling {
             <form @submit=${this.onSubmit}>
                 <label>
                     Nom du blog:
-                    <input name="title" required value=${this.blog.name} />
+                    <input name="name" required value=${this.blog.name} />
                 </label>
                 <label>
                     Couverture du blog:
