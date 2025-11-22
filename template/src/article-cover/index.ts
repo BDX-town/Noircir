@@ -24,7 +24,7 @@ export default class ArticleCover extends LitElement {
 
         .cover {
             display: flex;
-            gap: var(--spacing-3);
+            gap: var(--spacing-4);
         }
 
         .cover>img {
@@ -42,7 +42,6 @@ export default class ArticleCover extends LitElement {
             flex-grow: 1;
             padding-top: var(--spacing-2);
             padding-bottom: var(--spacing-1);
-            padding-left: var(--spacing-2);
             padding-right: var(--spacing-2);
             display: flex;
             flex-direction: column;
@@ -92,7 +91,7 @@ export default class ArticleCover extends LitElement {
     render() {
         return html`
             <div class='cover'>
-                <img src=${this.article.coverUrl} />
+                ${this.article.coverUrl ? html`<img src=${this.article.coverUrl} />` : '' }
                 <div class="meta">
                     <h1>${this.article.title}</h1>
                     <p>${this.article.description}</h2>

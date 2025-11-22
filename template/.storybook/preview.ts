@@ -1,5 +1,6 @@
 import type { Preview } from "@storybook/web-components";
 
+// @ts-expect-error no typedef
 import './../src/main.css'
 
 const preview: Preview = {

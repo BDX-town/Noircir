@@ -9,16 +9,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-function Render() {
-    return html`
-        <div style="border: 1px solid black;">
-            <blog-index />
-        </div>
-    `
-}
-
 export const Exemple: Story = {
-    render: Render,
     args: {
         blog: {
             coverUrl: "https://img.freepik.com/premium-photo/cute-3d-clay-stylized-rendered-professional-holding-business-card-light-green-orange_967785-58619.jpg",

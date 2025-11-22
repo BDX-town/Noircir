@@ -4,7 +4,6 @@ import { customElement, property } from "lit/decorators.js";
 import './../blog-logo/index.js'
 import './../article-cover/index.js'
 import './../blog-description/index.js'
-import './../blog-background/index.js'
 import './../blog-footer/index.js'
 import './../article-item/index.js'
 import type { Article, Blog } from "../types.js";
@@ -89,7 +88,6 @@ class BlogArticle extends LitElement {
                     <slot />
                 </main>
                 <blog-footer></blog-footer>
-                <blog-background></blog-background>
             </section>
         `
     }

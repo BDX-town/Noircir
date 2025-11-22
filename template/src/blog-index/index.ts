@@ -3,7 +3,6 @@ import { customElement, property } from "lit/decorators.js";
 
 import './../blog-logo/index.js'
 import './../blog-description/index.js'
-import './../blog-background/index.js'
 import './../blog-footer/index.js'
 import './../article-item/index.js'
 import type { Article, Blog } from "../types.js";
@@ -24,7 +23,7 @@ class Index extends LitElement {
     articles: Article[] = []
 
     static styles = css`
-        .blog-index {
+        :host {
             padding-top: var(--spacing-3);
             padding-bottom: var(--spacing-3);
             padding-left: var(--spacing-4);
@@ -43,44 +42,37 @@ class Index extends LitElement {
             isolation: isolate;
         }
 
-        .blog-index>header {
+
+        header {
             display: flex;
             flex-direction: column;
             gap: calc(var(--spacing-4));
         }
 
-        .blog-index>main {
+        main {
             display: flex;
             flex-grow: 1;
             gap: var(--spacing-4);
             flex-wrap: wrap;
             justify-content: center;
         }
-
-        blog-background {
-            position: absolute;
-        }
     `
 
 
     render() {
-        console.log('coucou')
         return html`
-            <section class="blog-index">
-                <header>
-                    <blog-logo>${this.blog.title}</blog-logo>
-                    <blog-description blog=${JSON.stringify(this.blog)}></blog-description>
-                </header>
-                <main>
-                    ${
-                        this.articles.map((a) => html`
-                            <article-item article=${JSON.stringify(a)}></article-item>
-                        `)
-                    }
-                </main>
-                <blog-footer></blog-footer>
-                <blog-background></blog-background>
-            </section>
+            <header>
+                <blog-logo>${this.blog.title}</blog-logo>
+                <blog-description blog=${JSON.stringify(this.blog)}></blog-description>
+            </header>
+            <main>
+                ${
+                    this.articles.map((a) => html`
+                        <article-item article=${JSON.stringify(a)}></article-item>
+                    `)
+                }
+            </main>
+            <blog-footer></blog-footer>
         `
     }
 }

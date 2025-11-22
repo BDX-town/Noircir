@@ -8,7 +8,6 @@ import { property, customElement } from "lit/decorators.js";
 export default class BlogFooter extends LitElement {
     static styles = css`
         footer {
-            color: var(--grey-300);
             text-align: center;
         }
     `
