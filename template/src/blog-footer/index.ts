@@ -9,6 +9,8 @@ export default class BlogFooter extends LitElement {
     static styles = css`
         footer {
             text-align: center;
+            mix-blend-mode: exclusion;
+            filter: invert(1);
         }
     `
 

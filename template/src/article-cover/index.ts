@@ -25,16 +25,18 @@ export default class ArticleCover extends LitElement {
         .cover {
             display: flex;
             gap: var(--spacing-4);
+            flex-wrap: wrap;
         }
 
         .cover>img {
+            min-width: 300px;
+            max-width: 0px;
             flex-shrink: 1;
-            min-width: 0;
             object-fit: cover;
             border-radius: var(--spacing-2);
             box-shadow:
-                hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.4) 5px 5px,
-                hsla(var(--color-tertiary-h), var(--color-tertiary-s), var(--color-tertiary-l), 0.3) 10px 10px;
+                hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.6) 5px 5px,
+                hsla(var(--color-tertiary-h), var(--color-tertiary-s), var(--color-tertiary-l), 0.5) 10px 10px;
         }
 
         .meta {
@@ -70,6 +72,7 @@ export default class ArticleCover extends LitElement {
         .meta>div {
             display: flex;
             justify-content: space-between;
+            gap: var(--spacing-1);
         }
 
         .meta>div>date {
