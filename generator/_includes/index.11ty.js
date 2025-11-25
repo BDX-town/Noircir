@@ -9,10 +9,10 @@ class Index {
   }
 
   render(data) {
-    const blogPath = path.dirname(path.dirname(data.page.outputPath));
+    const blogPath = data.page.url;
 
     const articles = data.collections.all
-    .filter((a) => a.page.outputPath.startsWith(blogPath))
+    .filter((a) => a.page.url.startsWith(blogPath))
     .map((props) => ({
       title: props.data.title,
       description: props.data.description,

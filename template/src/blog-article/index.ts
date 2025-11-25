@@ -9,7 +9,6 @@ import './../article-item/index.js'
 import type { Article, Blog } from "../types.js";
 
 function fromAttribute(value: string) {
-    console.log("coucou", value)
     try {
         return JSON.parse(value);
     } catch {
