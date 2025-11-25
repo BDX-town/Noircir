@@ -60,7 +60,7 @@ class ArticleItem extends LitElement {
             background-image: linear-gradient(to bottom, #402141ff, #f7405fff, #fcc77fff, #fff8f1);
             mask-size: cover;
             mask-position: bottom left;
-            mask-image: url('assets/dots.png');
+            mask-image: url('/assets/dots.png');
         }
 
 
