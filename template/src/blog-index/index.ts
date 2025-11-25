@@ -39,7 +39,6 @@ class Index extends LitElement {
             gap: calc(var(--spacing-4) * 1.5);
 
             position: relative;
-            isolation: isolate;
         }
 
 

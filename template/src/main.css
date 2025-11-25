@@ -29,7 +29,8 @@
 }
 
 
-body, #storybook-root {
+body,
+#storybook-root {
     margin: 0;
     font-family: var(--font-primary);
     font-weight: 400;
@@ -37,7 +38,6 @@ body, #storybook-root {
     line-height: 1.5;
     color: var(--grey-500);
 
-    /* background-color: white; */
     background: linear-gradient(-50deg, var(--color-secondary) 0 120px, var(--color-primary) 120px 135px, var(--color-tertiary) 135px 150px, #ffffffff 150px);
 
     min-height: 100vh;
@@ -63,4 +63,13 @@ h1, h2, h3, h4, h5, h6 {
 .sb-show-main.sb-main-padded {
     display: flex;
     padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    line-height: 1.2;
 }

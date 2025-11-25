@@ -40,7 +40,7 @@ class Logo extends LitElement {
     render() {
         return html`
             <div class="blog-logo">
-                <a href="../..">
+                <a href="../">
                     <slot />
                 </a>
             </div>
