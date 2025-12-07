@@ -32,7 +32,16 @@ class Index {
             <html>
                 <head>
                     <title>${blog.title}</title>
+                    <link rel="icon" href=${blog.coverUrl}>
                     <link rel="stylesheet" href="/style.css">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                    <meta property="og:title" content=${blog.title}>
+                    <meta property="og:description" content=${blog.description}>
+                    <meta property="og:image" content=${blog.coverUrl}>
+                    <meta property="og:type" content="website">
+                    <meta name="twitter:title" content=${blog.title}>
+                    <meta name="twitter:description" content=${blog.description}>
+                    <meta name="twitter:image" content=${blog.coverUrl}>
                 </head>
                 <body>
                     <blog-index blog='${escapeForHtmlAttr(JSON.stringify(blog))}' articles='${escapeForHtmlAttr(JSON.stringify(articles))}'>

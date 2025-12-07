@@ -27,7 +27,16 @@ class Article {
             <html>
                 <head>
                     <title>${blog.title} - ${article.title}</title>
+                    <link rel="icon" href=${blog.coverUrl}>
                     <link rel="stylesheet" href="/style.css">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                    <meta property="og:title" content="${blog.title} - ${article.title}">
+                    <meta property="og:description" content=${article.description}>
+                    <meta property="og:image" content=${article.coverUrl}>
+                    <meta property="og:type" content="website">
+                    <meta name="twitter:title" content="${blog.title} - ${article.title}">
+                    <meta name="twitter:description" content=${article.description}>
+                    <meta name="twitter:image" content=${article.coverUrl}>
                 </head>
                 <body>
                     <blog-article blog='${escapeForHtmlAttr(JSON.stringify(blog))}' article='${escapeForHtmlAttr(JSON.stringify(article))}'>

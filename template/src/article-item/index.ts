@@ -139,7 +139,7 @@ class ArticleItem extends LitElement {
         return html`
             <a href=${this.article.url}>
                 <article>
-                    <simg src=${this.article.coverUrl} />
+                    <img src=${this.article.coverUrl} />
                     <div class="meta">
                         <h2>${this.article.title}</h2>
                         <p>${this.article.description}</h2>
