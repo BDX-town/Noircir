@@ -15,8 +15,10 @@
     --color-tertiary-h: 35;
     --color-tertiary-s: 97%;
     --color-tertiary-l: 75%;
-    --grey-500: #1c1c1c;
-    --grey-300: #6d6d6d;
+
+    
+    --grey-500: #002b36 ;
+    --grey-300: #073642;
 
     --font-primary: "Rubik", sans-serif;
     --font-secondary: "Lato", sans-serif;
@@ -38,7 +40,7 @@ body,
     line-height: 1.5;
     color: var(--grey-500);
 
-    background: linear-gradient(-50deg, var(--color-secondary) 0 120px, var(--color-primary) 120px 135px, var(--color-tertiary) 135px 150px, #ffffffff 150px);
+    background: linear-gradient(-50deg, var(--color-secondary) 0 120px, var(--color-primary) 120px 135px, var(--color-tertiary) 135px 150px, #fdf6e3 150px);
 
     min-height: 100vh;
     display: flex;
@@ -48,7 +50,7 @@ body,
 body::before {
     content: "";
     display: block;
-    background: linear-gradient(210deg, #ffffff 0 70px, var(--color-primary) 70px 85px, var(--color-tertiary) 85px 100px, #ffffffff 100px);
+    background: linear-gradient(210deg, #fdf6e3 0 70px, var(--color-primary) 70px 85px, var(--color-tertiary) 85px 100px, #fdf6e3  100px);
     position: absolute;
     width: 100%;
     height: 100%;

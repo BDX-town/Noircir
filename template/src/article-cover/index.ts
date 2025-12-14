@@ -25,8 +25,14 @@ export default class ArticleCover extends LitElement {
         .cover {
             display: flex;
             gap: var(--spacing-4);
-            flex-wrap: wrap;
         }
+
+        @media  screen and (max-width: 750px) {
+            .cover {
+                flex-wrap: wrap;
+            }
+        }
+ 
 
         .cover>img {
             min-width: 300px;

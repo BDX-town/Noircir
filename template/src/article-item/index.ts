@@ -139,7 +139,7 @@ class ArticleItem extends LitElement {
         return html`
             <a href=${this.article.url}>
                 <article>
-                    <img src=${this.article.coverUrl} />
+                    <img src=${this.article.coverUrl} alt="" onerror='this.style.display = "none"' />
                     <div class="meta">
                         <h2>${this.article.title}</h2>
                         <p>${this.article.description}</h2>
