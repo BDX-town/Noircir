@@ -13,6 +13,7 @@ class Index {
 
     const articles = data.collections.all
     .filter((a) => a.page.url.startsWith(blogPath))
+    .filter((a) => !a.data.draft)
     .map((props) => ({
       title: props.data.title,
       description: props.data.description,
