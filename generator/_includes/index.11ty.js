@@ -14,13 +14,16 @@ class Index {
     const articles = data.collections.all
     .filter((a) => a.page.url.startsWith(blogPath))
     .map((props) => ({
+      draft: props.data.draft,
       title: props.data.title,
       description: props.data.description,
       coverUrl: props.data.cover,
       updatedAt: new Date(props.data.updatedAt),
       createdAt: new Date(props.data.createdAt),
       url: props.data.page.url
-    })).sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+    }))
+    .filter((a) => !a.draft)
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
 
     const blog = {
       title: data.blogName,
