@@ -18,19 +18,10 @@ class ArticleItem extends LitElement {
     }
 
     static styles = css`
-        h2, p {
-            margin: 0;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        article {
+        :host {
+            flex-grow: 1;
             z-index: 0;
             cursor: pointer;
-            max-width: 350px;
             min-height: 300px;
             overflow: hidden;
             position: relative;
@@ -45,11 +36,10 @@ class ArticleItem extends LitElement {
             box-shadow:
                 hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.4) 5px 5px,
                 hsla(var(--color-tertiary-h), var(--color-tertiary-s), var(--color-tertiary-l), 0.3) 10px 10px;
-
-
         }
 
-        article::before {
+
+        :host::before {
             z-index: -1;
             content: "";
             position: absolute;
@@ -63,13 +53,22 @@ class ArticleItem extends LitElement {
             mask-image: url('/assets/dots.png');
         }
 
-
-        article:hover {
+        :host(:hover) {
             transform: translateX(-2.5px) translateY(-2.5px);
             box-shadow:
                 hsla(var(--color-primary-h), var(--color-primary-s), var(--color-primary-l), 0.4) 5px 5px,
                 hsla(var(--color-tertiary-h), var(--color-tertiary-s), var(--color-tertiary-l), 0.3) 10px 10px,
                 hsla(var(--color-tertiary-h), var(--color-tertiary-s), var(--color-tertiary-l), 0.2) 15px 15px;
+        }
+
+
+        h2, p {
+            margin: 0;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
         }
 
         img {
