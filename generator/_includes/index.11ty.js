@@ -18,8 +18,9 @@ class Index {
       description: props.data.description,
       coverUrl: props.data.cover,
       updatedAt: new Date(props.data.updatedAt),
+      createdAt: new Date(props.data.createdAt),
       url: props.data.page.url
-    }))
+    })).sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
 
     const blog = {
       title: data.blogName,
