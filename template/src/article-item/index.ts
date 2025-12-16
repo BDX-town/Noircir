@@ -22,7 +22,7 @@ class ArticleItem extends LitElement {
             flex-grow: 1;
             z-index: 0;
             cursor: pointer;
-            min-height: 300px;
+            height: 300px;
             overflow: hidden;
             position: relative;
             isolation: isolate;

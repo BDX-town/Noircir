@@ -27,7 +27,7 @@ class Description extends LitElement {
             top: var(--spacing-3);
             width: 70px;
             height: 70px;
-            object-fit: contain;
+            object-fit: cover;
             border-radius: 100%;
             border: 3px solid var(--color-secondary);
             box-shadow:
