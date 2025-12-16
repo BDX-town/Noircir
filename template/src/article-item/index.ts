@@ -14,6 +14,7 @@ class ArticleItem extends LitElement {
         tags: ["<tags-go-here>"],
         title: "<title-goes-here>",
         updatedAt: new Date(),
+        createdAt: new Date(),
         url: "<url-goes-here>"
     }
 
@@ -144,7 +145,7 @@ class ArticleItem extends LitElement {
                         <p>${this.article.description}</h2>
                         <div>
                             ${this.article.tags ? html`<span>${this.article.tags[0]}</span>` : ''}
-                            <date>${new Date(this.article.updatedAt).toLocaleDateString()}</date>
+                            <date>${new Date(this.article.createdAt).toLocaleDateString()}</date>
                         </div>
                     <div>
                 </article>

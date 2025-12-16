@@ -3,6 +3,7 @@ export type Article = {
     title: string;
     description: string;
     updatedAt: Date;
+    createdAt: Date;
     tags: string[];
     coverUrl: string;
 }
