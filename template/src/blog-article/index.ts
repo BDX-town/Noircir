@@ -29,7 +29,8 @@ class BlogArticle extends LitElement {
         tags: ["<tags-go-here>"],
         title: "<title-goes-here>",
         updatedAt: new Date(),
-        url: "<url-goes-here>"
+        url: "<url-goes-here>",
+        createdAt: new Date(),
     }
 
     @property({ type: Object })
