@@ -63,19 +63,16 @@ class BlogArticle extends LitElement {
             gap: calc(var(--spacing-4) * 1.5);
         }
 
-        main {
-            p {
-                line-height: 1.6;
-                letter-spacing: 3%;
-            }
+        blog-article p {
+            line-height: 1.6;
+            letter-spacing: 3%;
+        }
 
-            img { 
-                max-width: 100%;
-                margin: auto;
-                display: block;
-                border-radius: 10px;
-            }
-        
+        blog-article img { 
+            max-width: 100%;
+            margin: auto;
+            display: block;
+            border-radius: 10px;
         }
     `
 
