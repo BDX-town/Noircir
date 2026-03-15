@@ -67,6 +67,13 @@ class BlogArticle extends LitElement {
                 line-height: 1.6;
                 letter-spacing: 3%;
             }
+
+            img { 
+                max-width: 100%;
+                margin: auto;
+                display: block;
+                border-radius: 10px;
+            }
         
         }
     `
