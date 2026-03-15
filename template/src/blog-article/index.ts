@@ -63,7 +63,7 @@ class BlogArticle extends LitElement {
             gap: calc(var(--spacing-4) * 1.5);
         }
 
-        .main {
+        main {
             p {
                 line-height: 1.6;
                 letter-spacing: 3%;
