@@ -61,9 +61,6 @@ export default class BlogForm extends LitElementWithErrorHandling {
     @property({ type: Object })
     blog: Blog = DefautBlog
 
-    @property({ type: Boolean, reflect: true })
-    expanded = false
-
     @property({ type: Boolean, attribute: false })
     loading: boolean = false
 
@@ -94,18 +91,10 @@ export default class BlogForm extends LitElementWithErrorHandling {
         this.loading = false;
     }
 
-    onExpanded() {
-        this.expanded = !this.expanded
-    }
-
     render() {
-        if (!this.expanded) return html`<button @click=${this.onExpanded} type="button">⇐</button>`
-
         const error = super.render();
-
         return html`
             <div>
-                <button @click=${this.onExpanded} type="button">⇒</button>
                 <span>Blog</span>
             </div>
             <form @submit=${this.onSubmit}>

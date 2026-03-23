@@ -68,6 +68,7 @@ export default class MdEditor extends LitElementWithErrorHandling {
             gap: var(--spacing-2);
             border-top-left-radius: var(--spacing-2);
             border-top-right-radius: var(--spacing-2);
+            overflow-x: auto;
 
             position: sticky;
             top: 0;
@@ -78,6 +79,7 @@ export default class MdEditor extends LitElementWithErrorHandling {
         .pell-actionbar > button {
             min-width: 40px;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .pell-actionbar > button:last-of-type {

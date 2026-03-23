@@ -21,6 +21,7 @@ export default class ArticlesList extends LitElementWithErrorHandling {
             flex-direction: column;
             align-items: flex-start;
             gap: var(--spacing-3);
+            min-width: 400px;
         }
 
         :host > button:last-of-type {
@@ -68,10 +69,6 @@ export default class ArticlesList extends LitElementWithErrorHandling {
     @property({ type: Array })
     articles: Article[] | undefined
 
-    @property({ type: Boolean, reflect: true })
-    expanded = true
-
-
     constructor() {
         super();
         this.fetchArticles()
@@ -96,17 +93,9 @@ export default class ArticlesList extends LitElementWithErrorHandling {
         Router.go('/write')
     }
 
-    onExpand() {
-        this.expanded = !this.expanded
-    }
+
 
     render() {
-        if (!this.expanded) {
-            return html`
-                <div><button @click=${this.onExpand} type="button">⇒</button></div>
-            `
-        }
-
         let content = html`<div class="loader">↻</div>`
         if (this.articles) {
             content = html`
@@ -126,7 +115,6 @@ export default class ArticlesList extends LitElementWithErrorHandling {
         return html`
             <div>
                 <span>Article(s)</span>
-                <button @click=${this.onExpand} type="button">⇐</button>
             </div>
             ${content}
         `

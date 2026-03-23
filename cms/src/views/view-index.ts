@@ -1,8 +1,8 @@
 import { LitElement, html, css } from "lit";
 import { property, customElement } from "lit/decorators.js";
 
+import './../components/side-menu'
 import '../components/article-form'
-import '../components/articles-list'
 import './../components/blog-form'
 import { DefaultArticle, type Article, type Blog } from "../types";
 import { Router } from "@vaadin/router";
@@ -20,7 +20,6 @@ export default class ViewIndex extends LitElement {
         :host {
             display: flex;
             flex-grow: 1;
-            gap: var(--spacing-2);
         }
 
         articles-list, blog-form {
@@ -87,15 +86,11 @@ export default class ViewIndex extends LitElement {
         }
     }
 
-
     render() {
         return html`
-            <articles-list @delete-article=${this.onDeleteArticle}></articles-list>
+            <side-menu .blog=${this.blog} @delete-article=${this.onDeleteArticle}></side-menu>
             ${
                 this.article ? html`<article-form .article=${this.article}></article-form>` : 'Chargement...'
-            }
-            ${
-                this.blog ? html`<blog-form .blog=${this.blog}></blog-form>` : "Chargement..."
             }
         `
     }
