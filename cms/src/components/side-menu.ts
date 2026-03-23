@@ -17,12 +17,7 @@ export default class SideMenu extends LitElementWithErrorHandling {
             :host {
                 display: flex;
                 flex-direction: column;
-                padding: var(--spacing-2);
                 max-width: 400px;
-            }
-
-            :host>div {
-                text-align: right;
             }
 
             :host>hr {
@@ -50,15 +45,10 @@ export default class SideMenu extends LitElementWithErrorHandling {
 
     render() {
         if (!this.expanded) {
-            return html`
-                <div><button @click=${this.onExpand} type="button">⇒</button></div>
-            `
+            return "";
         }
 
         return html`
-            <div>
-                <button @click=${this.onExpand} type="button">⇐</button>
-            </div>
             ${this.blog ? html`<blog-form .blog=${this.blog}></blog-form>` : "<div aria-busy>Chargement...</div>"}
             <hr />
             <articles-list></articles-list>

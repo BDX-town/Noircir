@@ -9,6 +9,7 @@ import { Router } from "@vaadin/router";
 import { fetchArticles } from "../services/articles";
 import { fetchBlog as fetchBlogService } from "../services/blog";
 import type { DeleteArticleEvent } from "../components/article-item";
+import { Styles } from "../styles";
 
 @customElement('view-index')
 export default class ViewIndex extends LitElement {
@@ -17,28 +18,36 @@ export default class ViewIndex extends LitElement {
     private location: any;
 
     static styles = css`
+        ${Styles}
+
         :host {
             display: flex;
             flex-grow: 1;
         }
 
-        articles-list, blog-form {
-            padding: var(--spacing-2);
-        }
-
-
-        articles-list[expanded] {
-            width: 400px;
-        }
-
-        blog-form[expanded] {
-            min-width: 300px;
-        }
-
-        article-form {
+        :host>div {
+            display: flex;
+            flex-direction: column;
             flex-grow: 1;
             flex-shrink: 1;
             min-width: 300px;
+            gap: var(--spacing-3);
+            padding: var(--spacing-3);
+        }
+
+        :host>side-menu[expanded] {
+            min-width: 400px;
+            padding-left: var(--spacing-3);
+            padding-top: var(--spacing-3);
+            padding-bottom: var(--spacing-3);
+        }
+
+        :host>div>article-form {
+            flex-grow: 1;
+        }
+
+        :host>div>button {
+            align-self: flex-start;
         }
     `
     @property({ type: Object, attribute: false })
@@ -47,6 +56,9 @@ export default class ViewIndex extends LitElement {
 
     @property({ type: Object, attribute: false })
     blog: Blog | undefined;
+
+    @property({ type: Boolean, attribute: false})
+    menuExpanded: Boolean = false;
 
     connectedCallback(): void {
         super.connectedCallback();
@@ -86,12 +98,23 @@ export default class ViewIndex extends LitElement {
         }
     }
 
+    onMenuExpand() {
+        this.menuExpanded = !this.menuExpanded
+    }
+
     render() {
         return html`
-            <side-menu .blog=${this.blog} @delete-article=${this.onDeleteArticle}></side-menu>
-            ${
-                this.article ? html`<article-form .article=${this.article}></article-form>` : 'Chargement...'
-            }
+            <side-menu .expanded=${this.menuExpanded} .blog=${this.blog} @delete-article=${this.onDeleteArticle}></side-menu>
+            <div>
+                <button @click=${this.onMenuExpand}>
+                    ${
+                        this.menuExpanded ? "←" : "→"
+                    }
+                </button>
+                ${
+                    this.article ? html`<article-form .article=${this.article}></article-form>` : 'Chargement...'
+                }
+            </div>
         `
     }
 }

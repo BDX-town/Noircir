@@ -18,6 +18,7 @@ export default class ArticleForm extends LitElementWithErrorHandling {
 
     static styles = css`
         ${Styles}
+        
         :host {
             display: flex;
             flex-direction: column;
@@ -28,7 +29,6 @@ export default class ArticleForm extends LitElementWithErrorHandling {
             display: flex;
             flex-direction: column;
             gap: var(--spacing-3);
-            padding: var(--spacing-3);
         }
 
         html-editor {

@@ -21,7 +21,6 @@ export default class ArticlesList extends LitElementWithErrorHandling {
             flex-direction: column;
             align-items: flex-start;
             gap: var(--spacing-3);
-            min-width: 400px;
         }
 
         :host > button:last-of-type {
